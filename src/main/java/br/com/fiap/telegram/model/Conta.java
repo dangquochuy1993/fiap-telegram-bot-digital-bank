@@ -2,15 +2,19 @@ package br.com.fiap.telegram.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+import br.com.fiap.telegram.exceptions.SaldoInsuficienteException;
 
 public class Conta {
 	private int agencia;
 	private int numero;
 	private LocalDateTime abertura;
 	private Cliente titular;
-	private List<Cliente> dependentes;
+	private Set<Cliente> dependentes = new HashSet<>();
+	private HistoricoTransacoes transacoes = new HistoricoTransacoes();
 	
 	private BigDecimal saldo;
 	
@@ -21,33 +25,53 @@ public class Conta {
 		
 		this.titular = titular;
 		saldo = valorInicial;
+		
+		transacoes.adicionar("Abertura conta", valorInicial, valorInicial);
 	}
 	
 	public Conta depositar(BigDecimal valor) {
-		saldo.add(valor);
+		transacoes.adicionar("Depósito", valor, saldo);
+		
+		saldo = saldo.add(valor);
 		return this;
 	}
 	
 	public BigDecimal saque(BigDecimal valor) {
 		BigDecimal valorComTaxa = valor.add(Taxas.SAQUE.getValor());
-		valorComTaxa.compareTo(saldo);
+		
+		if (saldo.compareTo(valorComTaxa) < 0) {
+			throw new SaldoInsuficienteException();
+		}
 				
-		saldo.subtract(valorComTaxa);
+		saldo = saldo.subtract(valorComTaxa);
+		
+		transacoes.adicionar("Saque", valor, saldo);
 		
 		return valor;
 	}
 	
-	public BigDecimal extrato() {
-		saldo.subtract(Taxas.EXTRATO.getValor());		
-		return saldo;
+	public HistoricoTransacoes extrato() {
+		
+		if (saldo.compareTo(Taxas.EXTRATO.getValor()) < 0) {
+			throw new SaldoInsuficienteException();
+		}
+		
+		saldo = saldo.subtract(Taxas.EXTRATO.getValor());
+		transacoes.adicionar("extrato", Taxas.EXTRATO.getValor(), saldo);
+		
+		return transacoes;
 	}
 	
-	public Conta addDepentente(Cliente cliente) {
+	public Conta adicionarDepentente(Cliente cliente) {
+		transacoes.adicionar("adicionou depentende " + cliente.getNome());
+		
 		dependentes.add(cliente);
 		return this;
 	}
 	
 	public Conta removerDependente(Cliente cliente) {
+		transacoes.adicionar("removeu depentende " + cliente.getNome());
+		
 		dependentes.remove(cliente);
 		return this;
 	}
@@ -68,8 +92,8 @@ public class Conta {
 		return titular;
 	}
 
-	public List<Cliente> getDependentes() {
-		return dependentes;
+	public Set<Cliente> getDependentes() {
+		return Collections.unmodifiableSet(dependentes);
 	}
 
 	private int rand(int min, int max) {

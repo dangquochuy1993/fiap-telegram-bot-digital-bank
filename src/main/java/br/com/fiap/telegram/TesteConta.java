@@ -12,9 +12,22 @@ public class TesteConta {
 		Cliente aline = new Cliente("Aline Lacerda Saouda");
 		
 		Conta conta = new Conta(diego, new BigDecimal("100.00"));
+		conta.adicionarDepentente(aline);		
 		System.out.println(conta);
 		
+		conta.removerDependente(aline);		
+		System.out.println(conta);
 		
+		conta.depositar(new BigDecimal(20));
+		System.out.println(conta);
+		
+		conta.saque(new BigDecimal(20));
+		System.out.println(conta);
+		
+		conta.saque(new BigDecimal(91));
+		System.out.println(conta);
+		
+		System.out.println(conta.extrato());
 	}
 	
 }
