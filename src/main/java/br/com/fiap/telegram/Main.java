@@ -13,8 +13,7 @@ public class Main {
 		new TelegramHandler()
 			.addCommand(new StartCommand())
 			.addCommand(new CriarContaCommand())
-			
-			
+						
 			.addAction(new CriarContaAction())
 			
 			.run();

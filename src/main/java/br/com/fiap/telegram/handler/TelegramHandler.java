@@ -14,9 +14,9 @@ import com.pengrad.telegrambot.request.SendChatAction;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 
+import br.com.fiap.telegram.Callback;
 import br.com.fiap.telegram.Session;
 import br.com.fiap.telegram.actions.AbstractActions;
-import br.com.fiap.telegram.actions.CallbackData;
 import br.com.fiap.telegram.commands.AbstractCommand;
 import br.com.fiap.telegram.exceptions.NaoEhUmComandoException;
 import br.com.fiap.telegram.factory.TelegramFactory;
@@ -85,6 +85,12 @@ public class TelegramHandler implements Runnable {
 	}
 
 	private void commandFlow(Update u) {	
+		AbstractCommand ultimoComando = Session.get("ultimoComando", AbstractCommand.class);
+		if (ultimoComando != null) {
+			ultimoComando.executar(bot, u.message());
+			return ;
+		}
+		
 		Long chatId = u.message().chat().id();				
 		Message message = u.message();
 
@@ -111,7 +117,7 @@ public class TelegramHandler implements Runnable {
 			callbackQuery = Session.get("callbackQuery", CallbackQuery.class);
 		}
 		
-		CallbackData callbackData = CallbackData.fromJson(callbackQuery.data());
+		Callback callbackData = Callback.fromJson(callbackQuery.data());
 		
 		Message messageInput = u.message();
 		

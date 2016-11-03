@@ -8,10 +8,12 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.EditMessageText;
 import com.pengrad.telegrambot.request.SendMessage;
 
+import br.com.fiap.telegram.Callback;
+
 public class CriarContaAction extends AbstractActions {
 
-	private static final int FLOW_EDITAR_NOME = 1;
-	private static final int FLOW_EDITAR_IDADE = 2;
+	private static final String FLOW_EDITAR_NOME = "1";
+	private static final String FLOW_EDITAR_IDADE = "2";
 	
 	public void executar(TelegramBot bot, Message message) {
 		SendMessage send = new SendMessage(message.chat().id(), "<b>Nome: </b>\n<b>Idade: </b>");
@@ -20,7 +22,7 @@ public class CriarContaAction extends AbstractActions {
 		bot.execute(send);
 	}
 
-	public void executarButton(TelegramBot bot, Message message, CallbackData data) {
+	public void executarButton(TelegramBot bot, Message message, Callback data) {
 		System.out.println(data);
 		
 		EditMessageText edit = null;
@@ -44,7 +46,7 @@ public class CriarContaAction extends AbstractActions {
 		//bot.execute(edit);
 	}
 	
-	public void executarInput(TelegramBot bot, Message messageButton, Message messageInput, CallbackData data) {
+	public void executarInput(TelegramBot bot, Message messageButton, Message messageInput, Callback data) {
 		System.out.println(data);
 		
 		EditMessageText edit = null;
@@ -94,10 +96,10 @@ public class CriarContaAction extends AbstractActions {
 	
 	private InlineKeyboardMarkup btnActions() {
 		InlineKeyboardButton btnEditNome = new InlineKeyboardButton("Editar Nome");
-		btnEditNome.callbackData(new CallbackData(getNome(), FLOW_EDITAR_NOME).toJson());
+		btnEditNome.callbackData(new Callback(getNome(), FLOW_EDITAR_NOME).toJson());
 		
 		InlineKeyboardButton btnEditIdade = new InlineKeyboardButton("Editar Idade");
-		btnEditIdade.callbackData(new CallbackData(getNome(), FLOW_EDITAR_IDADE).toJson());
+		btnEditIdade.callbackData(new Callback(getNome(), FLOW_EDITAR_IDADE).toJson());
 		
 		InlineKeyboardButton[] grupoBotoes = { btnEditNome, btnEditIdade };
 		return new InlineKeyboardMarkup(grupoBotoes);

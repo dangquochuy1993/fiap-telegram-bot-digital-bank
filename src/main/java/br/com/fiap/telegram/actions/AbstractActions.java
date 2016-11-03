@@ -3,6 +3,8 @@ package br.com.fiap.telegram.actions;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 
+import br.com.fiap.telegram.Callback;
+
 public abstract class AbstractActions {
 
 	private String nome;
@@ -16,7 +18,7 @@ public abstract class AbstractActions {
 	}
 	
 
-	public abstract void executarButton(TelegramBot bot, Message message, CallbackData data);	
-	public abstract void executarInput(TelegramBot bot, Message messageButton, Message messageInput, CallbackData data);
+	public abstract void executarButton(TelegramBot bot, Message message, Callback data);	
+	public abstract void executarInput(TelegramBot bot, Message messageButton, Message messageInput, Callback data);
 	
 }

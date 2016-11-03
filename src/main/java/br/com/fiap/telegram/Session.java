@@ -23,7 +23,7 @@ final public class Session {
 		return storage.get(key);
 	}
 	
-	public boolean containsKey(String key) {
+	public static boolean containsKey(String key) {
 		return storage.containsKey(key);
 	}
 	
