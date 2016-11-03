@@ -23,10 +23,6 @@ import br.com.fiap.telegram.factory.TelegramFactory;
 
 public class TelegramHandler implements Runnable {
 
-	private static final int FLUXO_COMANDO = 1;
-	private static final int FLUXO_ACTION = 2;
-	private static final int FLUXO_NAO_RECONHECIDO = 3;
-
 	private TelegramBot bot;
 	private GetUpdatesResponse updatesResponse;
 	private int offset = 0;
@@ -35,7 +31,7 @@ public class TelegramHandler implements Runnable {
 	private Map<String, AbstractActions> actions = new HashMap<>();
 
 	public TelegramHandler() {
-		Session.put("ultimoFluxo", 0);
+		Session.put("ultimoFluxo", Fluxo.ZERO);
 		bot = TelegramFactory.create();
 	}
 
@@ -63,15 +59,15 @@ public class TelegramHandler implements Runnable {
 
 			switch(detectarFluxo(u)) {
 
-			case FLUXO_COMANDO:
+			case COMANDO:
 				commandFlow(u);
 				break;
 
-			case FLUXO_ACTION:
+			case ACAO:
 				callbackFlow(u);
 				break;
 
-			case FLUXO_NAO_RECONHECIDO:
+			case NAO_RECONHECIDO:
 			default:	
 
 				System.out.println("OUTRO");
@@ -123,25 +119,25 @@ public class TelegramHandler implements Runnable {
 		}
 	}
 
-	private int detectarFluxo(Update u) {
+	private Fluxo detectarFluxo(Update u) {
 		
 		if (isCallback(u)) {
-			Session.put("ultimoFluxo", FLUXO_ACTION);
-			return FLUXO_ACTION;
+			Session.put("ultimoFluxo", Fluxo.ACAO);
+			return Fluxo.ACAO;
 		}
 
 		if (isComando(u)) {
-			Session.put("ultimoFluxo", FLUXO_COMANDO);
-			return FLUXO_COMANDO;
+			Session.put("ultimoFluxo", Fluxo.COMANDO);
+			return Fluxo.COMANDO;
 		}
 		
 		//isso permite continuar um fluxo iniciado
-		if (Session.get("ultimoFluxo", Integer.class).intValue() > 0) {
-			return Session.get("ultimoFluxo", Integer.class).intValue();
+		if (!Session.get("ultimoFluxo", Fluxo.class).equals(Fluxo.ZERO)) {
+			return Session.get("ultimoFluxo", Fluxo.class);
 		}
 
-		Session.put("ultimoFluxo", FLUXO_NAO_RECONHECIDO);
-		return FLUXO_NAO_RECONHECIDO;
+		Session.put("ultimoFluxo", Fluxo.NAO_RECONHECIDO);
+		return Fluxo.NAO_RECONHECIDO;
 	}
 
 	private boolean isCallback(Update u) {

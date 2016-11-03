@@ -5,8 +5,6 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import br.com.fiap.telegram.actions.CriarContaAction;
-
 public class CriarContaCommand extends AbstractCommand {
 
 	public CriarContaCommand() {
@@ -15,9 +13,7 @@ public class CriarContaCommand extends AbstractCommand {
 
 	@Override
 	protected void executar(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		new SendMessage(chatId, "Precisamos de algumas informções para criar sua conta");
-		
-		new CriarContaAction().executar(bot, message);
+		bot.execute(new SendMessage(chatId, "Seja bem vindo a criação de conta. Informe seu nome completo"));
 	}
 
 }
