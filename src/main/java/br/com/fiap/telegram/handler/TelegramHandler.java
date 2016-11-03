@@ -14,6 +14,7 @@ import com.pengrad.telegrambot.request.SendChatAction;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 
+import br.com.fiap.telegram.Session;
 import br.com.fiap.telegram.actions.AbstractActions;
 import br.com.fiap.telegram.actions.CallbackData;
 import br.com.fiap.telegram.commands.AbstractCommand;
@@ -22,7 +23,6 @@ import br.com.fiap.telegram.factory.TelegramFactory;
 
 public class TelegramHandler implements Runnable {
 
-	private int ultimoFlow = 0;
 	private static final int FLUXO_COMANDO = 1;
 	private static final int FLUXO_ACTION = 2;
 	private static final int FLUXO_NAO_RECONHECIDO = 3;
@@ -34,9 +34,8 @@ public class TelegramHandler implements Runnable {
 	private Map<String, AbstractCommand> commands = new HashMap<>();
 	private Map<String, AbstractActions> actions = new HashMap<>();
 
-	private CallbackQuery ultimoCallbackQuery;
-	
 	public TelegramHandler() {
+		Session.put("ultimoFluxo", 0);
 		bot = TelegramFactory.create();
 	}
 
@@ -107,9 +106,9 @@ public class TelegramHandler implements Runnable {
 		CallbackQuery callbackQuery = u.callbackQuery();
 		
 		if (callbackQuery != null) {
-			ultimoCallbackQuery = callbackQuery;
+			Session.put("callbackQuery", callbackQuery);
 		} else {
-			callbackQuery = ultimoCallbackQuery;
+			callbackQuery = Session.get("callbackQuery", CallbackQuery.class);
 		}
 		
 		CallbackData callbackData = CallbackData.fromJson(callbackQuery.data());
@@ -127,20 +126,21 @@ public class TelegramHandler implements Runnable {
 	private int detectarFluxo(Update u) {
 		
 		if (isCallback(u)) {
-			ultimoFlow = FLUXO_ACTION;
+			Session.put("ultimoFluxo", FLUXO_ACTION);
 			return FLUXO_ACTION;
 		}
 
 		if (isComando(u)) {
-			ultimoFlow = FLUXO_COMANDO;
+			Session.put("ultimoFluxo", FLUXO_COMANDO);
 			return FLUXO_COMANDO;
 		}
 		
 		//isso permite continuar um fluxo iniciado
-		if (ultimoFlow > 0) {
-			return ultimoFlow;
+		if (Session.get("ultimoFluxo", Integer.class).intValue() > 0) {
+			return Session.get("ultimoFluxo", Integer.class).intValue();
 		}
 
+		Session.put("ultimoFluxo", FLUXO_NAO_RECONHECIDO);
 		return FLUXO_NAO_RECONHECIDO;
 	}
 
