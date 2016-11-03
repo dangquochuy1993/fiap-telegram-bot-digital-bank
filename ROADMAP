@@ -1,0 +1,5 @@
+[X] Arquivo de configuração carregado via factory
+[] Commands
+	[] Boas vindas
+	[] help
+[] Handler que roda o telegram
