@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import br.com.fiap.telegram.model.Cliente;
 import br.com.fiap.telegram.model.Conta;
+import br.com.fiap.telegram.model.HistoricoTransacoes;
 
 public class TesteConta {
 
@@ -27,7 +28,8 @@ public class TesteConta {
 		conta.saque(new BigDecimal(91));
 		System.out.println(conta);
 		
-		System.out.println(conta.extrato());
+		HistoricoTransacoes extrato = conta.extrato();
+		System.out.println(extrato.toString());
 	}
 	
 }

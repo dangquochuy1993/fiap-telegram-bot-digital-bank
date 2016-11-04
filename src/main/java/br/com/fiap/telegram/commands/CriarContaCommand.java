@@ -23,7 +23,7 @@ public class CriarContaCommand extends AbstractCommand {
 	private static final String ROUTER_ACTION_CONTA = "CONTA";
 
 	public CriarContaCommand() {
-		super("/criar_conta", "Cria uma nova conta");
+		super("/criarconta", "Cria uma nova conta");
 	}
 
 	@Override

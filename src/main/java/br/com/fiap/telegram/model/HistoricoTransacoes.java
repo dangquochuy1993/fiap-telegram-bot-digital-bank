@@ -21,10 +21,20 @@ public class HistoricoTransacoes {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (Transacao transacao : historico) {
-			sb.append(transacao);
+		for (Transacao transacao : historico) {			
+			sb.append(
+				"\n----------------------------\n" +	
+				"\nData/Hora: " + transacao.getDataHora() +
+				"\nDescrição: " + transacao.getDescricao() +
+				"\nValor: " + transacao.getValor() +
+				"\nSaldo: " + transacao.getSaldo()				
+			);
 		}
 		
 		return sb.toString();
+	}
+	
+	public static String padRight(String s, int n) {
+	     return String.format("%1$-" + n + "s", s);  
 	}
 }

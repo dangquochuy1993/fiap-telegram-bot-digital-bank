@@ -1,6 +1,7 @@
 package br.com.fiap.telegram.handler;
 
 import static br.com.fiap.telegram.SessionManagerKey.KEY_FLUXO_STAGE;
+import static br.com.fiap.telegram.SessionManagerKey.KEY_ROUTER;
 import static br.com.fiap.telegram.SessionManagerKey.KEY_ULTIMO_COMANDO;
 
 import java.util.HashMap;
@@ -84,21 +85,27 @@ public class TelegramHandler implements Runnable {
 	 * Executando um fluxo de comando
 	 * @param u
 	 */
-	private void executeFluxoCommand(Update u) {	
-		AbstractCommand command = SessionManager.get(KEY_ULTIMO_COMANDO, AbstractCommand.class);
-		
-		if (command != null) {
-			command.onUpdateReceived(bot, u);
-			return ;
-		}
-						
+	private void executeFluxoCommand(Update u) {
+		AbstractCommand command;
 		String mensagem = u.message().text();		
 
 		try {
 			command = getComando(mensagem);
+						
+			SessionManager.remove(KEY_ROUTER);
+			SessionManager.remove(KEY_ULTIMO_COMANDO);
+			
 			command.onUpdateReceived(bot, u);
 
 		} catch (NaoEhUmComandoException | NullPointerException e) {
+			
+			command = SessionManager.get(KEY_ULTIMO_COMANDO, AbstractCommand.class);
+			
+			if (command != null) {
+				command.onUpdateReceived(bot, u);
+				return ;
+			}
+			
 			Long chatId = u.message().chat().id();
 			bot.execute(new SendMessage(chatId, "Não reconheci o seu comando, tente novamente por favor"));
 		}
