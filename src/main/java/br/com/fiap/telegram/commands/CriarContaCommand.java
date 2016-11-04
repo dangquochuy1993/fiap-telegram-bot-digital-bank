@@ -9,6 +9,7 @@ import br.com.fiap.telegram.Callback;
 import br.com.fiap.telegram.Session;
 import br.com.fiap.telegram.model.Cliente;
 
+
 public class CriarContaCommand extends AbstractCommand {
 
 	public CriarContaCommand() {
@@ -17,6 +18,7 @@ public class CriarContaCommand extends AbstractCommand {
 
 	@Override
 	protected void executar(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
+
 		Session.put("ultimoComando", this);
 		
 		Callback callback = Session.get("proximoComando", Callback.class);
@@ -39,7 +41,6 @@ public class CriarContaCommand extends AbstractCommand {
 				
 				break;
 		}
-		
 	}
 
 }
