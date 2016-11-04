@@ -1,3 +1,4 @@
+/*
 package br.com.fiap.telegram.handler;
 
 import java.util.HashMap;
@@ -122,3 +123,4 @@ public class TelegramHandlerOld implements Runnable {
 		return commands.get(nomeComando);
 	}
 }
+*/

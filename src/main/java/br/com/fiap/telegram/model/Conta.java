@@ -9,7 +9,6 @@ import java.util.Set;
 import br.com.fiap.telegram.exceptions.SaldoInsuficienteException;
 
 public class Conta {
-	private int agencia;
 	private int numero;
 	private LocalDateTime abertura;
 	private Cliente titular;
@@ -19,7 +18,6 @@ public class Conta {
 	private BigDecimal saldo;
 	
 	public Conta(Cliente titular, BigDecimal valorInicial) {
-		agencia = rand(1000, 9999);
 		numero = rand(10000000,99999999);
 		abertura = LocalDateTime.now();
 		
@@ -76,10 +74,6 @@ public class Conta {
 		return this;
 	}
 	
-	public int getAgencia() {
-		return agencia;
-	}
-
 	public int getNumero() {
 		return numero;
 	}
@@ -103,7 +97,7 @@ public class Conta {
 
 	@Override
 	public String toString() {
-		return "Conta [agencia=" + agencia + ", numero=" + numero + ", abertura=" + abertura + ", titular=" + titular
+		return "Conta [numero=" + numero + ", abertura=" + abertura + ", titular=" + titular
 				+ ", dependentes=" + dependentes + ", saldo=" + saldo + "]";
 	}
 }

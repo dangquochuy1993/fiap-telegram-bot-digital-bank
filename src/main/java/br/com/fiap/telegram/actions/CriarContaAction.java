@@ -8,7 +8,7 @@ import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.EditMessageText;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import br.com.fiap.telegram.Callback;
+import br.com.fiap.telegram.Router;
 
 public class CriarContaAction extends AbstractActions {
 
@@ -22,12 +22,12 @@ public class CriarContaAction extends AbstractActions {
 		bot.execute(send);
 	}
 
-	public void executarButton(TelegramBot bot, Message message, Callback data) {
+	public void executarButton(TelegramBot bot, Message message, Router data) {
 		System.out.println(data);
 		
 		EditMessageText edit = null;
 		
-		switch(data.getFlow()) {
+		switch(data.getAction()) {
 			case FLOW_EDITAR_NOME: 
 				//edit = new EditMessageText(message.chat().id(), message.messageId(), "<b>Nome: </b>Diego\n<b>Idade: </b>");				
 				bot.execute(new SendMessage(message.chat().id(), "Digite seu nome"));
@@ -46,12 +46,12 @@ public class CriarContaAction extends AbstractActions {
 		//bot.execute(edit);
 	}
 	
-	public void executarInput(TelegramBot bot, Message messageButton, Message messageInput, Callback data) {
+	public void executarInput(TelegramBot bot, Message messageButton, Message messageInput, Router data) {
 		System.out.println(data);
 		
 		EditMessageText edit = null;
 		
-		switch(data.getFlow()) {
+		switch(data.getAction()) {
 			case FLOW_EDITAR_NOME: 
 				edit = new EditMessageText(messageButton.chat().id(), messageButton.messageId(), "<b>Nome: </b>" + messageInput.text());				
 				
@@ -96,10 +96,10 @@ public class CriarContaAction extends AbstractActions {
 	
 	private InlineKeyboardMarkup btnActions() {
 		InlineKeyboardButton btnEditNome = new InlineKeyboardButton("Editar Nome");
-		btnEditNome.callbackData(new Callback(getNome(), FLOW_EDITAR_NOME).toJson());
+		btnEditNome.callbackData(new Router(getNome(), FLOW_EDITAR_NOME).toJson());
 		
 		InlineKeyboardButton btnEditIdade = new InlineKeyboardButton("Editar Idade");
-		btnEditIdade.callbackData(new Callback(getNome(), FLOW_EDITAR_IDADE).toJson());
+		btnEditIdade.callbackData(new Router(getNome(), FLOW_EDITAR_IDADE).toJson());
 		
 		InlineKeyboardButton[] grupoBotoes = { btnEditNome, btnEditIdade };
 		return new InlineKeyboardMarkup(grupoBotoes);

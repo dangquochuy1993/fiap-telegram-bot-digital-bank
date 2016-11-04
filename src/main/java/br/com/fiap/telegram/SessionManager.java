@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.google.gson.internal.Primitives;
 
-final public class Session {
+final public class SessionManager {
 
-	private Session() {}
+	private SessionManager() {}
 	private static Map<String, Object> storage = new HashMap<>();
 
 	public static void put(String key, Object o) {
@@ -21,6 +21,10 @@ final public class Session {
 	
 	public static Object get(String key) {
 		return storage.get(key);
+	}
+	
+	public static Object remove(String key) {
+		return storage.remove(key);
 	}
 	
 	public static boolean containsKey(String key) {
