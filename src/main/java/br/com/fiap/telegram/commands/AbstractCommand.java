@@ -1,7 +1,6 @@
 package br.com.fiap.telegram.commands;
 
-import static br.com.fiap.telegram.SessionManagerKey.KEY_ULTIMO_COMANDO;
-
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.pengrad.telegrambot.TelegramBot;
@@ -9,10 +8,9 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 
-import br.com.fiap.telegram.SessionManager;
 import br.com.fiap.telegram.exceptions.NaoEhUmComandoException;
 
-public abstract class AbstractCommand {
+public abstract class AbstractCommand implements Serializable {
 	
 	private String nome;
 	private String descricao;
@@ -59,8 +57,6 @@ public abstract class AbstractCommand {
 	}
 
 	public void onUpdateReceived(TelegramBot bot, Update update) {
-		SessionManager.put(KEY_ULTIMO_COMANDO, this);
-		
 		Message message = update.message();
 		Long chatId = message.chat().id();
 		User user = message.from();

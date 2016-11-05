@@ -1,12 +1,14 @@
 package br.com.fiap.telegram;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
 /**
  * Classe responsável por controlar o roteamento das requisições pelo telegram
  * @author Diego.Saouda
  */
-public class Router {
+public class Router implements Serializable {
 	
 	private String controller;	
 	private String action;	

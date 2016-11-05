@@ -1,9 +1,10 @@
 package br.com.fiap.telegram.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Transacao {
+public class Transacao implements Serializable {
 
 	private LocalDateTime dataHora;
 	private String descricao;

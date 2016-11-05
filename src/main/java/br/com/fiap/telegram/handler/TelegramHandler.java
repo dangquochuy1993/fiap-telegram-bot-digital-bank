@@ -10,18 +10,16 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.GetUpdates;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import br.com.fiap.telegram.Router;
-import br.com.fiap.telegram.SessionManager;
 import br.com.fiap.telegram.actions.AbstractActions;
 import br.com.fiap.telegram.commands.AbstractCommand;
 import br.com.fiap.telegram.exceptions.NaoEhUmComandoException;
 import br.com.fiap.telegram.factory.TelegramFactory;
+import br.com.fiap.telegram.util.SessionManager;
 
 public class TelegramHandler implements Runnable {
 
@@ -32,7 +30,6 @@ public class TelegramHandler implements Runnable {
 	private Map<String, AbstractActions> actions = new HashMap<>();
 
 	public TelegramHandler() {
-		SessionManager.put(KEY_FLUXO_STAGE, Fluxo.NENHUM);
 		bot = TelegramFactory.create();
 	}
 
@@ -64,6 +61,11 @@ public class TelegramHandler implements Runnable {
 		
 		stream.forEach(u -> {				
 			nextUpdateOffset(u);
+			
+			SessionManager session = SessionManager.getInstance(u.message().from().id());
+			if (!session.containsKey(KEY_FLUXO_STAGE)) {
+				session.put(KEY_FLUXO_STAGE, Fluxo.INICIAL).save();
+			}
 
 			switch(routerFluxo(u)) {
 
@@ -88,18 +90,22 @@ public class TelegramHandler implements Runnable {
 	private void executeFluxoCommand(Update u) {
 		AbstractCommand command;
 		String mensagem = u.message().text();		
-
+		
+		SessionManager session = SessionManager.getInstance(u.message().from().id());
+		
 		try {
 			command = getComando(mensagem);
-						
-			SessionManager.remove(KEY_ROUTER);
-			SessionManager.remove(KEY_ULTIMO_COMANDO);
+			
+			session.remove(KEY_ROUTER);
+			//session.remove(KEY_ULTIMO_COMANDO);			
+			session.put(KEY_ULTIMO_COMANDO, command);
+			session.save();
 			
 			command.onUpdateReceived(bot, u);
 
 		} catch (NaoEhUmComandoException | NullPointerException e) {
 			
-			command = SessionManager.get(KEY_ULTIMO_COMANDO, AbstractCommand.class);
+			command = session.get(KEY_ULTIMO_COMANDO, AbstractCommand.class);
 			
 			if (command != null) {
 				command.onUpdateReceived(bot, u);
@@ -107,7 +113,7 @@ public class TelegramHandler implements Runnable {
 			}
 			
 			Long chatId = u.message().chat().id();
-			bot.execute(new SendMessage(chatId, "Não reconheci o seu comando, tente novamente por favor"));
+			bot.execute(new SendMessage(chatId, "Ops ... não reconheci o seu comando, tente novamente por favor"));
 		}
 
 	}
@@ -117,24 +123,7 @@ public class TelegramHandler implements Runnable {
 	 * @param u
 	 */
 	private void executeFluxoAction(Update u) {
-		CallbackQuery callbackQuery = u.callbackQuery();
 		
-		if (callbackQuery != null) {
-			SessionManager.put("callbackQuery", callbackQuery);
-		} else {
-			callbackQuery = SessionManager.get("callbackQuery", CallbackQuery.class);
-		}
-		
-		Router callbackData = Router.fromJson(callbackQuery.data());
-		
-		Message messageInput = u.message();
-		
-		AbstractActions action = actions.get(callbackData.getController());
-		if (messageInput == null) {
-			action.executarButton(bot, callbackQuery.message(), callbackData);
-		} else {
-			action.executarInput(bot, callbackQuery.message(), messageInput, callbackData);
-		}
 	}
 	
 	/**
@@ -143,20 +132,21 @@ public class TelegramHandler implements Runnable {
 	 * @return
 	 */
 	private Fluxo routerFluxo(Update u) {
+		SessionManager session = SessionManager.getInstance(u.message().from().id());
 		
-		if (isFluxoContinuacao()) {
-			return SessionManager.get(KEY_FLUXO_STAGE, Fluxo.class);
+		if (isFluxoContinuacao(session)) {
+			return session.get(KEY_FLUXO_STAGE, Fluxo.class);
 		}
 		
 		if (isFluxoAction(u)) {			
 			return Fluxo.ACAO;
 		}
 
-		if (isFluxoComando(u)) {			
+		if (isFluxoComando(u, session)) {			
 			return Fluxo.COMANDO;
 		}
 
-		SessionManager.put(KEY_FLUXO_STAGE, Fluxo.NAO_RECONHECIDO);
+		session.put(KEY_FLUXO_STAGE, Fluxo.NAO_RECONHECIDO).save();
 		return Fluxo.NAO_RECONHECIDO;
 	}
 
@@ -164,8 +154,11 @@ public class TelegramHandler implements Runnable {
 	 * Verificar se tem algum fluxo em andamento para continuá-lo
 	 * @return
 	 */
-	private boolean isFluxoContinuacao() {
-		return !SessionManager.get(KEY_FLUXO_STAGE, Fluxo.class).equals(Fluxo.NENHUM);
+	private boolean isFluxoContinuacao(SessionManager session) {
+		
+		System.out.println(session.get(KEY_FLUXO_STAGE, Fluxo.class));
+		
+		return !session.get(KEY_FLUXO_STAGE, Fluxo.class).equals(Fluxo.INICIAL);
 	}
 
 	/**
@@ -174,12 +167,6 @@ public class TelegramHandler implements Runnable {
 	 * @return
 	 */
 	private boolean isFluxoAction(Update u) {
-		CallbackQuery callback = u.callbackQuery();
-		if (callback != null) {
-			SessionManager.put(KEY_FLUXO_STAGE, Fluxo.ACAO);
-			return true;
-		}
-		
 		return false;
 	}
 
@@ -188,11 +175,11 @@ public class TelegramHandler implements Runnable {
 	 * @param u
 	 * @return
 	 */
-	private boolean isFluxoComando(Update u) {
+	private boolean isFluxoComando(Update u, SessionManager session) {
 		final Message message = u.message();		
 		
 		if (message != null && AbstractCommand.isCommand(message.text())) {
-			SessionManager.put(KEY_FLUXO_STAGE, Fluxo.COMANDO);
+			session.put(KEY_FLUXO_STAGE, Fluxo.COMANDO).save();
 			return true;
 		}  		
 		

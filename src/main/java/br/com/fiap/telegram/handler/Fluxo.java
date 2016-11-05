@@ -2,7 +2,7 @@ package br.com.fiap.telegram.handler;
 
 public enum Fluxo {
 
-	NENHUM,
+	INICIAL,
 	COMANDO, 
 	ACAO, 
 	NAO_RECONHECIDO;

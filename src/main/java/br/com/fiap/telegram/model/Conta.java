@@ -1,5 +1,6 @@
 package br.com.fiap.telegram.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -8,7 +9,7 @@ import java.util.Random;
 import java.util.Set;
 import br.com.fiap.telegram.exceptions.SaldoInsuficienteException;
 
-public class Conta {
+public class Conta implements Serializable {
 	private int numero;
 	private LocalDateTime abertura;
 	private Cliente titular;

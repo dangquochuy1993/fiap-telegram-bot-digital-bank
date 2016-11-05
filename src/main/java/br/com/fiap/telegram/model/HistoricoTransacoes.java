@@ -1,11 +1,12 @@
 package br.com.fiap.telegram.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoricoTransacoes {
+public class HistoricoTransacoes implements Serializable {
 	private List<Transacao> historico = new ArrayList<>();
 	
 	public HistoricoTransacoes adicionar(String descricao, BigDecimal valor, BigDecimal saldo) {
