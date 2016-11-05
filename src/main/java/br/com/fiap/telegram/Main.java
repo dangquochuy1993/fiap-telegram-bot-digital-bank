@@ -1,12 +1,12 @@
 package br.com.fiap.telegram;
 
-import br.com.fiap.telegram.actions.CriarContaAction;
-import br.com.fiap.telegram.commands.CriarContaCommand;
-import br.com.fiap.telegram.commands.DepositarCommand;
-import br.com.fiap.telegram.commands.ExtratoCommand;
-import br.com.fiap.telegram.commands.MenuCommand;
-import br.com.fiap.telegram.commands.SaqueCommand;
-import br.com.fiap.telegram.commands.StartCommand;
+import br.com.fiap.telegram.action.CriarContaAction;
+import br.com.fiap.telegram.command.CriarContaCommand;
+import br.com.fiap.telegram.command.DepositarCommand;
+import br.com.fiap.telegram.command.ExtratoCommand;
+import br.com.fiap.telegram.command.MenuCommand;
+import br.com.fiap.telegram.command.SaqueCommand;
+import br.com.fiap.telegram.command.StartCommand;
 import br.com.fiap.telegram.handler.TelegramHandler;
 
 public class Main {

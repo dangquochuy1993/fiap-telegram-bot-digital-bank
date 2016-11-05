@@ -1,8 +1,8 @@
 package br.com.fiap.telegram.handler;
 
-import static br.com.fiap.telegram.SessionManagerKey.KEY_FLUXO_STAGE;
-import static br.com.fiap.telegram.SessionManagerKey.KEY_ROUTER;
-import static br.com.fiap.telegram.SessionManagerKey.KEY_ULTIMO_COMANDO;
+import static br.com.fiap.telegram.util.SessionManagerKey.KEY_FLUXO_STAGE;
+import static br.com.fiap.telegram.util.SessionManagerKey.KEY_ROUTER;
+import static br.com.fiap.telegram.util.SessionManagerKey.KEY_ULTIMO_COMANDO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +15,9 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.GetUpdates;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import br.com.fiap.telegram.actions.AbstractActions;
-import br.com.fiap.telegram.commands.AbstractCommand;
-import br.com.fiap.telegram.exceptions.NaoEhUmComandoException;
+import br.com.fiap.telegram.action.AbstractActions;
+import br.com.fiap.telegram.command.AbstractCommand;
+import br.com.fiap.telegram.exception.NaoEhUmComandoException;
 import br.com.fiap.telegram.factory.TelegramFactory;
 import br.com.fiap.telegram.util.SessionManager;
 

@@ -1,4 +1,4 @@
-package br.com.fiap.telegram.exceptions;
+package br.com.fiap.telegram.exception;
 
 public class NaoEhUmComandoException extends Exception {
 

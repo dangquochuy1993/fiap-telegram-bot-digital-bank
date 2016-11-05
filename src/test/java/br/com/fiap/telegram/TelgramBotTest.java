@@ -13,7 +13,7 @@ import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 
-public class Teste {
+public class TelgramBotTest {
 
 	public static void main(String[] args) {
 		TelegramBot bot = TelegramBotAdapter.build("273552850:AAHwHSiT5Prs-NW3gjrTqMeba8zB5krd7wQ");

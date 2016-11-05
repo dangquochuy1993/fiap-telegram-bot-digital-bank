@@ -1,4 +1,4 @@
-package br.com.fiap.telegram.commands;
+package br.com.fiap.telegram.command;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;

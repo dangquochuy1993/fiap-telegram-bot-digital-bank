@@ -1,4 +1,4 @@
-package br.com.fiap.telegram.commands;
+package br.com.fiap.telegram.command;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 
-import br.com.fiap.telegram.exceptions.NaoEhUmComandoException;
+import br.com.fiap.telegram.exception.NaoEhUmComandoException;
 
 public abstract class AbstractCommand implements Serializable {
 	

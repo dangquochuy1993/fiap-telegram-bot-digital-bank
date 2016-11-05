@@ -1,6 +1,6 @@
-package br.com.fiap.telegram.commands;
+package br.com.fiap.telegram.command;
 
-import static br.com.fiap.telegram.SessionManagerKey.KEY_CONTA;
+import static br.com.fiap.telegram.util.SessionManagerKey.KEY_CONTA;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;

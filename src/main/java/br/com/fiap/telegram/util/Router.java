@@ -1,4 +1,4 @@
-package br.com.fiap.telegram;
+package br.com.fiap.telegram.util;
 
 import java.io.Serializable;
 

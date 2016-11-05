@@ -7,7 +7,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import br.com.fiap.telegram.exceptions.SaldoInsuficienteException;
+
+import br.com.fiap.telegram.exception.SaldoInsuficienteException;
 
 public class Conta implements Serializable {
 	private int numero;

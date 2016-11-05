@@ -1,4 +1,4 @@
-package br.com.fia.telegram.test.util;
+package br.com.fia.telegram.util;
 
 import br.com.fiap.telegram.model.Cliente;
 import br.com.fiap.telegram.util.SessionManager;
