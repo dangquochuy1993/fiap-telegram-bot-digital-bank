@@ -32,6 +32,10 @@ public class TelegramHandler implements Runnable {
 
 	public TelegramHandler() {
 		bot = TelegramFactory.create();
+		
+		//comandos obrigatórios
+		addCommand(new StartCommand());
+		addCommand(new CriarContaCommand());
 	}
 
 	public TelegramHandler addCommand(AbstractCommand command) {
