@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.User;
 
-import br.com.fiap.telegram.action.AbstractActions;
+import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.ExtratoAction;
 
 public class ExtratoCommand extends AbstractCommand {
@@ -14,7 +14,7 @@ public class ExtratoCommand extends AbstractCommand {
 	}
 
 	@Override
-	protected AbstractActions execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
+	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
 		new ExtratoAction().execute(bot, message);
 		return null;
 	}

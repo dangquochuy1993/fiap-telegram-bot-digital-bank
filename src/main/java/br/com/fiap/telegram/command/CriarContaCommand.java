@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.User;
 
-import br.com.fiap.telegram.action.AbstractActions;
+import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.CriarContaAction;
 
 public class CriarContaCommand extends AbstractCommand {
@@ -14,8 +14,8 @@ public class CriarContaCommand extends AbstractCommand {
 	}
 
 	@Override
-	protected AbstractActions execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		AbstractActions action = new CriarContaAction();
+	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
+		AbstractAction action = new CriarContaAction();
 		return action.execute(bot, message) ? action : null;
 	}
 }

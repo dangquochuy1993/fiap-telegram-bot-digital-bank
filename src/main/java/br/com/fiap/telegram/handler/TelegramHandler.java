@@ -1,8 +1,8 @@
 package br.com.fiap.telegram.handler;
 
-import static br.com.fiap.telegram.util.SessionManagerKey.NEXT_ACTION;
-import static br.com.fiap.telegram.util.SessionManagerKey.ROUTER;
-import static br.com.fiap.telegram.util.SessionManagerKey.CONTA;
+import static br.com.fiap.telegram.util.Keys.NEXT_ACTION;
+import static br.com.fiap.telegram.util.Keys.ROUTER;
+import static br.com.fiap.telegram.util.Keys.CONTA;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +15,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.GetUpdates;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import br.com.fiap.telegram.action.AbstractActions;
+import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.command.AbstractCommand;
 import br.com.fiap.telegram.command.CriarContaCommand;
 import br.com.fiap.telegram.command.StartCommand;
@@ -95,7 +95,7 @@ public class TelegramHandler implements Runnable {
 				throw new IsNotCommandException("Crie uma conta para usar esses comandos");
 			}
 			
-			AbstractActions action = command.onUpdateReceived(bot, u);
+			AbstractAction action = command.onUpdateReceived(bot, u);
 			if (action != null) {
 				session.put(NEXT_ACTION, action);
 			}
@@ -114,7 +114,7 @@ public class TelegramHandler implements Runnable {
 	 */
 	private void executeWorkFlowAction(Update u) {
 		SessionManager session = SessionManager.getInstance(u.message().from().id());
-		AbstractActions action = session.get(NEXT_ACTION, AbstractActions.class);
+		AbstractAction action = session.get(NEXT_ACTION, AbstractAction.class);
 		action.execute(bot, u.message());
 	}
 	

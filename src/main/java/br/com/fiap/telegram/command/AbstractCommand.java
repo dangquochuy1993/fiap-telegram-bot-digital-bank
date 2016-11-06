@@ -8,7 +8,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 
-import br.com.fiap.telegram.action.AbstractActions;
+import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.exception.IsNotCommandException;
 
 public abstract class AbstractCommand {
@@ -57,7 +57,7 @@ public abstract class AbstractCommand {
 		return description;
 	}
 
-	public AbstractActions onUpdateReceived(TelegramBot bot, Update update) {
+	public AbstractAction onUpdateReceived(TelegramBot bot, Update update) {
 		Message message = update.message();
 		Long chatId = message.chat().id();
 		User user = message.from();
@@ -68,5 +68,5 @@ public abstract class AbstractCommand {
 		return execute(bot, chatId, user, message, argumentos);
 	}
 
-	protected  abstract AbstractActions execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos);
+	protected  abstract AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos);
 }

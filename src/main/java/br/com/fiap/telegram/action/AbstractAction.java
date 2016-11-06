@@ -1,7 +1,7 @@
 package br.com.fiap.telegram.action;
 
-import static br.com.fiap.telegram.util.SessionManagerKey.ROUTER;
-import static br.com.fiap.telegram.util.SessionManagerKey.NEXT_ACTION;
+import static br.com.fiap.telegram.util.Keys.ROUTER;
+import static br.com.fiap.telegram.util.Keys.NEXT_ACTION;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import com.pengrad.telegrambot.model.Message;
 import br.com.fiap.telegram.util.RouterAction;
 import br.com.fiap.telegram.util.SessionManager;
 
-public abstract class AbstractActions implements Serializable {
+public abstract class AbstractAction implements Serializable {
 	
 	//não serializar
 	protected transient SessionManager session;

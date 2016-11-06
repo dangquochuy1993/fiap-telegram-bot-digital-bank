@@ -1,6 +1,6 @@
 package br.com.fiap.telegram.action;
 
-import static br.com.fiap.telegram.util.SessionManagerKey.CONTA;
+import static br.com.fiap.telegram.util.Keys.CONTA;
 
 import java.math.BigDecimal;
 
@@ -8,7 +8,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.model.Conta;
 
-public class SaqueAction extends AbstractActions {
+public class SaqueAction extends AbstractAction {
 	
 	private static final String ROUTER_SAQUE = "routerSaque";
 

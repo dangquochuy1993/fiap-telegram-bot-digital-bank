@@ -13,7 +13,7 @@ import com.google.gson.internal.Primitives;
 final public class SessionManager implements Serializable {
 	private static final long serialVersionUID = -2754015033295421874L;
 
-	private Map<String, Object> storage = new HashMap<>();
+	private Map<Object, Object> storage = new HashMap<>();
 	private static Path sessionPath = Paths.get("data/session");
 	private Integer sessionId;
 	
@@ -49,28 +49,28 @@ final public class SessionManager implements Serializable {
 		new SerializeUtil<SessionManager>(file).serialize(this);
 	}
 	
-	public SessionManager put(String key, Object o) {
+	public SessionManager put(Object key, Object o) {
 		storage.put(key, o);
 		this.save();
 		return this;
 	}
 
-	public <T> T get(String key, Class<T> classOfT) {
+	public <T> T get(Object key, Class<T> classOfT) {
 		Object object = get(key);
 		return Primitives.wrap(classOfT).cast(object);
 	}
 	
-	public Object get(String key) {
+	public Object get(Object key) {
 		return storage.get(key);
 	}
 	
-	public SessionManager remove(String key) {
+	public SessionManager remove(Object key) {
 		storage.remove(key);
 		this.save();
 		return this;
 	}
 	
-	public boolean containsKey(String key) {
+	public boolean containsKey(Object key) {
 		return storage.containsKey(key);
 	}
 

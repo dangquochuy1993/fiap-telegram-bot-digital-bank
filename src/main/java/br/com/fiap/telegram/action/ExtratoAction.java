@@ -1,13 +1,13 @@
 package br.com.fiap.telegram.action;
 
-import static br.com.fiap.telegram.util.SessionManagerKey.CONTA;
+import static br.com.fiap.telegram.util.Keys.CONTA;
 
 import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.model.Conta;
 import br.com.fiap.telegram.model.HistoricoTransacoes;
 
-public class ExtratoAction extends AbstractActions {
+public class ExtratoAction extends AbstractAction {
 
 	@Override
 	protected String execute(String router) {
