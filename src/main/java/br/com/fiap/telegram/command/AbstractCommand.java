@@ -8,64 +8,65 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 
-import br.com.fiap.telegram.exception.NaoEhUmComandoException;
+import br.com.fiap.telegram.action.AbstractActions;
+import br.com.fiap.telegram.exception.IsNotCommandException;
 
-public abstract class AbstractCommand implements Serializable {
+public abstract class AbstractCommand {
 	
-	private String nome;
-	private String descricao;
+	private String name;
+	private String description;
 
-	public AbstractCommand(String nome, String descricao) {
-		setNome(nome);
-		this.descricao = descricao;
+	public AbstractCommand(String name, String description) {
+		setName(name);
+		this.description = description;
 	}
 	
 	public static boolean isCommand(String texto) {
 		return texto.matches("/[a-z]{1,32}.*");
 	}
 	
-	public static String extrairNomeComando(String texto) throws NaoEhUmComandoException {
+	public static String extractCommandName(String texto) throws IsNotCommandException {
 		
 		if (!isCommand(texto)) {
-			throw new NaoEhUmComandoException(texto);
+			throw new IsNotCommandException(texto);
 		}
 		
 		
 		return texto.split("\\s")[0];
 	}
 	
-	private static String[] extrairArgumentos(String texto) {
+	private static String[] extractArguments(String texto) {
 		String[] argumentos = texto.split("\\s");
 		return Arrays.copyOfRange(argumentos, 1, argumentos.length);
 	}
 	
-	private void setNome(String nome) {
+	private void setName(String name) {
 		
-		if (nome == null || !isCommand(nome)) {
+		if (name == null || !isCommand(name)) {
 			throw new IllegalArgumentException("nome do comando não é válido. Deve iniciar com / e conter apenas caracteres de a-z");
 		}
 		
-		this.nome = nome;
+		this.name = name;
 	}
 	
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 	
-	public String getDescricao() {
-		return descricao;
+	public String getDescription() {
+		return description;
 	}
 
-	public void onUpdateReceived(TelegramBot bot, Update update) {
+	public AbstractActions onUpdateReceived(TelegramBot bot, Update update) {
 		Message message = update.message();
 		Long chatId = message.chat().id();
 		User user = message.from();
 		
-		String[] argumentos = extrairArgumentos(message.text());
+		String[] argumentos = extractArguments(message.text());
 		
 		
-		executar(bot, chatId, user, message, argumentos);
+		return execute(bot, chatId, user, message, argumentos);
 	}
 
-	protected  abstract void executar(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos);
+	protected  abstract AbstractActions execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos);
 }

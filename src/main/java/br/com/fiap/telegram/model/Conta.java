@@ -3,6 +3,8 @@ package br.com.fiap.telegram.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
@@ -30,9 +32,9 @@ public class Conta implements Serializable {
 	}
 	
 	public Conta depositar(BigDecimal valor) {
-		transacoes.adicionar("Depósito", valor, saldo);
-		
 		saldo = saldo.add(valor);
+		
+		transacoes.adicionar("Depósito", valor, saldo);
 		return this;
 	}
 	
@@ -82,6 +84,11 @@ public class Conta implements Serializable {
 
 	public LocalDateTime getAbertura() {
 		return abertura;
+	}
+	
+	public String aberturaFormatada() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		return abertura.format(formatter);
 	}
 
 	public Cliente getTitular() {

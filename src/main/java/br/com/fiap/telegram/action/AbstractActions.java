@@ -1,24 +1,49 @@
 package br.com.fiap.telegram.action;
 
+import static br.com.fiap.telegram.util.SessionManagerKey.ROUTER;
+import static br.com.fiap.telegram.util.SessionManagerKey.NEXT_ACTION;
+
+import java.io.Serializable;
+
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 
-import br.com.fiap.telegram.util.Router;
+import br.com.fiap.telegram.util.RouterAction;
+import br.com.fiap.telegram.util.SessionManager;
 
-public abstract class AbstractActions {
-
-	private String nome;
-
-	protected AbstractActions() {
-		nome = this.getClass().getSimpleName();
-	}
+public abstract class AbstractActions implements Serializable {
 	
-	public String getNome() {
-		return nome;
-	}
+	//não serializar
+	protected transient SessionManager session;
+	protected transient TelegramBot bot;
+	protected transient Message message;
+	protected transient Long chatId;
 	
+	public boolean execute(TelegramBot bot, Message message) {
+		this.bot = bot;
+		this.message = message;
+		this.chatId = message.chat().id();
+		this.session = SessionManager.getInstance(message.from().id());
+		
+		String routerName = "";
+		RouterAction router = session.get(ROUTER, RouterAction.class);
+		
+		if (router != null) {
+			routerName = router.getAction();
+		}
+		
+		String nextRouter = execute(routerName);
+		
+		if (nextRouter == null) {
+			session.remove(ROUTER);
+			session.remove(NEXT_ACTION);
+			return false;
+		} else {
+			session.put(ROUTER, new RouterAction(nextRouter));
+			return true;
+		}
+	}
 
-	public abstract void executarButton(TelegramBot bot, Message message, Router data);	
-	public abstract void executarInput(TelegramBot bot, Message messageButton, Message messageInput, Router data);
+	protected abstract String execute(String router);
 	
 }

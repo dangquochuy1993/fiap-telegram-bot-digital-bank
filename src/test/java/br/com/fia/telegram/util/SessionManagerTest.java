@@ -12,7 +12,5 @@ public class SessionManagerTest {
 		Cliente cliente = session.get("cliente", Cliente.class);
 		System.out.println(cliente.getNome());
 		System.out.println(cliente.setNome("Diego Henrique Sousa Saouda"));
-		
-		session.save();
 	}
 }

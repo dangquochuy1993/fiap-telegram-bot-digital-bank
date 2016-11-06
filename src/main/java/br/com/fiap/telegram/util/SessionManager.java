@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import com.google.gson.internal.Primitives;
 
@@ -16,20 +17,26 @@ final public class SessionManager implements Serializable {
 	private static Path sessionPath = Paths.get("data/session");
 	private Integer sessionId;
 	
+	private transient static Map<Integer, SessionManager> instances = new WeakHashMap<>();
+	
 	private SessionManager(Integer sessionId) {
 		this.sessionId = sessionId;
 	}
 
 	public static SessionManager getInstance(Integer sessionId) {
-		sessionPath.toFile().mkdirs();
-		File file = fileSession(sessionId);
+		if (!instances.containsKey(sessionId)) {
+			sessionPath.toFile().mkdirs();
+			File file = fileSession(sessionId);
 
-		if (file.exists()) {
-			return new SerializeUtil<SessionManager>(file).unserialize();
+			if (file.exists()) {
+				return new SerializeUtil<SessionManager>(file).unserialize();
+				
+			}
 			
+			instances.put(sessionId, new SessionManager(sessionId));	
 		}
 		
-		return new SessionManager(sessionId);
+		return instances.get(sessionId);
 	}
 
 	private static File fileSession(Integer id) {
@@ -37,18 +44,19 @@ final public class SessionManager implements Serializable {
 		return file;
 	}
 	
-	public void save() {
+	private void save() {
 		File file = fileSession(sessionId);
 		new SerializeUtil<SessionManager>(file).serialize(this);
 	}
 	
 	public SessionManager put(String key, Object o) {
 		storage.put(key, o);
+		this.save();
 		return this;
 	}
 
 	public <T> T get(String key, Class<T> classOfT) {
-		Object object = storage.get(key);
+		Object object = get(key);
 		return Primitives.wrap(classOfT).cast(object);
 	}
 	
@@ -58,6 +66,7 @@ final public class SessionManager implements Serializable {
 	
 	public SessionManager remove(String key) {
 		storage.remove(key);
+		this.save();
 		return this;
 	}
 	

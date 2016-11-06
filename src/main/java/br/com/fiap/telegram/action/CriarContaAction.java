@@ -1,108 +1,77 @@
 package br.com.fiap.telegram.action;
 
-import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
-import com.pengrad.telegrambot.model.request.ParseMode;
-import com.pengrad.telegrambot.request.EditMessageText;
+import static br.com.fiap.telegram.util.SessionManagerKey.CLIENTE;
+import static br.com.fiap.telegram.util.SessionManagerKey.CONTA;
+
+import java.math.BigDecimal;
+
 import com.pengrad.telegrambot.request.SendMessage;
 
-import br.com.fiap.telegram.util.Router;
+import br.com.fiap.telegram.model.Cliente;
+import br.com.fiap.telegram.model.Conta;
 
 public class CriarContaAction extends AbstractActions {
+	
+	private static final String ROUTER_CONTA = "routerConta";
+	private static final String ROUTER_CLIENTE = "routerCliente";
 
-	private static final String FLOW_EDITAR_NOME = "1";
-	private static final String FLOW_EDITAR_IDADE = "2";
-	
-	public void executar(TelegramBot bot, Message message) {
-		SendMessage send = new SendMessage(message.chat().id(), "<b>Nome: </b>\n<b>Idade: </b>");
-		send.parseMode(ParseMode.HTML);
-		send.replyMarkup(btnActions());
-		bot.execute(send);
+	public String execute(String router) {
+		switch (router) {
+		
+		case ROUTER_CLIENTE: 
+			return routerCliente();
+			
+		case ROUTER_CONTA:			
+			return routerConta();
+			
+		default: 
+			return routerInit();
+			
+		}
+		
 	}
 
-	public void executarButton(TelegramBot bot, Message message, Router data) {
-		System.out.println(data);
+	private String routerInit() {
 		
-		EditMessageText edit = null;
-		
-		switch(data.getAction()) {
-			case FLOW_EDITAR_NOME: 
-				//edit = new EditMessageText(message.chat().id(), message.messageId(), "<b>Nome: </b>Diego\n<b>Idade: </b>");				
-				bot.execute(new SendMessage(message.chat().id(), "Digite seu nome"));
-				
-				break;
-				
-			case FLOW_EDITAR_IDADE:
-				//edit = new EditMessageText(message.chat().id(), message.messageId(), "<b>Nome: </b>Diego\n<b>Idade: </b>28");
-				bot.execute(new SendMessage(message.chat().id(), "Digite sua idade"));
-				break;
+		if (session.containsKey(CONTA)) {
+			Cliente cliente = session.get(CLIENTE, Cliente.class);
+			Conta conta = session.get(CONTA, Conta.class);
+			bot.execute(new SendMessage(chatId, cliente.getNome() + ", você já possui uma conta com nosso banco. Sua conta é de número " + conta.getNumero() + " aberta em " + conta.aberturaFormatada()));
+			return null;
 		}
 		
-				
-		//edit.parseMode(ParseMode.HTML);
-		//edit.replyMarkup(btnActions());
-		//bot.execute(edit);
+		bot.execute(new SendMessage(chatId, "Seja bem vindo ao Banco Digital. Para criar uma nova conta precisaremos de algumas informações. Primeiramente informe seu nome"));
+		
+		return ROUTER_CLIENTE;
 	}
 	
-	public void executarInput(TelegramBot bot, Message messageButton, Message messageInput, Router data) {
-		System.out.println(data);
+	private String routerConta() {
+		String valor = message.text();
 		
-		EditMessageText edit = null;
-		
-		switch(data.getAction()) {
-			case FLOW_EDITAR_NOME: 
-				edit = new EditMessageText(messageButton.chat().id(), messageButton.messageId(), "<b>Nome: </b>" + messageInput.text());				
-				
-				break;
-				
-			case FLOW_EDITAR_IDADE:
-				//edit = new EditMessageText(message.chat().id(), message.messageId(), "<b>Nome: </b>Diego\n<b>Idade: </b>28");
-				//bot.execute(new SendMessage(message.chat().id(), "Digite sua idade"));
-				break;
+		try {
+			BigDecimal saldoInicial = new BigDecimal(valor);
+			Cliente titular = session.get(CLIENTE, Cliente.class);			
+			Conta conta = new Conta(titular, saldoInicial);
+			
+			session.put(CONTA, conta);			
+			bot.execute(new SendMessage(chatId, "Sua conta foi criada com sucesso. " + conta));
+			return null;
+			
+		} catch (NumberFormatException e) {
+			bot.execute(new SendMessage(chatId, "Ops... Não consegui reconhecer o valor '" + valor + "' tente novamente. Ex formato suportado --> 100.10 ou 100"));
+			return ROUTER_CONTA;
 		}
-		
-				
-		edit.parseMode(ParseMode.HTML);
-		edit.replyMarkup(btnActions());
-		bot.execute(edit);
 	}
-	
-	
-	
-	/*
-	public void executar(TelegramBot bot, CallbackQuery query, CallbackData data) {
-		System.out.println(data);
+
+	private String routerCliente() {
+		Cliente cliente = new Cliente(message.text());
+
+		session.put(CLIENTE, cliente);
+		bot.execute(new SendMessage(chatId, "Parabéns " + cliente + ", você está quase lá. Agora informe o saldo inicial de sua conta. Ex: 100.50 ou 100"));
 		
-		EditMessageText edit = null;
-		
-		switch(data.getFlow()) {
-			case FLOW_EDITAR_NOME: 
-				edit = new EditMessageText(query.message().chat().id(), query.message().messageId(), "<b>Nome: </b>Diego\n<b>Idade: </b>");		
-				break;
-				
-			case FLOW_EDITAR_IDADE:
-				edit = new EditMessageText(query.message().chat().id(), query.message().messageId(), "<b>Nome: </b>Diego\n<b>Idade: </b>28");				
-				break;
-		}
-		
-				
-		edit.parseMode(ParseMode.HTML);
-		edit.replyMarkup(btnActions());
-		bot.execute(edit);
+		return ROUTER_CONTA;
 	}
-	*/
+
 	
-	private InlineKeyboardMarkup btnActions() {
-		InlineKeyboardButton btnEditNome = new InlineKeyboardButton("Editar Nome");
-		btnEditNome.callbackData(new Router(getNome(), FLOW_EDITAR_NOME).toJson());
-		
-		InlineKeyboardButton btnEditIdade = new InlineKeyboardButton("Editar Idade");
-		btnEditIdade.callbackData(new Router(getNome(), FLOW_EDITAR_IDADE).toJson());
-		
-		InlineKeyboardButton[] grupoBotoes = { btnEditNome, btnEditIdade };
-		return new InlineKeyboardMarkup(grupoBotoes);
-	}
 	
 }
