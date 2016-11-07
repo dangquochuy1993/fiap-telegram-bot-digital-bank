@@ -9,12 +9,13 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.model.Cliente;
 import br.com.fiap.telegram.model.Conta;
+import br.com.fiap.telegram.util.Helpers;
 
 public class CriarContaAction extends AbstractAction {
 	
 	private static final String ROUTER_CONTA = "routerConta";
 	private static final String ROUTER_CLIENTE = "routerCliente";
-
+	
 	public String execute(String router) {
 		switch (router) {
 		
@@ -36,11 +37,13 @@ public class CriarContaAction extends AbstractAction {
 		if (session.containsKey(CONTA)) {
 			Cliente cliente = session.get(CLIENTE, Cliente.class);
 			Conta conta = session.get(CONTA, Conta.class);
-			bot.execute(new SendMessage(chatId, cliente.getNome() + ", você já possui uma conta com nosso banco. Sua conta é de número " + conta.getNumero() + " aberta em " + conta.aberturaFormatada()));
+			
+			String message = cliente.getNome() + ", você já possui uma conta com nosso banco. Sua conta é de número " + conta.getNumero() + " aberta em " + Helpers.dataHoraFormatado(conta.getAbertura());
+			bot.execute(new SendMessage(chatId, message));
 			return null;
 		}
 		
-		bot.execute(new SendMessage(chatId, "Seja bem vindo ao Banco Digital. Para criar uma nova conta precisaremos de algumas informações. Primeiramente informe seu nome"));
+		bot.execute(new SendMessage(chatId, "Seja bem vindo ao Banco Digital. Para criar uma nova conta precisaremos de algumas informações.\nInforme seu nome completo"));
 		
 		return ROUTER_CLIENTE;
 	}
@@ -54,7 +57,7 @@ public class CriarContaAction extends AbstractAction {
 			Conta conta = new Conta(titular, saldoInicial);
 			
 			session.put(CONTA, conta);			
-			bot.execute(new SendMessage(chatId, "Sua conta foi criada com sucesso. " + conta));
+			bot.execute(new SendMessage(chatId, "Sua conta foi criada com sucesso. " + conta.exibirDadosBasico()));
 			return null;
 			
 		} catch (NumberFormatException e) {
@@ -67,7 +70,7 @@ public class CriarContaAction extends AbstractAction {
 		Cliente cliente = new Cliente(message.text());
 
 		session.put(CLIENTE, cliente);
-		bot.execute(new SendMessage(chatId, "Parabéns " + cliente + ", você está quase lá. Agora informe o saldo inicial de sua conta. Ex: 100.50 ou 100"));
+		bot.execute(new SendMessage(chatId, "Parabéns " + cliente.getNome() + ", você está quase lá. Agora informe o saldo inicial de sua conta. \nObs: Informe no seguinte formato 0.00"));
 		
 		return ROUTER_CONTA;
 	}

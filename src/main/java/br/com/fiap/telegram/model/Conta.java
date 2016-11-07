@@ -3,14 +3,12 @@ package br.com.fiap.telegram.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import br.com.fiap.telegram.exception.SaldoInsuficienteException;
+import br.com.fiap.telegram.util.Helpers;
 
 public class Conta implements Serializable {
 	private int numero;
@@ -22,7 +20,7 @@ public class Conta implements Serializable {
 	private BigDecimal saldo;
 	
 	public Conta(Cliente titular, BigDecimal valorInicial) {
-		numero = rand(10000000,99999999);
+		numero = Helpers.geradorNumero(10000000,99999999);
 		abertura = LocalDateTime.now();
 		
 		this.titular = titular;
@@ -39,17 +37,22 @@ public class Conta implements Serializable {
 	}
 	
 	public BigDecimal saque(BigDecimal valor) {
-		BigDecimal valorComTaxa = valor.add(Taxas.SAQUE.getValor());
-		
-		if (saldo.compareTo(valorComTaxa) < 0) {
-			throw new SaldoInsuficienteException();
-		}
+		valor = valor.negate();		
+		exceptionSeNaoTiverSaldoSuficiente(valor);
 				
-		saldo = saldo.subtract(valorComTaxa);
+		saldo = saldo.add(Taxas.SAQUE.getValor());		
+		transacoes.adicionar("Taxa saque", Taxas.SAQUE.getValor(), saldo);
 		
+		saldo = saldo.add(valor);
 		transacoes.adicionar("Saque", valor, saldo);
 		
 		return valor;
+	}
+
+	private void exceptionSeNaoTiverSaldoSuficiente(BigDecimal valor) {
+		if (saldo.add(valor).add(Taxas.SAQUE.getValor()).intValue() < 0) {
+			throw new SaldoInsuficienteException();
+		}
 	}
 	
 	public HistoricoTransacoes extrato() {
@@ -58,7 +61,7 @@ public class Conta implements Serializable {
 			throw new SaldoInsuficienteException();
 		}
 		
-		saldo = saldo.subtract(Taxas.EXTRATO.getValor());
+		saldo = saldo.add(Taxas.EXTRATO.getValor());
 		transacoes.adicionar("extrato", Taxas.EXTRATO.getValor(), saldo);
 		
 		return transacoes;
@@ -86,11 +89,6 @@ public class Conta implements Serializable {
 		return abertura;
 	}
 	
-	public String aberturaFormatada() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-		return abertura.format(formatter);
-	}
-
 	public Cliente getTitular() {
 		return titular;
 	}
@@ -98,10 +96,16 @@ public class Conta implements Serializable {
 	public Set<Cliente> getDependentes() {
 		return Collections.unmodifiableSet(dependentes);
 	}
-
-	private int rand(int min, int max) {
-		Random r = new Random();
-		return r.nextInt((max - min) + 1) + min;
+	
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+	
+	public String exibirDadosBasico() {		
+		return "\nTitular: " + titular.getNome() +
+				"\nNumero: " + numero +
+				"\nAbertura: " + Helpers.dataHoraFormatado(abertura) +
+				"\nSaldo: " + saldo;		
 	}
 
 	@Override

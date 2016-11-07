@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.fiap.telegram.util.Helpers;
+
 public class HistoricoTransacoes implements Serializable {
 	private List<Transacao> historico = new ArrayList<>();
 	
@@ -21,16 +23,27 @@ public class HistoricoTransacoes implements Serializable {
 	
 	@Override
 	public String toString() {
+		BigDecimal valor = new BigDecimal(0);
+		
 		StringBuilder sb = new StringBuilder();
-		for (Transacao transacao : historico) {			
+		sb.append("Extrato em " + Helpers.dataHoraFormatado());
+		
+		for (Transacao transacao : historico) {
 			sb.append(
-				"\n----------------------------\n" +	
-				"\nData/Hora: " + transacao.getDataHora() +
+				"\n----------------------------" +	
+				"\nData/Hora: " + Helpers.dataHoraFormatado(transacao.getDataHora()) +
 				"\nDescrição: " + transacao.getDescricao() +
 				"\nValor: " + transacao.getValor() +
 				"\nSaldo: " + transacao.getSaldo()				
 			);
+			
+			valor = valor.add(transacao.getValor());
 		}
+		
+		sb.append(
+			"\n----------------------------\n" +
+			"Total transações: " + valor 
+		);
 		
 		return sb.toString();
 	}

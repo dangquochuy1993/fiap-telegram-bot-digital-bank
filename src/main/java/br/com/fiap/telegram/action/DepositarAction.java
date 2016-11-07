@@ -30,7 +30,7 @@ public class DepositarAction extends AbstractAction {
 			
 			session.put(CONTA, conta);
 			
-			bot.execute(new SendMessage(chatId, conta.toString()));
+			bot.execute(new SendMessage(chatId, "Depósito efeturado com sucesso. Seu saldo atual é " + conta.getSaldo()));
 			return null;
 			
 		} catch(NumberFormatException e) {

@@ -7,6 +7,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.DepositarAction;
+import br.com.fiap.telegram.util.Helpers;
 
 public class DepositarCommand extends AbstractCommand {
 	
@@ -16,7 +17,10 @@ public class DepositarCommand extends AbstractCommand {
 
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		bot.execute(new SendMessage(chatId, "Informe o valor que deseja depositar"));
+		SendMessage send = new SendMessage(chatId, "Depósito\nClique no valor desejado. Se preferir digite um valor no formato '0.00'.");
+		send.replyMarkup(Helpers.getTelegramValoresButton());
+		bot.execute(send);		
+		
 		return new DepositarAction();
 	}
 

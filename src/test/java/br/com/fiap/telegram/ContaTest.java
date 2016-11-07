@@ -13,6 +13,11 @@ public class ContaTest {
 		Cliente aline = new Cliente("Aline Lacerda Saouda");
 		
 		Conta conta = new Conta(diego, new BigDecimal("100.00"));
+		
+		conta.saque(new BigDecimal(100));
+		System.out.println(conta.getSaldo());
+		System.exit(0);
+		
 		conta.adicionarDepentente(aline);		
 		System.out.println(conta);
 		

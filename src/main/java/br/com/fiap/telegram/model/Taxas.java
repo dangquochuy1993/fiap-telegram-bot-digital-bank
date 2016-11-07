@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public enum Taxas {
 
-	SAQUE(new BigDecimal("2.50")), EXTRATO(new BigDecimal("1.00"));
+	SAQUE(new BigDecimal("-2.50")), EXTRATO(new BigDecimal("-1.00"));
 	
 	private BigDecimal valor;
 
