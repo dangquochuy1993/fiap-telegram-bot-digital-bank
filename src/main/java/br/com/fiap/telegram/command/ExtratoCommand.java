@@ -1,22 +1,17 @@
 package br.com.fiap.telegram.command;
 
-import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.User;
-
-import br.com.fiap.telegram.action.AbstractAction;
+import br.com.fiap.telegram.action.AbstractExtratoAction;
 import br.com.fiap.telegram.action.ExtratoAction;
+import br.com.fiap.telegram.model.Taxas;
 
-public class ExtratoCommand extends AbstractCommand {
+public class ExtratoCommand extends AbstractExtratoCommand {
 
 	public ExtratoCommand() {
-		super("/extrato", "Exibir o extrato de sua conta");
+		super("/extrato", "Extrato simples da conta. Taxa de uso " + Taxas.EXTRATO.getValor());
 	}
 
 	@Override
-	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		new ExtratoAction().execute(bot, message);
-		return null;
+	protected AbstractExtratoAction action() {
+		return new ExtratoAction();
 	}
-
 }

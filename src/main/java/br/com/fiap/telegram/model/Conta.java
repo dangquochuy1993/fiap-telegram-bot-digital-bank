@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import br.com.fiap.telegram.exception.SaldoInsuficienteException;
@@ -26,13 +27,13 @@ public class Conta implements Serializable {
 		this.titular = titular;
 		saldo = valorInicial;
 		
-		transacoes.adicionar("Abertura conta", valorInicial, valorInicial);
+		transacoes.adicionar(TipoTransacao.ABERTURA_CONTA, valorInicial, valorInicial);
 	}
 	
 	public Conta depositar(BigDecimal valor) {
 		saldo = saldo.add(valor);
 		
-		transacoes.adicionar("Depósito", valor, saldo);
+		transacoes.adicionar(TipoTransacao.DEPOSITO, valor, saldo);
 		return this;
 	}
 	
@@ -41,10 +42,10 @@ public class Conta implements Serializable {
 		exceptionSeNaoTiverSaldoSuficiente(valor);
 				
 		saldo = saldo.add(Taxas.SAQUE.getValor());		
-		transacoes.adicionar("Taxa saque", Taxas.SAQUE.getValor(), saldo);
+		transacoes.adicionar(TipoTransacao.TAXA_SAQUE, Taxas.SAQUE.getValor(), saldo);
 		
 		saldo = saldo.add(valor);
-		transacoes.adicionar("Saque", valor, saldo);
+		transacoes.adicionar(TipoTransacao.SAQUE, valor, saldo);
 		
 		return valor;
 	}
@@ -62,20 +63,20 @@ public class Conta implements Serializable {
 		}
 		
 		saldo = saldo.add(Taxas.EXTRATO.getValor());
-		transacoes.adicionar("extrato", Taxas.EXTRATO.getValor(), saldo);
+		transacoes.adicionar(TipoTransacao.TAXA_EXTRATO, Taxas.EXTRATO.getValor(), saldo);
 		
 		return transacoes;
 	}
 	
 	public Conta adicionarDepentente(Cliente cliente) {
-		transacoes.adicionar("adicionou depentende " + cliente.getNome());
+		transacoes.adicionar(TipoTransacao.ADICIONADO_DEPENDENTE);
 		
 		dependentes.add(cliente);
 		return this;
 	}
 	
 	public Conta removerDependente(Cliente cliente) {
-		transacoes.adicionar("removeu depentende " + cliente.getNome());
+		transacoes.adicionar(TipoTransacao.REMOVIDO_DEPENDENTE);
 		
 		dependentes.remove(cliente);
 		return this;
@@ -101,13 +102,10 @@ public class Conta implements Serializable {
 		return saldo;
 	}
 	
-	public String exibirDadosBasico() {		
-		return "\nTitular: " + titular.getNome() +
-				"\nNumero: " + numero +
-				"\nAbertura: " + Helpers.dataHoraFormatado(abertura) +
-				"\nSaldo: " + saldo;		
+	public List<Transacao> getTransacoes() {
+		return transacoes.getTransacoes();
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Conta [numero=" + numero + ", abertura=" + abertura + ", titular=" + titular

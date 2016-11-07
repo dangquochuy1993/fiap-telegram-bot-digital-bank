@@ -5,18 +5,15 @@ import static br.com.fiap.telegram.util.Keys.CONTA;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.model.Conta;
-import br.com.fiap.telegram.model.HistoricoTransacoes;
+import br.com.fiap.telegram.printer.ContaPrinter;
+import br.com.fiap.telegram.printer.ExtratoDetalhadoPrinter;
+import br.com.fiap.telegram.printer.ExtratoPrinter;
 
-public class ExtratoAction extends AbstractAction {
+public class ExtratoAction extends AbstractExtratoAction {
 
 	@Override
-	protected String execute(String router) {
-		Conta conta = session.get(CONTA, Conta.class);
-		HistoricoTransacoes historico = conta.extrato();
-		bot.execute(new SendMessage(chatId, historico.toString()));
-		
-		session.put(CONTA, conta);
-		return null;
-	}
+	protected ContaPrinter printer() {
+		return new ExtratoPrinter();
+	}	
 
 }

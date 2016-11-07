@@ -8,16 +8,21 @@ import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 
 final public class Helpers {
-	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm");
+	private static DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm");
+	private static DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/YYYY");
 	
 	private Helpers() {};
 	
-	public static String dataHoraFormatado() {
-		return LocalDateTime.now().format(formatter);		
+	public static String formatarDataHora() {
+		return LocalDateTime.now().format(formatterDateTime);		
 	}
 	
-	public static String dataHoraFormatado(LocalDateTime dateTime) {
-		return dateTime.format(formatter);		
+	public static String formatarDataHora(LocalDateTime dateTime) {
+		return dateTime.format(formatterDateTime);		
+	}
+	
+	public static String formatarData(LocalDateTime dateTime) {
+		return dateTime.format(formatterDate);		
 	}
 	
 	public static int geradorNumero(int min, int max) {

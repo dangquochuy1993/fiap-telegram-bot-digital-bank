@@ -9,6 +9,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.model.Cliente;
 import br.com.fiap.telegram.model.Conta;
+import br.com.fiap.telegram.printer.DadosBasicoPrinter;
 import br.com.fiap.telegram.util.Helpers;
 
 public class CriarContaAction extends AbstractAction {
@@ -38,7 +39,7 @@ public class CriarContaAction extends AbstractAction {
 			Cliente cliente = session.get(CLIENTE, Cliente.class);
 			Conta conta = session.get(CONTA, Conta.class);
 			
-			String message = cliente.getNome() + ", você já possui uma conta com nosso banco. Sua conta é de número " + conta.getNumero() + " aberta em " + Helpers.dataHoraFormatado(conta.getAbertura());
+			String message = cliente.getNome() + ", você já possui uma conta com nosso banco. Sua conta é de número " + conta.getNumero() + " aberta em " + Helpers.formatarDataHora(conta.getAbertura());
 			bot.execute(new SendMessage(chatId, message));
 			return null;
 		}
@@ -57,7 +58,7 @@ public class CriarContaAction extends AbstractAction {
 			Conta conta = new Conta(titular, saldoInicial);
 			
 			session.put(CONTA, conta);			
-			bot.execute(new SendMessage(chatId, "Sua conta foi criada com sucesso. " + conta.exibirDadosBasico()));
+			bot.execute(new SendMessage(chatId, "Sua conta foi criada com sucesso. " + new DadosBasicoPrinter().imprimir(conta)));
 			return null;
 			
 		} catch (NumberFormatException e) {

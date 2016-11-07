@@ -5,6 +5,7 @@ import static br.com.fiap.telegram.util.Keys.ROUTER;
 import static br.com.fiap.telegram.util.Keys.CONTA;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -28,7 +29,7 @@ public class TelegramHandler implements Runnable {
 	private TelegramBot bot;
 	private int offset = 0;
 
-	private Map<String, AbstractCommand> commands = new HashMap<>();
+	private Map<String, AbstractCommand> commands = new LinkedHashMap<>();
 
 	public TelegramHandler() {
 		bot = TelegramFactory.create();
@@ -41,6 +42,20 @@ public class TelegramHandler implements Runnable {
 	public TelegramHandler addCommand(AbstractCommand command) {
 		commands.put(command.getName(), command);
 		return this;
+	}
+	
+	/**
+	 * Colocar o resultado no botfather para ajudar o usuário
+	 * @return
+	 */
+	public String printCommands() {
+		StringBuilder sb = new StringBuilder();
+		
+		commands.forEach((key, command) -> {			
+			sb.append("\n" + command.getName() + " - " + command.getDescription());
+		});
+		
+		return sb.toString();		
 	}
 	
 	/**

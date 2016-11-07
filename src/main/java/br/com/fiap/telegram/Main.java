@@ -1,19 +1,30 @@
 package br.com.fiap.telegram;
 
+import br.com.fiap.telegram.command.DadosContaCommand;
 import br.com.fiap.telegram.command.DepositarCommand;
 import br.com.fiap.telegram.command.ExtratoCommand;
+import br.com.fiap.telegram.command.ExtratoDetalhadoCommand;
+import br.com.fiap.telegram.command.ExtratoSaquesCommand;
+import br.com.fiap.telegram.command.ExtratoTarifasCommand;
 import br.com.fiap.telegram.command.SaqueCommand;
 import br.com.fiap.telegram.handler.TelegramHandler;
 
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("iniciou ...");
-		
-		new TelegramHandler()
+		TelegramHandler handler = new TelegramHandler();
+		handler
 			.addCommand(new DepositarCommand())
 			.addCommand(new SaqueCommand())
+			.addCommand(new DadosContaCommand())
 			.addCommand(new ExtratoCommand())
-			.run();		
+			.addCommand(new ExtratoSaquesCommand())
+			.addCommand(new ExtratoTarifasCommand())
+			.addCommand(new ExtratoDetalhadoCommand());
+		
+		System.out.println("iniciando o bot ... ");
+		System.out.println(handler.printCommands());
+		
+		handler.run();		
 	}
 }
