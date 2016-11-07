@@ -1,5 +1,6 @@
 package br.com.fiap.telegram;
 
+import br.com.fiap.telegram.command.AdicionarDependenteCommand;
 import br.com.fiap.telegram.command.DadosContaCommand;
 import br.com.fiap.telegram.command.DepositarCommand;
 import br.com.fiap.telegram.command.ExtratoCommand;
@@ -14,6 +15,7 @@ public class Main {
 	public static void main(String[] args) {
 		TelegramHandler handler = new TelegramHandler();
 		handler
+			.addCommand(new AdicionarDependenteCommand())
 			.addCommand(new DepositarCommand())
 			.addCommand(new SaqueCommand())
 			.addCommand(new DadosContaCommand())
