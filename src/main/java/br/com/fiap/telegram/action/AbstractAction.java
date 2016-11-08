@@ -8,6 +8,7 @@ import java.io.Serializable;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 
+import br.com.fiap.telegram.util.Logger;
 import br.com.fiap.telegram.util.RouterAction;
 import br.com.fiap.telegram.util.SessionManager;
 
@@ -32,6 +33,8 @@ public abstract class AbstractAction implements Serializable {
 		if (router != null) {
 			routerName = router.getAction();
 		}
+		
+		Logger.info("action=" + this.getClass().getName() + " router=" + routerName);
 		
 		String nextRouter = execute(routerName);
 		

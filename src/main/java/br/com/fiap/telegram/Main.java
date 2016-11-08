@@ -14,6 +14,7 @@ import br.com.fiap.telegram.command.RemoverDependenteCommand;
 import br.com.fiap.telegram.command.SaqueCommand;
 import br.com.fiap.telegram.command.TransferenciaCommand;
 import br.com.fiap.telegram.handler.TelegramHandler;
+import br.com.fiap.telegram.util.Logger;
 
 public class Main {
 
@@ -34,9 +35,8 @@ public class Main {
 		.addCommand(new ExtratoDetalhadoCommand())
 		.addCommand(new AjudaCommand(handler.printCommands()));
 
-		System.out.println("iniciando o bot ... ");
-		System.out.println(handler.printCommands());
-
+		Logger.info("iniciando o bot ... ");
+		Logger.info("lista dos comandos" + handler.printCommands());
 		handler.run();		
 	}
 }

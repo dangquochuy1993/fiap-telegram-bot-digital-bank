@@ -21,6 +21,7 @@ import br.com.fiap.telegram.command.CriarContaCommand;
 import br.com.fiap.telegram.command.StartCommand;
 import br.com.fiap.telegram.exception.IsNotCommandException;
 import br.com.fiap.telegram.factory.TelegramFactory;
+import br.com.fiap.telegram.util.Logger;
 import br.com.fiap.telegram.util.SessionManager;
 
 public class TelegramHandler implements Runnable {
@@ -75,6 +76,8 @@ public class TelegramHandler implements Runnable {
 		
 		stream.forEach(u -> {				
 			nextUpdateOffset(u);
+			
+			Logger.info("novas mensagem recebidas");
 			
 			switch(routerWorkFlow(u)) {
 

@@ -9,6 +9,7 @@ import com.pengrad.telegrambot.model.User;
 
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.exception.IsNotCommandException;
+import br.com.fiap.telegram.util.Logger;
 
 public abstract class AbstractCommand {
 	
@@ -57,6 +58,8 @@ public abstract class AbstractCommand {
 	}
 
 	public AbstractAction onUpdateReceived(TelegramBot bot, Update update) {
+		Logger.info("command=" + this.getClass().getName());
+		
 		Message message = update.message();
 		Long chatId = message.chat().id();
 		User user = message.from();

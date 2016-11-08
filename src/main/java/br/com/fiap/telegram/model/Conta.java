@@ -23,6 +23,7 @@ import java.util.Set;
 import br.com.fiap.telegram.exception.EmprestimoException;
 import br.com.fiap.telegram.exception.SaldoInsuficienteException;
 import br.com.fiap.telegram.util.Helpers;
+import br.com.fiap.telegram.util.Logger;
 
 public class Conta implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -61,6 +62,8 @@ public class Conta implements Serializable {
 			saldo = saldo.subtract(Taxas.EMPRESTIMO.getValor());
 			transacao(TAXA_EMPRESTIMO_DEVOLUCAO, Taxas.EMPRESTIMO.getValor().negate());
 			
+			Logger.error("saldo insuficiente");
+			
 			//relança exception
 			throw new SaldoInsuficienteException(e.getMessage());
 		}
@@ -70,6 +73,7 @@ public class Conta implements Serializable {
 
 	private void exceptionSeJaExistirUmEmprestimoAtivo() {
 		if (emprestimo != null) {
+			Logger.error("outro emprestimo em andamento");
 			throw new EmprestimoException("Você já possui um emprestimo em andamento e não pode realizar outro.");
 		}
 	}
@@ -96,12 +100,14 @@ public class Conta implements Serializable {
 
 	private void throwIfSaldoInsuficiente(BigDecimal valor) {
 		if (saldo.add(valor).add(Taxas.SAQUE.getValor()).intValue() < 0) {
+			Logger.error("saldo insuficiente");
 			throw new SaldoInsuficienteException();
 		}
 	}
 	
 	public HistoricoTransacoes extrato() {		
 		if (saldo.compareTo(Taxas.EXTRATO.getValor()) < 0) {
+			Logger.error("saldo insuficiente");
 			throw new SaldoInsuficienteException();
 		}
 		
