@@ -1,6 +1,5 @@
 package br.com.fiap.telegram.command;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import com.pengrad.telegrambot.TelegramBot;

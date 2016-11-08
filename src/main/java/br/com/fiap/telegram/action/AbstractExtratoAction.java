@@ -8,7 +8,8 @@ import br.com.fiap.telegram.model.Conta;
 import br.com.fiap.telegram.printer.ContaPrinter;
 
 abstract public class AbstractExtratoAction extends AbstractAction {
-
+	private static final long serialVersionUID = 1L;
+	
 	@Override
 	protected String execute(String router) {
 		Conta conta = session.get(CONTA, Conta.class);

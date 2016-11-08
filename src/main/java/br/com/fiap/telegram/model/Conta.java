@@ -12,6 +12,8 @@ import br.com.fiap.telegram.exception.SaldoInsuficienteException;
 import br.com.fiap.telegram.util.Helpers;
 
 public class Conta implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private int numero;
 	private LocalDateTime abertura;
 	private Cliente titular;

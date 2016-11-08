@@ -5,6 +5,8 @@ import java.io.Serializable;
 import com.google.gson.Gson;
 
 public class RouterAction implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String action;	
 
 	public RouterAction(String action) {

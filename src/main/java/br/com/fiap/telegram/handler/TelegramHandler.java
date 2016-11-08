@@ -1,10 +1,9 @@
 package br.com.fiap.telegram.handler;
 
+import static br.com.fiap.telegram.util.Keys.CONTA;
 import static br.com.fiap.telegram.util.Keys.NEXT_ACTION;
 import static br.com.fiap.telegram.util.Keys.ROUTER;
-import static br.com.fiap.telegram.util.Keys.CONTA;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

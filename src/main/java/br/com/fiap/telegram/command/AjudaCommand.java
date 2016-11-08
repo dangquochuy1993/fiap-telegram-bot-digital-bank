@@ -6,7 +6,6 @@ import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.action.AbstractAction;
-import br.com.fiap.telegram.action.RemoverDependenteAction;
 
 public class AjudaCommand extends AbstractCommand {
 

@@ -12,6 +12,7 @@ import br.com.fiap.telegram.util.RouterAction;
 import br.com.fiap.telegram.util.SessionManager;
 
 public abstract class AbstractAction implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	//não serializar
 	protected transient SessionManager session;

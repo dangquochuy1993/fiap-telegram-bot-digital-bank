@@ -9,6 +9,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import br.com.fiap.telegram.model.Conta;
 
 public class DepositarAction extends AbstractAction {
+	private static final long serialVersionUID = 1L;
 	
 	private static final String ROUTER_DEPOSITAR = "routerDepositar";
 

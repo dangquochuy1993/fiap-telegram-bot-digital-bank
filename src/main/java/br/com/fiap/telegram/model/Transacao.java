@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Transacao implements Serializable {
-
+	private static final long serialVersionUID = 1L;
+	
 	private LocalDateTime dataHora;
 	private TipoTransacao tipo;
 	private BigDecimal saldoConta;

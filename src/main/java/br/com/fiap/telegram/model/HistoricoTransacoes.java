@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class HistoricoTransacoes implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private List<Transacao> transacoes = new ArrayList<>();
 	
 	public HistoricoTransacoes adicionar(TipoTransacao tipo, BigDecimal valor, BigDecimal saldo) {
