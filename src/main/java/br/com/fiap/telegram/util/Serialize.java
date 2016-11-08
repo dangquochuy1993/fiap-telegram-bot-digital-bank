@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-final public class SerializeUtil<T> {
+final public class Serialize<T> {
 
 	private File file;
 
-	public SerializeUtil(File file) {
+	public Serialize(File file) {
 		this.file = file;
 	}
 

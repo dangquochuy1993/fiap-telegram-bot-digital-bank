@@ -14,7 +14,7 @@ final public class SessionManager implements Serializable {
 	private static final long serialVersionUID = -2754015033295421874L;
 
 	private Map<Object, Object> storage = new HashMap<>();
-	private static Path sessionPath = Paths.get("data/session");
+	private static Path sessionPath = Paths.get(Config.get("session.path"));
 	private Integer sessionId;
 	
 	private transient static Map<Integer, SessionManager> instances = new WeakHashMap<>();
@@ -29,7 +29,7 @@ final public class SessionManager implements Serializable {
 			File file = fileSession(sessionId);
 
 			if (file.exists()) {
-				return new SerializeUtil<SessionManager>(file).unserialize();
+				return new Serialize<SessionManager>(file).unserialize();
 				
 			}
 			
@@ -46,7 +46,7 @@ final public class SessionManager implements Serializable {
 	
 	private void save() {
 		File file = fileSession(sessionId);
-		new SerializeUtil<SessionManager>(file).serialize(this);
+		new Serialize<SessionManager>(file).serialize(this);
 	}
 	
 	public SessionManager put(Object key, Object o) {
