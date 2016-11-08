@@ -1,5 +1,6 @@
 package br.com.fiap.telegram.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
@@ -23,6 +24,10 @@ final public class Helpers {
 	
 	public static String formatarData(LocalDateTime dateTime) {
 		return dateTime.format(formatterDate);		
+	}
+	
+	public static String formatarData(LocalDate date) {
+		return date.format(formatterDate);		
 	}
 	
 	public static int geradorNumero(int min, int max) {

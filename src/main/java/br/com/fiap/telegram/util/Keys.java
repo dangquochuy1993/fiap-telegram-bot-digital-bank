@@ -5,5 +5,6 @@ public enum Keys {
 	NEXT_ACTION,
 	ROUTER,
 	CLIENTE,
-	CONTA;
+	CONTA,
+	EMPRESTIMO_PRAZO;
 }

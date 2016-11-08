@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import br.com.fiap.telegram.model.Cliente;
 import br.com.fiap.telegram.model.Conta;
 import br.com.fiap.telegram.model.HistoricoTransacoes;
+import br.com.fiap.telegram.printer.DadosBasicoPrinter;
+import br.com.fiap.telegram.printer.ExtratoDetalhadoPrinter;
 
 public class ContaTest {
 
@@ -13,10 +15,6 @@ public class ContaTest {
 		Cliente aline = new Cliente("Aline Lacerda Saouda");
 		
 		Conta conta = new Conta(diego, new BigDecimal("100.00"));
-		
-		conta.saque(new BigDecimal(100));
-		System.out.println(conta.getSaldo());
-		System.exit(0);
 		
 		conta.adicionarDepentente(aline);		
 		System.out.println(conta);
@@ -33,8 +31,17 @@ public class ContaTest {
 		conta.saque(new BigDecimal(91));
 		System.out.println(conta);
 		
-		HistoricoTransacoes extrato = conta.extrato();
-		System.out.println(extrato.toString());
+		
+		System.out.println(new ExtratoDetalhadoPrinter().imprimir(conta));
+		System.out.println("\n\n\n\n");
+		
+		Conta migrar = conta.migrar();
+		
+		System.out.println(new ExtratoDetalhadoPrinter().imprimir(migrar));
+		System.out.println(new DadosBasicoPrinter().imprimir(migrar));
+		System.out.println(new DadosBasicoPrinter().imprimir(migrar.antiga()));
+		System.out.println(new ExtratoDetalhadoPrinter().imprimir(migrar.antiga()));
 	}
 	
 }
+
