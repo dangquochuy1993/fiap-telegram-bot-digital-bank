@@ -1,167 +1,195 @@
 package br.com.fiap.telegram.handler;
 
-import java.util.HashMap;
+import static br.com.fiap.telegram.util.Keys.CONTA;
+import static br.com.fiap.telegram.util.Keys.NEXT_ACTION;
+import static br.com.fiap.telegram.util.Keys.ROUTER;
+
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.request.ChatAction;
 import com.pengrad.telegrambot.request.GetUpdates;
-import com.pengrad.telegrambot.request.SendChatAction;
 import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.response.GetUpdatesResponse;
 
-import br.com.fiap.telegram.Callback;
-import br.com.fiap.telegram.Session;
-import br.com.fiap.telegram.actions.AbstractActions;
-import br.com.fiap.telegram.commands.AbstractCommand;
-import br.com.fiap.telegram.exceptions.NaoEhUmComandoException;
+import br.com.fiap.telegram.action.AbstractAction;
+import br.com.fiap.telegram.command.AbstractCommand;
+import br.com.fiap.telegram.command.CriarContaCommand;
+import br.com.fiap.telegram.command.StartCommand;
+import br.com.fiap.telegram.exception.IsNotCommandException;
 import br.com.fiap.telegram.factory.TelegramFactory;
+import br.com.fiap.telegram.util.SessionManager;
 
 public class TelegramHandler implements Runnable {
 
 	private TelegramBot bot;
-	private GetUpdatesResponse updatesResponse;
 	private int offset = 0;
 
-	private Map<String, AbstractCommand> commands = new HashMap<>();
-	private Map<String, AbstractActions> actions = new HashMap<>();
+	private Map<String, AbstractCommand> commands = new LinkedHashMap<>();
 
 	public TelegramHandler() {
-		Session.put("ultimoFluxo", Fluxo.ZERO);
 		bot = TelegramFactory.create();
+		
+		//comandos obrigatórios
+		addCommand(new StartCommand());
+		addCommand(new CriarContaCommand());
 	}
 
 	public TelegramHandler addCommand(AbstractCommand command) {
-		commands.put(command.getNome(), command);
+		commands.put(command.getName(), command);
 		return this;
 	}
-
-	public TelegramHandler addAction(AbstractActions action) {
-		actions.put(action.getNome(), action);
-		return this;
+	
+	/**
+	 * Colocar o resultado no botfather para ajudar o usuário
+	 * @return
+	 */
+	public String printCommands() {
+		StringBuilder sb = new StringBuilder();
+		
+		commands.forEach((key, command) -> {			
+			sb.append("\n" + command.getName() + " - " + command.getDescription());
+		});
+		
+		return sb.toString();		
 	}
-
+	
+	/**
+	 * Executa para sempre
+	 */
 	public void run() {		
 		while(execute());
 	}
 
+	/**
+	 * Executando o telegram
+	 * @return
+	 */
 	private boolean execute() {
-		updatesResponse =  bot.execute(new GetUpdates().offset(offset).timeout(1));
+		GetUpdates request = new GetUpdates().offset(offset);
+		List<Update> updates = bot.execute(request).updates();
+		Stream<Update> stream = updates.stream();
+		
+		stream.forEach(u -> {				
+			nextUpdateOffset(u);
+			
+			switch(routerWorkFlow(u)) {
 
-		List<Update> updates = updatesResponse.updates();
-
-		updates.stream().forEach(u -> {				
-			nextOffset(u);
-
-			switch(detectarFluxo(u)) {
-
-			case COMANDO:
-				commandFlow(u);
-				break;
-
-			case ACAO:
-				callbackFlow(u);
-				break;
-
-			case NAO_RECONHECIDO:
-			default:	
-
-				System.out.println("OUTRO");
-
+			case COMMAND: executeWorkFlowCommand(u); break;
+			case ACTION: executeWorkFlowAction(u); break;
+			case UNKNOWN:			
+			default:
+				executeWorkFlowUnknown(u);
 				break;	
 			}
-
 		});
 
 		return true;
 	}
 
-	private void commandFlow(Update u) {	
-		AbstractCommand ultimoComando = Session.get("ultimoComando", AbstractCommand.class);
-		if (ultimoComando != null) {
-			ultimoComando.executar(bot, u.message());
-			return ;
-		}
+	private void executeWorkFlowUnknown(Update u) {
+		bot.execute(new SendMessage(u.message().chat().id(), "Não reconheci o comando, tente novamente. Digite / para ver as opções disponíveis"));
+	}
+
+	/**
+	 * Executando um fluxo de comando
+	 * @param u
+	 */
+	private void executeWorkFlowCommand(Update u) {
+		AbstractCommand command;
+		String mensagem = u.message().text();		
 		
-		Long chatId = u.message().chat().id();				
-		Message message = u.message();
-
-		String texto = message.text();
-
+		SessionManager session = SessionManager.getInstance(u.message().from().id());
+		
+		session.remove(ROUTER);
+		session.remove(NEXT_ACTION);
+		
 		try {
-			AbstractCommand comando = getComando(texto);
-			comando.executar(bot, message);
-
-
-		} catch (NaoEhUmComandoException | NullPointerException e) {
-			bot.execute(new SendChatAction(chatId, ChatAction.typing.name()));
-			bot.execute(new SendMessage(chatId, "Não reconheci o seu comando, tente novamente por favor"));
+			command = getCommand(mensagem);
+			if (!(command instanceof CriarContaCommand) && !(command instanceof StartCommand) && !session.containsKey(CONTA)) {
+				throw new IsNotCommandException("Crie uma conta para usar esses comandos");
+			}
+			
+			AbstractAction action = command.onUpdateReceived(bot, u);
+			if (action != null) {
+				session.put(NEXT_ACTION, action);
+			}
+			
+			
+		} catch (IsNotCommandException | NullPointerException e) {
+			Long chatId = u.message().chat().id();
+			bot.execute(new SendMessage(chatId, "Ops ... não reconheci o seu comando ou você ainda não criou um conta."));
 		}
 
 	}
 
-	private void callbackFlow(Update u) {
-		CallbackQuery callbackQuery = u.callbackQuery();
+	/**
+	 * Executando o fluxo de action
+	 * @param u
+	 */
+	private void executeWorkFlowAction(Update u) {
+		SessionManager session = SessionManager.getInstance(u.message().from().id());
+		AbstractAction action = session.get(NEXT_ACTION, AbstractAction.class);
+		action.execute(bot, u.message());
+	}
+	
+	/**
+	 * Detectar para qual fluxo o programa vai ser direcionado (de acordo com ações do usuário no chat)
+	 * @param u
+	 * @return
+	 */
+	private WorkFlow routerWorkFlow(Update u) {
 		
-		if (callbackQuery != null) {
-			Session.put("callbackQuery", callbackQuery);
-		} else {
-			callbackQuery = Session.get("callbackQuery", CallbackQuery.class);
+		if (isWorkFlowCommand(u)) {			
+			return WorkFlow.COMMAND;
+		}
+
+		if (isWorkFlowAction(u)) {			
+			return WorkFlow.ACTION;
 		}
 		
-		Callback callbackData = Callback.fromJson(callbackQuery.data());
-		
-		Message messageInput = u.message();
-		
-		AbstractActions action = actions.get(callbackData.getAction());
-		if (messageInput == null) {
-			action.executarButton(bot, callbackQuery.message(), callbackData);
-		} else {
-			action.executarInput(bot, callbackQuery.message(), messageInput, callbackData);
-		}
+		return WorkFlow.UNKNOWN;
 	}
 
-	private Fluxo detectarFluxo(Update u) {
-		
-		if (isCallback(u)) {
-			Session.put("ultimoFluxo", Fluxo.ACAO);
-			return Fluxo.ACAO;
-		}
-
-		if (isComando(u)) {
-			Session.put("ultimoFluxo", Fluxo.COMANDO);
-			return Fluxo.COMANDO;
-		}
-		
-		//isso permite continuar um fluxo iniciado
-		if (!Session.get("ultimoFluxo", Fluxo.class).equals(Fluxo.ZERO)) {
-			return Session.get("ultimoFluxo", Fluxo.class);
-		}
-
-		Session.put("ultimoFluxo", Fluxo.NAO_RECONHECIDO);
-		return Fluxo.NAO_RECONHECIDO;
+	private boolean isWorkFlowAction(Update u) {
+		SessionManager session = SessionManager.getInstance(u.message().from().id());
+		return session.containsKey(NEXT_ACTION);
 	}
 
-	private boolean isCallback(Update u) {
-		CallbackQuery callback = u.callbackQuery();
-		return callback != null;
-	}
-
-	private boolean isComando(Update u) {
+	/**
+	 * Verifica se o fluxo do programa deve ser comando (command)
+	 * @param u
+	 * @return
+	 */
+	private boolean isWorkFlowCommand(Update u) {
 		final Message message = u.message();		
-		return message == null ? false : AbstractCommand.isCommand(message.text());
+		
+		if (message != null && AbstractCommand.isCommand(message.text())) {
+			return true;
+		}  		
+		
+		return false;		
 	}
 
-	private void nextOffset(Update u) {
+	/**
+	 * Movendo o offeset de mensagens do telegram para pegar as mensagens mais recentes
+	 * @param u
+	 */
+	private void nextUpdateOffset(Update u) {		
 		offset = u.updateId() + 1;
 	}
 
-	private AbstractCommand getComando(String texto) throws NaoEhUmComandoException {
-		String nomeComando = AbstractCommand.extrairNomeComando(texto);
-		return commands.get(nomeComando);
+	/**
+	 * Pegando um comando
+	 * @param message
+	 * @return
+	 * @throws IsNotCommandException
+	 */
+	private AbstractCommand getCommand(String message) throws IsNotCommandException {
+		String commandName = AbstractCommand.extractCommandName(message);
+		return commands.get(commandName);
 	}
 }

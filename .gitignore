@@ -1,1 +1,3 @@
-/target/
+target/
+data
+src/main/resources/config.properties
