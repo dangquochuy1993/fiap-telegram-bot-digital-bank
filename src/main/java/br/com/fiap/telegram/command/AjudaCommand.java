@@ -3,22 +3,26 @@ package br.com.fiap.telegram.command;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.User;
+import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.RemoverDependenteAction;
 
-public class RemoverDependenteCommand extends AbstractCommand {
+public class AjudaCommand extends AbstractCommand {
 
-	public RemoverDependenteCommand() {
-		super("/removerdependente", "Remover um dependente a conta sua conta");
+	private String comandos;
+
+	public AjudaCommand(String comandos) {
+		super("/ajuda", "Menu de ajuda");
+		this.comandos = comandos;
 	}
 
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		RemoverDependenteAction action = new RemoverDependenteAction();
-		action.execute(bot, message);
+
+		bot.execute(new SendMessage(chatId, "Ajuda\nA seguir os comandos disponíveis para sua utilização em novo banco:\n" + comandos));
 		
-		return action;
+		return null;
 	}
 
 }

@@ -75,11 +75,10 @@ public class Conta implements Serializable {
 		return this;
 	}
 	
-	public Conta removerDependente(Cliente cliente) {
+	public boolean removerDependente(Cliente cliente) {
 		transacoes.adicionar(TipoTransacao.REMOVIDO_DEPENDENTE);
 		
-		dependentes.remove(cliente);
-		return this;
+		return dependentes.remove(cliente);
 	}
 	
 	public int getNumero() {

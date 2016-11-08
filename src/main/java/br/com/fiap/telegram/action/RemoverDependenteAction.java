@@ -2,6 +2,8 @@ package br.com.fiap.telegram.action;
 
 import static br.com.fiap.telegram.util.Keys.CONTA;
 
+import java.util.Set;
+
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -17,46 +19,48 @@ public class RemoverDependenteAction extends AbstractAction {
 	@Override
 	protected String execute(String router) {
 		
-		switch(router) {
+		System.out.println(router);
 		
-			default:
-				return routerInit();	
-				
+		switch(router) {
 			case ROUTER_REMOVER:
 				return routerRemover();
 		}
 		
-		
-		Cliente dependente = new Cliente(message.text());
-		conta.adicionarDepentente(dependente);
-		
-		bot.execute(new SendMessage(chatId, "Novo depentente ("+ dependente.getNome() +") adicionado com Sucesso"));
-		
-		return null;
+		return routerInit();
 	}
 
 	private String routerInit() {
 		Conta conta = session.get(CONTA, Conta.class);
 		SendMessage send = new SendMessage(chatId, "Remover Dependente\nInforme o nome do dependente ou cliente em um dos botões");
+		Set<Cliente> dependentes = conta.getDependentes();
 		
-		KeyboardButton[] grupo = new KeyboardButton()[10];
-		conta.getDependentes().forEach(d -> {
-			
-		});
+		KeyboardButton[][] grupo = new KeyboardButton[dependentes.size()][1];
 		
-		 = {new KeyboardButton("5")};
+		int i = 0;
+		for (Cliente d : dependentes) {
+			grupo[i++][0] = new KeyboardButton(d.getNome());
+		}
 		
 		ReplyKeyboardMarkup reply = new ReplyKeyboardMarkup(grupo);
 		reply.oneTimeKeyboard(true);
-		
-		send.replyMarkup();
+		send.replyMarkup(reply);
 		bot.execute(send);
+		
 		return ROUTER_REMOVER;
 	}
 
 	private String routerRemover() {
-		// TODO Auto-generated method stub
-		return ROUTER_REMOVER;
+		String nome = message.text();
+		
+		Conta conta = session.get(CONTA, Conta.class);
+		if (conta.removerDependente(new Cliente(nome))) {
+			session.put(CONTA, conta);
+			bot.execute(new SendMessage(chatId, "Dependente " + nome + " excluído com sucesso."));
+			return null;
+		} else {
+			bot.execute(new SendMessage(chatId, "Não encontramos o dependente " + nome + ". Tente novamente informando um dependente corretamente."));
+			return ROUTER_REMOVER;
+		}
 	}
 
 }
