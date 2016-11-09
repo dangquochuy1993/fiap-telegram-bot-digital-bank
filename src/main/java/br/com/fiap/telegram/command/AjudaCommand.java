@@ -19,7 +19,7 @@ public class AjudaCommand extends AbstractCommand {
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
 
-		bot.execute(new SendMessage(chatId, "Ajuda\nA seguir os comandos disponíveis para sua utilização em novo banco:\n" + comandos));
+		bot.execute(new SendMessage(chatId, "Ajuda\nA seguir os comandos disponíveis para sua utilização em nosso banco:\n" + comandos));
 		
 		return null;
 	}

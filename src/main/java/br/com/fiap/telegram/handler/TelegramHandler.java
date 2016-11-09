@@ -7,6 +7,8 @@ import static br.com.fiap.telegram.util.Keys.ROUTER;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 import com.pengrad.telegrambot.TelegramBot;
@@ -26,6 +28,7 @@ import br.com.fiap.telegram.util.SessionManager;
 
 public class TelegramHandler implements Runnable {
 
+	private final ExecutorService pool = Executors.newFixedThreadPool(100);
 	private TelegramBot bot;
 	private int offset = 0;
 
@@ -74,22 +77,33 @@ public class TelegramHandler implements Runnable {
 		List<Update> updates = bot.execute(request).updates();
 		Stream<Update> stream = updates.stream();
 		
-		stream.forEach(u -> {				
+		stream.forEach(u -> {
+			Logger.info("novas mensagem recebidas");
 			nextUpdateOffset(u);
 			
-			Logger.info("novas mensagem recebidas");
+			Thread processarPalarelo = new Thread(() -> {				
+				Logger.info("processamento thread");
+				
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+				}
+				
+				switch(routerWorkFlow(u)) {
+
+				case COMMAND: executeWorkFlowCommand(u); break;
+				case ACTION: executeWorkFlowAction(u); break;
+				case UNKNOWN:			
+				default:
+					executeWorkFlowUnknown(u);
+					break;	
+				}
+				
+			});
 			
-			switch(routerWorkFlow(u)) {
-
-			case COMMAND: executeWorkFlowCommand(u); break;
-			case ACTION: executeWorkFlowAction(u); break;
-			case UNKNOWN:			
-			default:
-				executeWorkFlowUnknown(u);
-				break;	
-			}
-		});
-
+			pool.execute(processarPalarelo);
+		});		
+		
 		return true;
 	}
 

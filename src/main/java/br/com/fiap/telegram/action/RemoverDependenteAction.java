@@ -18,9 +18,6 @@ public class RemoverDependenteAction extends AbstractAction {
 
 	@Override
 	protected String execute(String router) {
-		
-		System.out.println(router);
-		
 		switch(router) {
 			case ROUTER_REMOVER:
 				return routerRemover();
