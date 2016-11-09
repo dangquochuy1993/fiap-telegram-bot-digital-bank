@@ -14,12 +14,12 @@ import br.com.fiap.telegram.model.Taxas;
 public class EmprestimoCommand extends AbstractCommand {
 
 	public EmprestimoCommand() {
-		super("/emprestimo", "Solicitar empréstimo. TAXA " + Taxas.EMPRESTIMO);
+		super("/emprestimo", "Solicitar emprÃ©stimo. TAXA " + Taxas.EMPRESTIMO);
 	}
 
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		SendMessage send = new SendMessage(chatId, "Empréstimo\n\nEm quanto tempo você pretende pagar esse empréstimo?\nCaso as opções não te atenda você pode digitar. Ex formato aceito\n\n1 ano\n2 meses\n1 mes\n2 anos");
+		SendMessage send = new SendMessage(chatId, "EmprÃ©stimo\n\nEm quanto tempo vocÃª pretende pagar esse emprÃ©stimo?\nCaso as opÃ§Ãµes nÃ£o te atenda vocÃª pode digitar. Ex formato aceito\n\n1 ano\n2 meses\n1 mes\n2 anos");
 		
 		KeyboardButton op1 = new KeyboardButton("12 meses");
 		KeyboardButton op2 = new KeyboardButton("24 meses");

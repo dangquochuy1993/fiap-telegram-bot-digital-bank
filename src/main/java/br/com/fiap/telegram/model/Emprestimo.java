@@ -17,7 +17,7 @@ public class Emprestimo implements Serializable {
 	public static final int X_SALDO_EMPRESTIMO_MAXIMO = 40;
 	public static final float JUROS_MES = 0.05f;
 
-	private final String pattern = "^(\\d*)\\s(mes|mês|meses|anos|ano)$";
+	private final String pattern = "^(\\d*)\\s(mes|mÃªs|meses|anos|ano)$";
 	private final Pattern regex = Pattern.compile(pattern);
 
 	private BigDecimal valor;
@@ -36,7 +36,7 @@ public class Emprestimo implements Serializable {
 	private void calcular(Conta conta) {
 		
 		if (conta.getSaldo().multiply(new BigDecimal(X_SALDO_EMPRESTIMO_MAXIMO)).compareTo(valor) < 0) {
-			throw new SaldoInsuficienteException("Você não pode solicitar um emprestimo " + X_SALDO_EMPRESTIMO_MAXIMO + "x maior que seu saldo atual");
+			throw new SaldoInsuficienteException("VocÃª nÃ£o pode solicitar um emprestimo " + X_SALDO_EMPRESTIMO_MAXIMO + "x maior que seu saldo atual");
 		}
 		
 		BigDecimal mesesRestante = new BigDecimal(ChronoUnit.MONTHS.between(LocalDate.now(), prazo));
@@ -72,25 +72,25 @@ public class Emprestimo implements Serializable {
 
 	private void exceptionSePadraoRegexNaoIdentificado(Matcher m, String padrao) {
 		if (!m.matches()) {
-			throw new PrazoPagamentoException("Não identifiquei o padrão " + padrao);
+			throw new PrazoPagamentoException("NÃ£o identifiquei o padrÃ£o " + padrao);
 		}
 	}
 
 	private void exceptionSeValorInformadoMenorOuIgualAZero(int numero) {
 		if (numero <= 0) {
-			throw new PrazoPagamentoException("Valor informado não é válido: " + numero);
+			throw new PrazoPagamentoException("Valor informado nÃ£o Ã© vÃ¡lido: " + numero);
 		}
 	}
 
 	private void exceptionSeMesMaiorQue48(int numero) {
 		if (numero > 36) {
-			throw new PrazoPagamentoException("Você não pode solicitar um emprestimo com mais de 36 meses");
+			throw new PrazoPagamentoException("VocÃª nÃ£o pode solicitar um emprestimo com mais de 36 meses");
 		}
 	}
 
 	private void exceptionSeAnoMaiorQue3(int numero) {
 		if (numero > 3) {
-			throw new PrazoPagamentoException("Você não pode solicitar um emprestimo com mais de 3 anos");
+			throw new PrazoPagamentoException("VocÃª nÃ£o pode solicitar um emprestimo com mais de 3 anos");
 		}
 	}
 
@@ -99,7 +99,7 @@ public class Emprestimo implements Serializable {
 	}
 
 	private boolean isMes(String periodo) {
-		return periodo.equals("mes") || periodo.equals("mês") || periodo.equals("meses");
+		return periodo.equals("mes") || periodo.equals("mÃªs") || periodo.equals("meses");
 	}
 
 	public BigDecimal getValor() {

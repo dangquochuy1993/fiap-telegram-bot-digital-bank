@@ -43,7 +43,7 @@ public abstract class AbstractCommand {
 	private void setName(String name) {
 		
 		if (name == null || !isCommand(name)) {
-			throw new IllegalArgumentException("nome do comando n„o È v·lido. Deve iniciar com / e conter apenas caracteres de a-z");
+			throw new IllegalArgumentException("nome do comando n√£o √© v√°lido. Deve iniciar com / e conter apenas caracteres de a-z");
 		}
 		
 		this.name = name;

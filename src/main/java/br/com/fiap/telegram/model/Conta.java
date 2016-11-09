@@ -58,13 +58,13 @@ public class Conta implements Serializable {
 			
 			transacao(EMPRESTIMO, valor);
 		} catch (SaldoInsuficienteException e) {
-			//devolvendo a taxa de empréstimo devido a uma falha ...
+			//devolvendo a taxa de emprÃ©stimo devido a uma falha ...
 			saldo = saldo.subtract(Taxas.EMPRESTIMO.getValor());
 			transacao(TAXA_EMPRESTIMO_DEVOLUCAO, Taxas.EMPRESTIMO.getValor().negate());
 			
 			Logger.error("saldo insuficiente");
 			
-			//relança exception
+			//relanÃ§a exception
 			throw new SaldoInsuficienteException(e.getMessage());
 		}
 		
@@ -74,7 +74,7 @@ public class Conta implements Serializable {
 	private void exceptionSeJaExistirUmEmprestimoAtivo() {
 		if (emprestimo != null) {
 			Logger.error("outro emprestimo em andamento");
-			throw new EmprestimoException("Você já possui um emprestimo em andamento e não pode realizar outro.");
+			throw new EmprestimoException("VocÃª jÃ¡ possui um emprestimo em andamento e nÃ£o pode realizar outro.");
 		}
 	}
 	

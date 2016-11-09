@@ -31,11 +31,11 @@ public class SaqueAction extends AbstractAction {
 			
 			session.put(CONTA, conta);
 
-			bot.execute(new SendMessage(chatId, "Saque efeturado com sucesso. Seu saldo atual È " + conta.getSaldo()));
+			bot.execute(new SendMessage(chatId, "Saque efeturado com sucesso. Seu saldo atual √© " + conta.getSaldo()));
 			return null;
 			
 		} catch(NumberFormatException e) {
-			bot.execute(new SendMessage(chatId, "Valor informado para saque n„o È v·lido."));
+			bot.execute(new SendMessage(chatId, "Valor informado para saque n√£o √© v√°lido."));
 			return ROUTER_SAQUE;
 		}
 	}

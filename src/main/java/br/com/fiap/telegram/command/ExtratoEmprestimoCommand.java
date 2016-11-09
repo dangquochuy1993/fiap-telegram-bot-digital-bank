@@ -6,7 +6,7 @@ import br.com.fiap.telegram.action.ExtratoEmprestimoAction;
 public class ExtratoEmprestimoCommand extends AbstractExtratoCommand {
 
 	public ExtratoEmprestimoCommand() {
-		super("/extratoemprestimo", "Visualizar informações sobre o empréstimo.");
+		super("/extratoemprestimo", "Visualizar informaÃ§Ãµes sobre o emprÃ©stimo.");
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class DepositarCommand extends AbstractCommand {
 
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		SendMessage send = new SendMessage(chatId, "Depósito\nClique no valor desejado. Se preferir digite um valor no formato '0.00'.");
+		SendMessage send = new SendMessage(chatId, "DepÃ³sito\nClique no valor desejado. Se preferir digite um valor no formato '0.00'.");
 		send.replyMarkup(Helpers.getTelegramValoresButton());
 		bot.execute(send);		
 		

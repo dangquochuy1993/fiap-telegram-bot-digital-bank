@@ -12,11 +12,11 @@ public class EmprestimoPrinter implements ContaPrinter {
 	public String imprimir(Conta conta) {
 		Emprestimo emprestimo = conta.getEmprestimo();
 		
-		return "Extrato empréstimo" + 
-			"\nValor por mês: " + emprestimo.getValorMes().round(MathContext.DECIMAL32) +
-			"\nJuros ao mês: " + emprestimo.getJurosMes().round(MathContext.DECIMAL32) +			
+		return "Extrato emprÃ©stimo" + 
+			"\nValor por mÃªs: " + emprestimo.getValorMes().round(MathContext.DECIMAL32) +
+			"\nJuros ao mÃªs: " + emprestimo.getJurosMes().round(MathContext.DECIMAL32) +			
 			"\nTotal a ser pago " + emprestimo.getValorTotal().round(MathContext.DECIMAL32) +			
-			" até a data " + Helpers.formatarData(emprestimo.getPrazo());
+			" atÃ© a data " + Helpers.formatarData(emprestimo.getPrazo());
 	}
 
 }

@@ -21,7 +21,7 @@ public class ExtratoDetalhadoPrinter implements ContaPrinter {
 			sb.append(
 				"\n----------------------------" +	
 				"\nData/Hora: " + Helpers.formatarDataHora(transacao.getDataHora()) +
-				"\nDescrição: " + transacao.getTipo().descricao() +
+				"\nDescriÃ§Ã£o: " + transacao.getTipo().descricao() +
 				"\nValor: " + transacao.getValor() +
 				"\nSaldo: " + transacao.getSaldo()				
 			);
@@ -31,7 +31,7 @@ public class ExtratoDetalhadoPrinter implements ContaPrinter {
 		
 		sb.append(
 			"\n----------------------------\n" +
-			"Total transações: " + valor 
+			"Total transaÃ§Ãµes: " + valor 
 		);
 		
 		return sb.toString();

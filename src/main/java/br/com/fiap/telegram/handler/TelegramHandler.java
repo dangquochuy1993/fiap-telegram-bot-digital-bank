@@ -34,7 +34,7 @@ public class TelegramHandler implements Runnable {
 	public TelegramHandler() {
 		bot = TelegramFactory.create();
 		
-		//comandos obrigatórios
+		//comandos obrigatÃ³rios
 		addCommand(new StartCommand());
 		addCommand(new CriarContaCommand());
 	}
@@ -45,7 +45,7 @@ public class TelegramHandler implements Runnable {
 	}
 	
 	/**
-	 * Colocar o resultado no botfather para ajudar o usuário
+	 * Colocar o resultado no botfather para ajudar o usuÃ¡rio
 	 * @return
 	 */
 	public String printCommands() {
@@ -94,7 +94,7 @@ public class TelegramHandler implements Runnable {
 	}
 
 	private void executeWorkFlowUnknown(Update u) {
-		bot.execute(new SendMessage(u.message().chat().id(), "Não reconheci o comando, tente novamente. Digite / para ver as opções disponíveis"));
+		bot.execute(new SendMessage(u.message().chat().id(), "NÃ£o reconheci o comando, tente novamente. Digite / para ver as opÃ§Ãµes disponÃ­veis"));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class TelegramHandler implements Runnable {
 			
 		} catch (IsNotCommandException | NullPointerException e) {
 			Long chatId = u.message().chat().id();
-			bot.execute(new SendMessage(chatId, "Ops ... não reconheci o seu comando ou você ainda não criou um conta."));
+			bot.execute(new SendMessage(chatId, "Ops ... nÃ£o reconheci o seu comando ou vocÃª ainda nÃ£o criou um conta."));
 		}
 
 	}
@@ -140,7 +140,7 @@ public class TelegramHandler implements Runnable {
 	}
 	
 	/**
-	 * Detectar para qual fluxo o programa vai ser direcionado (de acordo com ações do usuário no chat)
+	 * Detectar para qual fluxo o programa vai ser direcionado (de acordo com aÃ§Ãµes do usuÃ¡rio no chat)
 	 * @param u
 	 * @return
 	 */

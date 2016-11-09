@@ -7,7 +7,7 @@ import br.com.fiap.telegram.model.Taxas;
 public class ExtratoDetalhadoCommand extends AbstractExtratoCommand {
 
 	public ExtratoDetalhadoCommand() {
-		super("/extratodetalhado", "Extrato detalhado de todas as movimentações da conta. Taxa de uso " + Taxas.EXTRATO.getValor());
+		super("/extratodetalhado", "Extrato detalhado de todas as movimentaÃ§Ãµes da conta. Taxa de uso " + Taxas.EXTRATO.getValor());
 	}
 
 	@Override

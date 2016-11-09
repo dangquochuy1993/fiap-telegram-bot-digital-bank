@@ -6,7 +6,7 @@ import br.com.fiap.telegram.action.ExtratoSaquesAction;
 public class ExtratoSaquesCommand extends AbstractExtratoCommand {
 
 	public ExtratoSaquesCommand() {
-		super("/extratosaques", "Extrato de operações de saque");
+		super("/extratosaques", "Extrato de operaÃ§Ãµes de saque");
 	}
 
 	@Override

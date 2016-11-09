@@ -4,15 +4,15 @@ public enum TipoTransacao {
 
 	ABERTURA_CONTA("Abertura conta"),
 	TRANSFERENCIA("Transferencia conta"),
-	EMPRESTIMO("Empréstimo"),
+	EMPRESTIMO("EmprÃ©stimo"),
 	ADICIONADO_DEPENDENTE("Dependente adicionado"),
 	REMOVIDO_DEPENDENTE("Dependente removido"),
 	SAQUE("Saque"),
 	TAXA_SAQUE("Taxa saque"),
 	TAXA_EXTRATO("Taxa extrato"),
-	TAXA_EMPRESTIMO("Taxa empréstimo"),
-	TAXA_EMPRESTIMO_DEVOLUCAO("Devolução taxa de empréstimo"),
-	DEPOSITO("Depósito");
+	TAXA_EMPRESTIMO("Taxa emprÃ©stimo"),
+	TAXA_EMPRESTIMO_DEVOLUCAO("DevoluÃ§Ã£o taxa de emprÃ©stimo"),
+	DEPOSITO("DepÃ³sito");
 	
 	private String descricao;
 

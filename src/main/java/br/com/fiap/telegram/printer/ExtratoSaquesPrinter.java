@@ -27,7 +27,7 @@ public class ExtratoSaquesPrinter implements ContaPrinter {
 		
 		sb.append(
 			"\n----------------------------\n" +
-			"Total transações: " + total 
+			"Total transaÃ§Ãµes: " + total 
 		);
 		
 		return sb.toString();

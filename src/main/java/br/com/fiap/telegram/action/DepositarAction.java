@@ -31,11 +31,11 @@ public class DepositarAction extends AbstractAction {
 			
 			session.put(CONTA, conta);
 			
-			bot.execute(new SendMessage(chatId, "DepÛsito efeturado com sucesso. Seu saldo atual È " + conta.getSaldo()));
+			bot.execute(new SendMessage(chatId, "Dep√≥sito efeturado com sucesso. Seu saldo atual √© " + conta.getSaldo()));
 			return null;
 			
 		} catch(NumberFormatException e) {
-			bot.execute(new SendMessage(chatId, "Valor informado para deposito n„o È v·lido."));
+			bot.execute(new SendMessage(chatId, "Valor informado para deposito n√£o √© v√°lido."));
 			return ROUTER_DEPOSITAR;
 		}
 	}

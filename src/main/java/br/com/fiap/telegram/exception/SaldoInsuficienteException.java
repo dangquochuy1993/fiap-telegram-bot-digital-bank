@@ -4,7 +4,7 @@ public class SaldoInsuficienteException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
 	public SaldoInsuficienteException() {
-		super("Saldo de sua conta é insuficiente para operação.");
+		super("Saldo de sua conta Ã© insuficiente para operaÃ§Ã£o.");
 	}
 
 	public SaldoInsuficienteException(String message) {

@@ -16,7 +16,7 @@ public class TransferenciaAction extends AbstractAction {
 		
 		switch(comando) {
 		case "SIM": sim(); break;
-		case "NÃO": nao(); break;
+		case "NÃƒO": nao(); break;
 		default: erro(); break;
 		}
 		
@@ -28,16 +28,16 @@ public class TransferenciaAction extends AbstractAction {
 		Conta novaConta = conta.migrar();		
 		session.put(CONTA, novaConta);
 		
-		bot.execute(new SendMessage(chatId, "Sua conta foi migrada com sucesso. Os dados de sua nova conta são: " + new DadosBasicoPrinter().imprimir(novaConta)));
-		bot.execute(new SendMessage(chatId, "As informações de sua conta antiga: " + new DadosBasicoPrinter().imprimir(novaConta.antiga())));
+		bot.execute(new SendMessage(chatId, "Sua conta foi migrada com sucesso. Os dados de sua nova conta sÃ£o: " + new DadosBasicoPrinter().imprimir(novaConta)));
+		bot.execute(new SendMessage(chatId, "As informaÃ§Ãµes de sua conta antiga: " + new DadosBasicoPrinter().imprimir(novaConta.antiga())));
 		
 	}
 	
 	private void nao() {
-		bot.execute(new SendMessage(chatId, "Você optou por cancelar o processo de migração."));
+		bot.execute(new SendMessage(chatId, "VocÃª optou por cancelar o processo de migraÃ§Ã£o."));
 	}
 	
 	private void erro() {
-		bot.execute(new SendMessage(chatId, "Não entendi o seu comando e para sua segurança encerramos o processo de migração. Caso queira migrar sua conta inicie o comando novamente."));
+		bot.execute(new SendMessage(chatId, "NÃ£o entendi o seu comando e para sua seguranÃ§a encerramos o processo de migraÃ§Ã£o. Caso queira migrar sua conta inicie o comando novamente."));
 	}
 }

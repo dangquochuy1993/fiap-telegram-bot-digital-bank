@@ -18,7 +18,7 @@ public class ExtratoPrinter implements ContaPrinter {
 			sb.append(
 				"\n----------------------------" +	
 				"\nData: " + Helpers.formatarData(transacao.getDataHora()) +
-				"\nDescrição: " + transacao.getTipo().descricao() +
+				"\nDescriÃ§Ã£o: " + transacao.getTipo().descricao() +
 				"\nValor: " + transacao.getValor()
 			);
 			

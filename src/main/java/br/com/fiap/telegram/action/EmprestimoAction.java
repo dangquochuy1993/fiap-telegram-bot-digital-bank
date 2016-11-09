@@ -45,7 +45,7 @@ public class EmprestimoAction extends AbstractAction {
 		try {
 			valor = new BigDecimal(message.text());
 		} catch (NumberFormatException e) {
-			bot.execute(new SendMessage(chatId, "Não consegui entender o valor informado, tente novamente por favor. Informe no formato 0.00"));
+			bot.execute(new SendMessage(chatId, "NÃ£o consegui entender o valor informado, tente novamente por favor. Informe no formato 0.00"));
 			return ROUTER_VALOR;
 		}
 		
@@ -54,7 +54,7 @@ public class EmprestimoAction extends AbstractAction {
 		
 		try {
 			conta.emprestimo(valor, prazo);
-			bot.execute(new SendMessage(chatId, String.format("Empréstimo realizado com sucesso\n\n %s \n\n %s", new EmprestimoPrinter().imprimir(conta), new DadosBasicoPrinter().imprimir(conta))));
+			bot.execute(new SendMessage(chatId, String.format("EmprÃ©stimo realizado com sucesso\n\n %s \n\n %s", new EmprestimoPrinter().imprimir(conta), new DadosBasicoPrinter().imprimir(conta))));
 			
 			session.put(Keys.CONTA, conta);
 			session.remove(Keys.EMPRESTIMO_PRAZO);

@@ -40,12 +40,12 @@ public class CriarContaAction extends AbstractAction {
 			Cliente cliente = session.get(CLIENTE, Cliente.class);
 			Conta conta = session.get(CONTA, Conta.class);
 			
-			String message = cliente.getNome() + ", você já possui uma conta com nosso banco. Sua conta é de número " + conta.getNumero() + " aberta em " + Helpers.formatarDataHora(conta.getAbertura());
+			String message = cliente.getNome() + ", vocÃª jÃ¡ possui uma conta com nosso banco. Sua conta Ã© de nÃºmero " + conta.getNumero() + " aberta em " + Helpers.formatarDataHora(conta.getAbertura());
 			bot.execute(new SendMessage(chatId, message));
 			return null;
 		}
 		
-		bot.execute(new SendMessage(chatId, "Seja bem vindo ao Banco Digital. Para criar uma nova conta precisaremos de algumas informações.\nInforme seu nome completo"));
+		bot.execute(new SendMessage(chatId, "Seja bem vindo ao Banco Digital. Para criar uma nova conta precisaremos de algumas informaÃ§Ãµes.\nInforme seu nome completo"));
 		
 		return ROUTER_CLIENTE;
 	}
@@ -63,7 +63,7 @@ public class CriarContaAction extends AbstractAction {
 			return null;
 			
 		} catch (NumberFormatException e) {
-			bot.execute(new SendMessage(chatId, "Ops... Não consegui reconhecer o valor '" + valor + "' tente novamente. Ex formato suportado --> 100.10 ou 100"));
+			bot.execute(new SendMessage(chatId, "Ops... NÃ£o consegui reconhecer o valor '" + valor + "' tente novamente. Ex formato suportado --> 100.10 ou 100"));
 			return ROUTER_CONTA;
 		}
 	}
@@ -72,7 +72,7 @@ public class CriarContaAction extends AbstractAction {
 		Cliente cliente = new Cliente(message.text());
 
 		session.put(CLIENTE, cliente);
-		bot.execute(new SendMessage(chatId, "Parabéns " + cliente.getNome() + ", você está quase lá. Agora informe o saldo inicial de sua conta. \nObs: Informe no seguinte formato 0.00"));
+		bot.execute(new SendMessage(chatId, "ParabÃ©ns " + cliente.getNome() + ", vocÃª estÃ¡ quase lÃ¡. Agora informe o saldo inicial de sua conta. \nObs: Informe no seguinte formato 0.00"));
 		
 		return ROUTER_CONTA;
 	}

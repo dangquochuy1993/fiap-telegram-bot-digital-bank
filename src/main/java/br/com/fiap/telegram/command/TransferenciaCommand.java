@@ -13,15 +13,15 @@ import br.com.fiap.telegram.action.TransferenciaAction;
 public class TransferenciaCommand extends AbstractCommand {
 
 	public TransferenciaCommand() {
-		super("/transferirconta", "Simular uma transferência de conta (Mudança de número e limpeza dos histórico)");
+		super("/transferirconta", "Simular uma transferÃªncia de conta (MudanÃ§a de nÃºmero e limpeza dos histÃ³rico)");
 	}
 
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		SendMessage send = new SendMessage(chatId, "Transferência de conta\nEssa opção irá resetar o número de sua conta juntamente com o histórico. Seu saldo e dependentes serão mantidos.\nGostaria de continuar com o processo de migração?");
+		SendMessage send = new SendMessage(chatId, "TransferÃªncia de conta\nEssa opÃ§Ã£o irÃ¡ resetar o nÃºmero de sua conta juntamente com o histÃ³rico. Seu saldo e dependentes serÃ£o mantidos.\nGostaria de continuar com o processo de migraÃ§Ã£o?");
 		
 		KeyboardButton sim = new KeyboardButton("Sim");
-		KeyboardButton nao = new KeyboardButton("Não");
+		KeyboardButton nao = new KeyboardButton("NÃ£o");
 		
 		KeyboardButton[] grupo = {sim, nao};
 		
