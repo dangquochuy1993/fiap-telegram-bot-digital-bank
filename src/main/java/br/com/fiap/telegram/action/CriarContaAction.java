@@ -12,6 +12,11 @@ import br.com.fiap.telegram.model.Conta;
 import br.com.fiap.telegram.printer.DadosBasicoPrinter;
 import br.com.fiap.telegram.util.Helpers;
 
+/**
+ * Action responsável pela criação de uma conta.
+ * @author diego
+ *
+ */
 public class CriarContaAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	
@@ -34,6 +39,10 @@ public class CriarContaAction extends AbstractAction {
 		
 	}
 
+	/**
+	 * Processo inicial de criação de conta. Se uma conta já existir o programa será encerrado.
+	 * @return null caso o usuário já tenha conta ou o nome da próxima rota para que o programa possa seguir com a execução.
+	 */
 	private String routerInit() {
 		
 		if (session.containsKey(CONTA)) {
@@ -50,6 +59,10 @@ public class CriarContaAction extends AbstractAction {
 		return ROUTER_CLIENTE;
 	}
 	
+	/**
+	 * Executa a rota de criação da conta, aonde o usuário deverá informar o valor que iniciará a conta.
+	 * @return Rota da conta em caso de erro na digitação ou null para informar que a action foi finalizada.
+	 */
 	private String routerConta() {
 		String valor = message.text();
 		
@@ -68,6 +81,10 @@ public class CriarContaAction extends AbstractAction {
 		}
 	}
 
+	/**
+	 * Recebe mensagem digitada pelo usuário. Esse mensagem deve ser o nome do usuário
+	 * @return Informa o nome da rota da conta para que o usuário informe o saldo da conta.
+	 */
 	private String routerCliente() {
 		Cliente cliente = new Cliente(message.text());
 

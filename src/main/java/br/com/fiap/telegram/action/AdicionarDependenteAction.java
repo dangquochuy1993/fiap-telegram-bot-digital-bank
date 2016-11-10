@@ -7,6 +7,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 import br.com.fiap.telegram.model.Cliente;
 import br.com.fiap.telegram.model.Conta;
 
+/**
+ * Ação responsável por adicionar um dependente a uma conta
+ * @author diego
+ *
+ */
 public class AdicionarDependenteAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 

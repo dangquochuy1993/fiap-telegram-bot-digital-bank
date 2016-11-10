@@ -12,6 +12,11 @@ import br.com.fiap.telegram.printer.DadosBasicoPrinter;
 import br.com.fiap.telegram.printer.EmprestimoPrinter;
 import br.com.fiap.telegram.util.Keys;
 
+/**
+ * Classe responsável por controlar um empréstimo.
+ * @author diego
+ *
+ */
 public class EmprestimoAction extends AbstractAction {
 	private static final String ROUTER_VALOR = "routerValor";
 
@@ -30,6 +35,10 @@ public class EmprestimoAction extends AbstractAction {
 		}
 	}
 
+	/**
+	 * Solicita que o usuário digite o prazo de pagamento do empréstimo.
+	 * @return próxima rota
+	 */
 	private String routerPrazo() {
 		String prazo = message.text();
 		session.put(Keys.EMPRESTIMO_PRAZO, prazo);
@@ -39,6 +48,10 @@ public class EmprestimoAction extends AbstractAction {
 		return ROUTER_VALOR;
 	}
 
+	/**
+	 * Nessa rota o usuário deverá informar qual valor deseja pegar emprestado.
+	 * @return Se for digitado um valor inadequado o programa irá solicitar ao usuário que digite novamente, caso contrário finalizará a ação.
+	 */
 	private String routerValor() {
 		BigDecimal valor;
 		

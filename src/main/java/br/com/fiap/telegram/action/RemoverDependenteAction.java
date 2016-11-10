@@ -11,6 +11,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 import br.com.fiap.telegram.model.Cliente;
 import br.com.fiap.telegram.model.Conta;
 
+/**
+ * Remover um dependente de uma conta
+ * @author diego
+ *
+ */
 public class RemoverDependenteAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +31,10 @@ public class RemoverDependenteAction extends AbstractAction {
 		return routerInit();
 	}
 
+	/**
+	 * Solicita ao usuário que informe o nome do dependente que deseja remover. Junto é enviado um teclado do telegram com as opções de dependentes na qual é só clicar no nome do dependente.
+	 * @return Retorna a rota de remover
+	 */
 	private String routerInit() {
 		Conta conta = session.get(CONTA, Conta.class);
 		SendMessage send = new SendMessage(chatId, "Remover Dependente\nInforme o nome do dependente, se preferir escolha uma opção abaixo.");
@@ -46,6 +55,10 @@ public class RemoverDependenteAction extends AbstractAction {
 		return ROUTER_REMOVER;
 	}
 
+	/**
+	 * Executa a remoção do dependente informada pela rota init
+	 * @return Se dependente removido null será retornado para encerrar a action, caso contrário retorna a rota REMOVER para tentar realizar o procedimento novamente.
+	 */
 	private String routerRemover() {
 		String nome = message.text();
 		

@@ -8,6 +8,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.model.Conta;
 
+/**
+ * Action responsável por realizar um saque na conta.
+ * @author diego
+ *
+ */
 public class SaqueAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	

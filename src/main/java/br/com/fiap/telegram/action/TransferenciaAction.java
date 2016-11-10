@@ -7,7 +7,14 @@ import com.pengrad.telegrambot.request.SendMessage;
 import br.com.fiap.telegram.model.Conta;
 import br.com.fiap.telegram.printer.DadosBasicoPrinter;
 
+/**
+ * Action responsável por controlar o fluxo de transferência da conta
+ * @author diego
+ *
+ */
 public class TransferenciaAction extends AbstractAction {
+	private static final String NAO = "NÃO";
+	private static final String SIM = "SIM";
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -15,14 +22,17 @@ public class TransferenciaAction extends AbstractAction {
 		String comando = message.text().toUpperCase().trim();
 		
 		switch(comando) {
-		case "SIM": sim(); break;
-		case "NÃO": nao(); break;
+		case SIM: sim(); break;
+		case NAO: nao(); break;
 		default: erro(); break;
 		}
 		
 		return null;
 	}
 	
+	/**
+	 * Se o usuário informar sim essa opção será executada. A conta será migrada.
+	 */
 	private void sim() {
 		Conta conta = session.get(CONTA, Conta.class);
 		Conta novaConta = conta.migrar();		
@@ -33,10 +43,16 @@ public class TransferenciaAction extends AbstractAction {
 		
 	}
 	
+	/**
+	 * Em caso de escolher não essa opção será executada e a migração será encerrada.
+	 */
 	private void nao() {
 		bot.execute(new SendMessage(chatId, "Você optou por cancelar o processo de migração."));
 	}
 	
+	/**
+	 * Caso o usuário escolha qualquer coisa diferente de sim ou não essa ação de erro será executada.
+	 */
 	private void erro() {
 		bot.execute(new SendMessage(chatId, "Não entendi o seu comando e para sua segurança encerramos o processo de migração. Caso queira migrar sua conta inicie o comando novamente."));
 	}

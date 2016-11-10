@@ -8,6 +8,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.model.Conta;
 
+/**
+ * Action responsável por depositar um valor em uma conta.
+ * @author diego
+ *
+ */
 public class DepositarAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	
