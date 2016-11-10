@@ -7,6 +7,11 @@ import com.pengrad.telegrambot.model.User;
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.CriarContaAction;
 
+/**
+ * Comando para criar uma nova conta no sistema
+ * @author Diego.Saouda
+ *
+ */
 public class CriarContaCommand extends AbstractCommand {
 
 	public CriarContaCommand() {

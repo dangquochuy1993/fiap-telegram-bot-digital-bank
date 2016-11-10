@@ -9,6 +9,11 @@ import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.DepositarAction;
 import br.com.fiap.telegram.util.Helpers;
 
+/**
+ * Depositar um valor na conta
+ * @author Diego.Saouda
+ *
+ */
 public class DepositarCommand extends AbstractCommand {
 	
 	public DepositarCommand() {

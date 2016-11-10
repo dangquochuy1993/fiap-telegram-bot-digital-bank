@@ -2,6 +2,11 @@ package br.com.fiap.telegram.util;
 
 import java.time.LocalDateTime;
 
+/**
+ * Classe responsável por logar informações de uso do sistema com criticidade do log e data/hora do ocorrido.
+ * @author Diego.Saouda
+ *
+ */
 final public class Logger {
 
 	private Logger() {}

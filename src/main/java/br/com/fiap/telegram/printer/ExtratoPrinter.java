@@ -5,6 +5,11 @@ import br.com.fiap.telegram.model.HistoricoTransacoes;
 import br.com.fiap.telegram.model.Transacao;
 import br.com.fiap.telegram.util.Helpers;
 
+/**
+ * Imprimir dados das transações
+ * @author Diego.Saouda
+ *
+ */
 public class ExtratoPrinter implements ContaPrinter {
 
 	@Override

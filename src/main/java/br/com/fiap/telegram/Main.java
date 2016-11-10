@@ -16,6 +16,11 @@ import br.com.fiap.telegram.command.TransferenciaCommand;
 import br.com.fiap.telegram.handler.TelegramHandler;
 import br.com.fiap.telegram.util.Logger;
 
+/**
+ * Iniciando a execução do BOT 
+ * @author Diego.Saouda
+ *
+ */
 public class Main {
 
 	public static void main(String[] args) {

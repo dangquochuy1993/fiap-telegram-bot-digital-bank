@@ -8,6 +8,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.AdicionarDependenteAction;
 
+/**
+ * Comando inicia action de adicionar dependente
+ * @author Diego.Saouda
+ *
+ */
 public class AdicionarDependenteCommand extends AbstractCommand {
 
 	public AdicionarDependenteCommand() {

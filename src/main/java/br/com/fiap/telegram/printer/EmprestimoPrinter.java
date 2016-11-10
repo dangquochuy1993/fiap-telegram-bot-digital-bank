@@ -6,6 +6,11 @@ import br.com.fiap.telegram.model.Conta;
 import br.com.fiap.telegram.model.Emprestimo;
 import br.com.fiap.telegram.util.Helpers;
 
+/**
+ * Imprimir dados do empréstimo de uma conta
+ * @author Diego.Saouda
+ *
+ */
 public class EmprestimoPrinter implements ContaPrinter {
 
 	@Override

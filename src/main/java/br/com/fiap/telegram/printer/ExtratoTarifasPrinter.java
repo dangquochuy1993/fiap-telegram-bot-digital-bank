@@ -5,6 +5,11 @@ import br.com.fiap.telegram.model.HistoricoTransacoes;
 import br.com.fiap.telegram.model.TipoTransacao;
 import br.com.fiap.telegram.util.Helpers;
 
+/**
+ * Impressão de tarifas das transações de uma conta
+ * @author Diego.Saouda
+ *
+ */
 public class ExtratoTarifasPrinter implements ContaPrinter {
 
 	@Override
@@ -17,7 +22,7 @@ public class ExtratoTarifasPrinter implements ContaPrinter {
 		double total = historico
 			.getTransacoes()
 			.stream()
-			.filter(t -> t.getTipo().equals(TipoTransacao.TAXA_SAQUE) || t.getTipo().equals(TipoTransacao.TAXA_EXTRATO))
+			.filter(t -> t.getTipo().equals(TipoTransacao.TAXA_SAQUE) || t.getTipo().equals(TipoTransacao.TAXA_EXTRATO) || t.getTipo().equals(TipoTransacao.TAXA_EMPRESTIMO))
 			.mapToDouble(t -> {
 				sb.append("\n-----------------------------");
 				sb.append("\n" + t.getTipo().descricao());

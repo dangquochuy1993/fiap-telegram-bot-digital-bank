@@ -10,6 +10,11 @@ import br.com.fiap.telegram.action.SaqueAction;
 import br.com.fiap.telegram.model.Taxas;
 import br.com.fiap.telegram.util.Helpers;
 
+/**
+ * Saque da conta
+ * @author Diego.Saouda
+ *
+ */
 public class SaqueCommand extends AbstractCommand {
 	
 	public SaqueCommand() {

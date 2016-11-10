@@ -7,6 +7,11 @@ import com.pengrad.telegrambot.model.User;
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.AbstractExtratoAction;
 
+/**
+ * Super classe responsável por preparar a utilização de comandos de extrato.
+ * @author Diego.Saouda
+ *
+ */
 abstract public class AbstractExtratoCommand extends AbstractCommand {
 
 	public AbstractExtratoCommand(String name, String description) {

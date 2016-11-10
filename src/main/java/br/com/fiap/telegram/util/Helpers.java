@@ -7,34 +7,69 @@ import java.util.Random;
 
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
-
+/**
+ * classe singleton utilitária, com vários métodos auxiliares (helpers)
+ * 
+ * @author Diego.Saouda
+ *
+ */
 final public class Helpers {
 	private static DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm");
 	private static DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/YYYY");
 	
 	private Helpers() {};
 	
+	/**
+	 * Formata a data e hora atual no formato brasileiro
+	 * @return
+	 */
 	public static String formatarDataHora() {
 		return LocalDateTime.now().format(formatterDateTime);		
 	}
 	
+	/**
+	 * formata uma data e hora passada para o formato brasileiro
+	 * @param dateTime
+	 * @return
+	 */
 	public static String formatarDataHora(LocalDateTime dateTime) {
 		return dateTime.format(formatterDateTime);		
 	}
 	
+	/**
+	 * Formata a visualização de um date time exibindo apenas a data no padrão brasileiro
+	 * @param dateTime
+	 * @return
+	 */
 	public static String formatarData(LocalDateTime dateTime) {
 		return dateTime.format(formatterDate);		
 	}
 	
+	/**
+	 * Formata uma data para o padrão brasileiro
+	 * @param date
+	 * @return
+	 */
 	public static String formatarData(LocalDate date) {
 		return date.format(formatterDate);		
 	}
 	
+	/**
+	 * Gerador de número randomico (usado na geração de uma conta)
+	 * @param min valor inicial
+	 * @param max valor máximo
+	 * @return número gerado
+	 */
 	public static int geradorNumero(int min, int max) {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
 	
+	/**
+	 * KeyboardMarkup do telegram configurado para usar com a opção de saque ou depósito. 
+	 * Os valores são uma representação do dinheiro disponível para saque 
+	 * @return
+	 */
 	public static ReplyKeyboardMarkup getTelegramValoresButton() {
 		KeyboardButton op1 = new KeyboardButton("5");
 		KeyboardButton op2 = new KeyboardButton("10");

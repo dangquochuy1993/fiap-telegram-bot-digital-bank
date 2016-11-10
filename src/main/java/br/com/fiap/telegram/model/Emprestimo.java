@@ -11,28 +11,79 @@ import java.util.regex.Pattern;
 import br.com.fiap.telegram.exception.PrazoPagamentoException;
 import br.com.fiap.telegram.exception.SaldoInsuficienteException;
 
+/**
+ * Classe responsável por controlar o empréstimo de uma conta
+ * @author Diego.Saouda
+ *
+ */
 public class Emprestimo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Fator máximo de empréstimo. Esse valor é múltiplicado ao saldo da conta. Se o valor do empréstimo for esse número x maior que o saldo em conta, não será possível realizar o empréstimo.
+	 */
 	public static final int X_SALDO_EMPRESTIMO_MAXIMO = 40;
+	
+	/**
+	 * taxa de juros por mês para o empréstimo
+	 */
 	public static final float JUROS_MES = 0.05f;
 
+	/**
+	 * regex para extrair o período do empréstimo
+	 */
 	private final String pattern = "^(\\d*)\\s(mes|mês|meses|anos|ano)$";
 	private final Pattern regex = Pattern.compile(pattern);
 
+	/**
+	 * valor do empréstimo
+	 */
 	private BigDecimal valor;
+	
+	/**
+	 * prazo para pagamento
+	 */
 	private LocalDate prazo;
+	
+	/**
+	 * juros a serem pagos por mês
+	 */
 	private BigDecimal jurosMes;
+	
+	/**
+	 * valor a ser pago por mês
+	 */
 	private BigDecimal valorMes;
+	
+	/**
+	 * valor total a ser pago no mês (jurosMes + valorMes)
+	 */
 	private BigDecimal valorTotalMes;
+	
+	/**
+	 * valor total de a ser pago pelo empréstimo
+	 */
 	private BigDecimal valorTotal;
 	
+	/**
+	 * Iniciar um emprétimo. O empréstimo é imutável.
+	 * @param conta a ser aplicado o empréstimo
+	 * @param valor solicitação do empréstimo
+	 * @param prazo para pagamento
+	 * @throws PrazoPagamentoException
+	 * @throws SaldoInsuficienteException
+	 */
 	public Emprestimo(Conta conta, BigDecimal valor, String prazo) {
 		this.valor = valor;
 		this.prazo = prazoPagamento(prazo);
 		calcular(conta);
 	}
 	
+	/**
+	 * Calcular o empréstimo
+	 * @param conta
+	 * @throws SaldoInsuficienteException se não for possível realizar o empréstimo
+	 */
 	private void calcular(Conta conta) {
 		
 		if (conta.getSaldo().multiply(new BigDecimal(X_SALDO_EMPRESTIMO_MAXIMO)).compareTo(valor) < 0) {
@@ -47,6 +98,11 @@ public class Emprestimo implements Serializable {
 		valorTotal = valorTotalMes.multiply(mesesRestante);
 	}
 	
+	/**
+	 * transformar o texto informado pelo usuário em um objeto do tipo LocalDate
+	 * @param prazo Texto com prazo para pagamento. ex: 1 ano ou 2 meses 
+	 * @return
+	 */
 	private LocalDate prazoPagamento(String prazo) {
 		Matcher m = regex.matcher(prazo.toLowerCase());		
 		exceptionSePadraoRegexNaoIdentificado(m, prazo);

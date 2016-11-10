@@ -5,6 +5,11 @@ import br.com.fiap.telegram.model.HistoricoTransacoes;
 import br.com.fiap.telegram.model.TipoTransacao;
 import br.com.fiap.telegram.util.Helpers;
 
+/**
+ * Impressão das transações de saque de uma conta
+ * @author Diego.Saouda
+ *
+ */
 public class ExtratoSaquesPrinter implements ContaPrinter {
 
 	@Override

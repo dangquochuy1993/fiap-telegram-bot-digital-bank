@@ -11,6 +11,11 @@ import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.EmprestimoAction;
 import br.com.fiap.telegram.model.Taxas;
 
+/**
+ * Realizar um empréstimo
+ * @author Diego.Saouda
+ *
+ */
 public class EmprestimoCommand extends AbstractCommand {
 
 	public EmprestimoCommand() {

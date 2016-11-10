@@ -2,6 +2,12 @@ package br.com.fiap.telegram.model;
 
 import java.io.Serializable;
 
+/**
+ * Classe responsável por controlar um cliente de uma conta.
+ * Todos os dados do cliente estão armazenados nessa classe. 
+ * @author Diego.Saouda
+ *
+ */
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

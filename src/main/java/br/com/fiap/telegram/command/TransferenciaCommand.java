@@ -10,6 +10,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.TransferenciaAction;
 
+/**
+ * Transferir uma conta. Essa classe representa a modificação de uma conta
+ * @author Diego.Saouda
+ *
+ */
 public class TransferenciaCommand extends AbstractCommand {
 
 	public TransferenciaCommand() {

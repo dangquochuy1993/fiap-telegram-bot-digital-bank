@@ -7,6 +7,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.action.AbstractAction;
 
+/**
+ * Iniciando o processo de uso do BOT
+ * @author Diego.Saouda
+ *
+ */
 public class StartCommand extends AbstractCommand {
 
 	public StartCommand() {

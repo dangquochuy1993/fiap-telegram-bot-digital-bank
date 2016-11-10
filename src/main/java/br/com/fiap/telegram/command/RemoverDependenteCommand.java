@@ -7,6 +7,11 @@ import com.pengrad.telegrambot.model.User;
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.action.RemoverDependenteAction;
 
+/**
+ * Remover um dependente da conta
+ * @author Diego.Saouda
+ *
+ */
 public class RemoverDependenteCommand extends AbstractCommand {
 
 	public RemoverDependenteCommand() {

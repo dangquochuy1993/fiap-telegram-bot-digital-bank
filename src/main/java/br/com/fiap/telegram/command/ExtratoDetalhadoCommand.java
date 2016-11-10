@@ -4,6 +4,11 @@ import br.com.fiap.telegram.action.AbstractExtratoAction;
 import br.com.fiap.telegram.action.ExtratoDetalhadoAction;
 import br.com.fiap.telegram.model.Taxas;
 
+/**
+ * Extrato detalhado, exibe a somatória de todas as transações no final do extrato.
+ * @author Diego.Saouda
+ *
+ */
 public class ExtratoDetalhadoCommand extends AbstractExtratoCommand {
 
 	public ExtratoDetalhadoCommand() {

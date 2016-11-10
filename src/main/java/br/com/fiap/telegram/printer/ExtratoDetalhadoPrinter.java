@@ -7,6 +7,11 @@ import br.com.fiap.telegram.model.HistoricoTransacoes;
 import br.com.fiap.telegram.model.Transacao;
 import br.com.fiap.telegram.util.Helpers;
 
+/**
+ * Imprimir dados detalhado das transações de uma conta. Uma somatória será impressa ao final do extrato.
+ * @author Diego.Saouda
+ *
+ */
 public class ExtratoDetalhadoPrinter implements ContaPrinter {
 
 	@Override

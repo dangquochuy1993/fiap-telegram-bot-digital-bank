@@ -25,6 +25,14 @@ import br.com.fiap.telegram.exception.SaldoInsuficienteException;
 import br.com.fiap.telegram.util.Helpers;
 import br.com.fiap.telegram.util.Logger;
 
+/**
+ * Model de uma conta. Um cliente pode conter um conta.
+ * A conta possui empréstimos e histórico de transações
+ * Se o cliente desejar pode incluir um dependente. 
+ * Essa classe trabalha com fluent interface
+ * @author Diego.Saouda
+ *
+ */
 public class Conta implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -48,6 +56,13 @@ public class Conta implements Serializable {
 		transacao(ABERTURA_CONTA, valorInicial);
 	}
 	
+	/**
+	 * Realiza um empréstimo. Somente um empréstimo por vez pode ser feito
+	 * @param valor do empréstimo
+	 * @param prazo para pagamento
+	 * @return
+	 * @throws SaldoInsuficienteException
+	 */
 	public Conta emprestimo(BigDecimal valor, String prazo) {		
 		exceptionSeJaExistirUmEmprestimoAtivo();
 		
@@ -71,6 +86,10 @@ public class Conta implements Serializable {
 		return this;
 	}
 
+	/**
+	 * Lança exception se um emprestimo já existir para esse conta
+	 * @throws EmprestimoException
+	 */
 	private void exceptionSeJaExistirUmEmprestimoAtivo() {
 		if (emprestimo != null) {
 			Logger.error("outro emprestimo em andamento");
@@ -78,6 +97,11 @@ public class Conta implements Serializable {
 		}
 	}
 	
+	/**
+	 * Depositar um valor a conta
+	 * @param valor
+	 * @return
+	 */
 	public Conta depositar(BigDecimal valor) {
 		saldo = saldo.add(valor);
 		
@@ -85,6 +109,12 @@ public class Conta implements Serializable {
 		return this;
 	}
 	
+	/**
+	 * Sacar um valor da conta
+	 * @param valor
+	 * @return
+	 * @throws SaldoInsuficienteException
+	 */
 	public BigDecimal saque(BigDecimal valor) {
 		valor = valor.negate();		
 		throwIfSaldoInsuficiente(valor);
@@ -98,6 +128,11 @@ public class Conta implements Serializable {
 		return valor;
 	}
 
+	/**
+	 * Se conta não tiver saldo uma exception será lançada
+	 * @param valor
+	 * @throws SaldoInsuficienteException
+	 */
 	private void throwIfSaldoInsuficiente(BigDecimal valor) {
 		if (saldo.add(valor).add(Taxas.SAQUE.getValor()).intValue() < 0) {
 			Logger.error("saldo insuficiente");
@@ -105,6 +140,11 @@ public class Conta implements Serializable {
 		}
 	}
 	
+	/**
+	 * Retorna o histório de transações da conta
+	 * @return
+	 * @throws SaldoInsuficienteException
+	 */
 	public HistoricoTransacoes extrato() {		
 		if (saldo.compareTo(Taxas.EXTRATO.getValor()) < 0) {
 			Logger.error("saldo insuficiente");
@@ -154,10 +194,19 @@ public class Conta implements Serializable {
 		return conta;
 	}
 	
+	/**
+	 * adicionar uma nova transação ocorrida na conta
+	 * @param tipo
+	 */
 	private void transacao(TipoTransacao tipo) {
 		transacoes.adicionar(tipo);
 	}
 	
+	/**
+	 * adicionar uma nova transação ocorrida na conta
+	 * @param tipo
+	 * @param valor
+	 */
 	private void transacao(TipoTransacao tipo, BigDecimal valor) {
 		transacoes.adicionar(tipo, valor, saldo);
 	}

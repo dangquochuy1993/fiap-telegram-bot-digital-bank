@@ -7,6 +7,11 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.action.AbstractAction;
 
+/**
+ * Comando exibe todos os comandos disponível para o usuário
+ * @author Diego.Saouda
+ *
+ */
 public class AjudaCommand extends AbstractCommand {
 
 	private String comandos;

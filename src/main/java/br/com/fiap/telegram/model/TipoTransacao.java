@@ -1,5 +1,10 @@
 package br.com.fiap.telegram.model;
 
+/**
+ * Tipo das transações de uma conta
+ * @author Diego.Saouda
+ *
+ */
 public enum TipoTransacao {
 
 	ABERTURA_CONTA("Abertura conta"),

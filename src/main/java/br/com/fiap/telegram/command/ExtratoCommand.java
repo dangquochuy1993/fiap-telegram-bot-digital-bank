@@ -4,6 +4,11 @@ import br.com.fiap.telegram.action.AbstractExtratoAction;
 import br.com.fiap.telegram.action.ExtratoAction;
 import br.com.fiap.telegram.model.Taxas;
 
+/**
+ * Extrato simples
+ * @author Diego.Saouda
+ *
+ */
 public class ExtratoCommand extends AbstractExtratoCommand {
 
 	public ExtratoCommand() {
