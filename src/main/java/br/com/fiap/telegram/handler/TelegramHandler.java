@@ -157,8 +157,15 @@ public class TelegramHandler implements Runnable {
 		
 		try {
 			command = getCommand(mensagem);
-			if (!(command instanceof CriarContaCommand) && !(command instanceof StartCommand) && !session.containsKey(CONTA)) {
-				throw new IsNotCommandException("Crie uma conta para usar esses comandos");
+			
+			if (!session.containsKey(CONTA)) {
+				
+				boolean isCriarConta = (command instanceof CriarContaCommand);
+				boolean isStart = (command instanceof StartCommand);
+				
+				if (!isCriarConta && !isStart) {
+					throw new IsNotCommandException("Crie uma conta para usar esses comandos");
+				}
 			}
 			
 			AbstractAction action = command.onUpdateReceived(bot, u);
