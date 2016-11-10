@@ -5,6 +5,14 @@ import com.pengrad.telegrambot.TelegramBotAdapter;
 
 import br.com.fiap.telegram.util.Config;
 
+/**
+ * Design Pattener Factory utilizado para criação da classe TelgramBot.
+ * Essa classe necessita de um token. Para deixar a inserção do token flexível, o token foi colocado em um
+ * arquivo properties. Essa classe tem a responsabilidade de montar esse objecto da API do telegram.
+ *   
+ * @author Diego.Saouda
+ *
+ */
 final public class TelegramFactory {	
 	private TelegramFactory() {};
 	

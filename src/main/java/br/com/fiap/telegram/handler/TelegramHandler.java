@@ -26,12 +26,36 @@ import br.com.fiap.telegram.factory.TelegramFactory;
 import br.com.fiap.telegram.util.Logger;
 import br.com.fiap.telegram.util.SessionManager;
 
+/**
+ * Handler (manipulador) do telegram.
+ * Essa classe tem como objetivo intermediar o uso da api do telegram com o negócio.
+ * Toda mensagem recebida pelo telegram passa por um analisador de fluxo de trabalho.
+ * Esse analisador irá delegar qual rumo o programa deve tomar. Os fluxo aceitos atualmente são especificado na 
+ * enum {@link WorkFlow}
+ * @author Diego.Saouda
+ *
+ */
 public class TelegramHandler implements Runnable {
 
+	/**
+	 * Pool de thread que permite o sistema interagir com mais de um usuário simultaneamente
+	 */
 	private final ExecutorService pool = Executors.newFixedThreadPool(100);
+	
+	/**
+	 * API do telegram utilizado para comunicação
+	 */
 	private TelegramBot bot;
+	
+	/**
+	 * offset de mensagens, controla qual a próxima mensagem que a api deverá pegar. 
+	 * Isso garente que a api não retorne mensagens já processadas / lidas pelo BOT (programa).
+	 */
 	private int offset = 0;
 
+	/**
+	 * Armazena os comandos que o handler aceita
+	 */
 	private Map<String, AbstractCommand> commands = new LinkedHashMap<>();
 
 	public TelegramHandler() {
@@ -42,13 +66,20 @@ public class TelegramHandler implements Runnable {
 		addCommand(new CriarContaCommand());
 	}
 
+	/**
+	 * adicionando novos comandos
+	 * @param command
+	 * @return
+	 */
 	public TelegramHandler addCommand(AbstractCommand command) {
 		commands.put(command.getName(), command);
 		return this;
 	}
 	
 	/**
-	 * Colocar o resultado no botfather para ajudar o usuário
+	 * Retorna a lista de comandos em string.
+	 * O responsável pelo BOT pode copiar e colar do console os comandos aceitos pelo programa. 
+	 * O valor copiado pode ser informado no BOT Father 
 	 * @return
 	 */
 	public String printCommands() {
@@ -62,14 +93,14 @@ public class TelegramHandler implements Runnable {
 	}
 	
 	/**
-	 * Executa para sempre
+	 * Executa para sempre (No linux é conhecido como deamon)
 	 */
 	public void run() {		
 		while(execute());
 	}
 
 	/**
-	 * Executando o telegram
+	 * Inicia o processamento do fluxo de trabalho
 	 * @return
 	 */
 	private boolean execute() {
@@ -81,6 +112,7 @@ public class TelegramHandler implements Runnable {
 			Logger.info("novas mensagem recebidas");
 			nextUpdateOffset(u);
 			
+			//essa thread garante que os usuários não fiquem em uma fila
 			Thread processarPalarelo = new Thread(() -> {				
 				Logger.info("processamento thread usuario " + u.message().from().id());
 				
@@ -102,6 +134,10 @@ public class TelegramHandler implements Runnable {
 		return true;
 	}
 
+	/**
+	 * Quando o workflow não for detectado pelo manipulador, esse método será executado.
+	 * @param u
+	 */
 	private void executeWorkFlowUnknown(Update u) {
 		bot.execute(new SendMessage(u.message().chat().id(), "Não reconheci o comando, tente novamente. Digite / para ver as opções disponíveis"));
 	}
@@ -140,6 +176,7 @@ public class TelegramHandler implements Runnable {
 
 	/**
 	 * Executando o fluxo de action
+	 * Uma action é iniciada por um comando.
 	 * @param u
 	 */
 	private void executeWorkFlowAction(Update u) {
@@ -150,8 +187,8 @@ public class TelegramHandler implements Runnable {
 	
 	/**
 	 * Detectar para qual fluxo o programa vai ser direcionado (de acordo com ações do usuário no chat)
-	 * @param u
-	 * @return
+	 * @param mensagem recebida
+	 * @return fluxo que o programa deve tomar
 	 */
 	private WorkFlow routerWorkFlow(Update u) {
 		
@@ -173,7 +210,7 @@ public class TelegramHandler implements Runnable {
 
 	/**
 	 * Verifica se o fluxo do programa deve ser comando (command)
-	 * @param u
+	 * @param
 	 * @return
 	 */
 	private boolean isWorkFlowCommand(Update u) {
