@@ -174,7 +174,7 @@ public class TelegramHandler implements Runnable {
 			}
 			
 			
-		} catch (IsNotCommandException | NullPointerException e) {
+		} catch (IsNotCommandException | NullPointerException e) {			
 			Long chatId = u.message().chat().id();
 			bot.execute(new SendMessage(chatId, "Ops ... não reconheci o seu comando ou você ainda não criou um conta."));
 		}

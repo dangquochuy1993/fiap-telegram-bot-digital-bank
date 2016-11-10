@@ -38,6 +38,11 @@ public abstract class AbstractAction implements Serializable {
 		this.session = SessionManager.getInstance(message.from().id());
 		
 		String routerName = session.get(ROUTER, String.class);
+		
+		if (routerName == null) {
+			routerName = "";
+		}
+		
 		Logger.info("action=" + this.getClass().getName() + " router=" + routerName);
 		
 		String nextRouter = execute(routerName);
