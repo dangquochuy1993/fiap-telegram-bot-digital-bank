@@ -84,11 +84,6 @@ public class TelegramHandler implements Runnable {
 			Thread processarPalarelo = new Thread(() -> {				
 				Logger.info("processamento thread");
 				
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-				}
-				
 				switch(routerWorkFlow(u)) {
 
 				case COMMAND: executeWorkFlowCommand(u); break;
