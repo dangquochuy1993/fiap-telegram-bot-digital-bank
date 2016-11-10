@@ -82,7 +82,7 @@ public class TelegramHandler implements Runnable {
 			nextUpdateOffset(u);
 			
 			Thread processarPalarelo = new Thread(() -> {				
-				Logger.info("processamento thread");
+				Logger.info("processamento thread usuario " + u.message().from().id());
 				
 				switch(routerWorkFlow(u)) {
 

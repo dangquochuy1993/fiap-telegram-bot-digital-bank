@@ -31,7 +31,7 @@ public class SaqueAction extends AbstractAction {
 			
 			session.put(CONTA, conta);
 
-			bot.execute(new SendMessage(chatId, "Saque efeturado com sucesso. Seu saldo atual é " + conta.getSaldo()));
+			bot.execute(new SendMessage(chatId, "Saque efetuado com sucesso. Seu saldo atual é " + conta.getSaldo()));
 			return null;
 			
 		} catch(NumberFormatException e) {

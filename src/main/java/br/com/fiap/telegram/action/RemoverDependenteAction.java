@@ -28,7 +28,7 @@ public class RemoverDependenteAction extends AbstractAction {
 
 	private String routerInit() {
 		Conta conta = session.get(CONTA, Conta.class);
-		SendMessage send = new SendMessage(chatId, "Remover Dependente\nInforme o nome do dependente ou cliente em um dos botões");
+		SendMessage send = new SendMessage(chatId, "Remover Dependente\nInforme o nome do dependente, se preferir escolha uma opção abaixo.");
 		Set<Cliente> dependentes = conta.getDependentes();
 		
 		KeyboardButton[][] grupo = new KeyboardButton[dependentes.size()][1];
