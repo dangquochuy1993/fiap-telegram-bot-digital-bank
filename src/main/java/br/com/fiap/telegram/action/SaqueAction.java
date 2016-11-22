@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 import com.pengrad.telegrambot.request.SendMessage;
 
+import br.com.fiap.telegram.exception.SaldoInsuficienteException;
 import br.com.fiap.telegram.model.Conta;
 
 /**
@@ -41,6 +42,9 @@ public class SaqueAction extends AbstractAction {
 			
 		} catch(NumberFormatException e) {
 			bot.execute(new SendMessage(chatId, "Valor informado para saque não é válido."));
+			return ROUTER_SAQUE;
+		} catch (SaldoInsuficienteException e) {
+			bot.execute(new SendMessage(chatId, "Seu saldo não é suficiente para saque. Informe outro valor."));
 			return ROUTER_SAQUE;
 		}
 	}
