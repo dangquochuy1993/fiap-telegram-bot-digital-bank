@@ -53,7 +53,7 @@ public class Conta implements Serializable {
 		this.titular = titular;
 		saldo = valorInicial;
 		
-		transacao(ABERTURA_CONTA, valorInicial);
+		logTransacao(ABERTURA_CONTA, valorInicial);
 	}
 	
 	/**
@@ -67,15 +67,17 @@ public class Conta implements Serializable {
 		exceptionSeJaExistirUmEmprestimoAtivo();
 		
 		try {
-			transacao(TAXA_EMPRESTIMO, Taxas.EMPRESTIMO.getValor());
+			saldo = saldo.add(Taxas.EMPRESTIMO.getValor());
+			logTransacao(TAXA_EMPRESTIMO, Taxas.EMPRESTIMO.getValor());
+			
 			emprestimo = new Emprestimo(this, valor, prazo);
 			saldo = saldo.add(valor);
 			
-			transacao(EMPRESTIMO, valor);
+			logTransacao(EMPRESTIMO, valor);
 		} catch (SaldoInsuficienteException e) {
 			//devolvendo a taxa de empréstimo devido a uma falha ...
 			saldo = saldo.subtract(Taxas.EMPRESTIMO.getValor());
-			transacao(TAXA_EMPRESTIMO_DEVOLUCAO, Taxas.EMPRESTIMO.getValor().negate());
+			logTransacao(TAXA_EMPRESTIMO_DEVOLUCAO, Taxas.EMPRESTIMO.getValor().negate());
 			
 			Logger.error("saldo insuficiente");
 			
@@ -105,7 +107,7 @@ public class Conta implements Serializable {
 	public Conta depositar(BigDecimal valor) {
 		saldo = saldo.add(valor);
 		
-		transacao(DEPOSITO, valor);
+		logTransacao(DEPOSITO, valor);
 		return this;
 	}
 	
@@ -120,10 +122,10 @@ public class Conta implements Serializable {
 		throwIfSaldoInsuficiente(valor);
 				
 		saldo = saldo.add(Taxas.SAQUE.getValor());		
-		transacao(TAXA_SAQUE, Taxas.SAQUE.getValor());
+		logTransacao(TAXA_SAQUE, Taxas.SAQUE.getValor());
 		
 		saldo = saldo.add(valor);
-		transacao(SAQUE, valor);
+		logTransacao(SAQUE, valor);
 		
 		return valor;
 	}
@@ -152,7 +154,7 @@ public class Conta implements Serializable {
 		}
 		
 		saldo = saldo.add(Taxas.EXTRATO.getValor());
-		transacao(TAXA_EXTRATO, Taxas.EXTRATO.getValor());		
+		logTransacao(TAXA_EXTRATO, Taxas.EXTRATO.getValor());		
 		return transacoes;
 	}
 	
@@ -207,7 +209,7 @@ public class Conta implements Serializable {
 	 * @param tipo
 	 * @param valor
 	 */
-	private void transacao(TipoTransacao tipo, BigDecimal valor) {
+	private void logTransacao(TipoTransacao tipo, BigDecimal valor) {
 		transacoes.adicionar(tipo, valor, saldo);
 	}
 	
