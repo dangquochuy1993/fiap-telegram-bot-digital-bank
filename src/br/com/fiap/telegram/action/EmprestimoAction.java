@@ -20,8 +20,6 @@ import br.com.fiap.telegram.util.Keys;
 public class EmprestimoAction extends AbstractAction {
 	private static final String ROUTER_VALOR = "routerValor";
 
-	private static final long serialVersionUID = 1L;
-	
 	@Override
 	protected String execute(String router) {
 		

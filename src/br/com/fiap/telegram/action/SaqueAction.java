@@ -15,8 +15,6 @@ import br.com.fiap.telegram.model.Conta;
  *
  */
 public class SaqueAction extends AbstractAction {
-	private static final long serialVersionUID = 1L;
-	
 	private static final String ROUTER_SAQUE = "routerSaque";
 
 	public String execute(String router) {
