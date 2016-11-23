@@ -15,7 +15,6 @@ import br.com.fiap.telegram.printer.DadosBasicoPrinter;
 public class TransferenciaAction extends AbstractAction {
 	private static final String NAO = "NÃO";
 	private static final String SIM = "SIM";
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected String execute(String router) {

@@ -136,7 +136,7 @@ public class Conta implements Serializable {
 	 * @throws SaldoInsuficienteException
 	 */
 	private void throwIfSaldoInsuficiente(BigDecimal valor) {
-		if (saldo.add(valor).add(Taxas.SAQUE.getValor()).intValue() < 0) {
+		if (saldo.add(valor).add(Taxas.SAQUE.getValor()).floatValue() < 0.0) {
 			Logger.error("saldo insuficiente");
 			throw new SaldoInsuficienteException();
 		}
@@ -148,7 +148,7 @@ public class Conta implements Serializable {
 	 * @throws SaldoInsuficienteException
 	 */
 	public HistoricoTransacoes extrato() {		
-		if (saldo.compareTo(Taxas.EXTRATO.getValor()) < 0) {
+		if (saldo.add(Taxas.EXTRATO.getValor()).floatValue() < 0.0) {
 			Logger.error("saldo insuficiente");
 			throw new SaldoInsuficienteException();
 		}

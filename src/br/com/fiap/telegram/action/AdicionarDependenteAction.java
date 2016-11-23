@@ -13,8 +13,7 @@ import br.com.fiap.telegram.model.Conta;
  *
  */
 public class AdicionarDependenteAction extends AbstractAction {
-	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected String execute(String router) {
 		
