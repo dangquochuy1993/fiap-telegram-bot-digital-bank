@@ -1,8 +1,6 @@
 package br.com.fiap.telegram.handler;
 
 import static br.com.fiap.telegram.util.Keys.CONTA;
-import static br.com.fiap.telegram.util.Keys.ROUTER;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,9 +154,7 @@ public class TelegramHandler implements Runnable {
 		AbstractCommand command;
 		String mensagem = u.message().text();		
 		
-		SessionManager session = SessionManager.getInstance(u.message().from().id());
-		
-		session.remove(ROUTER);
+		SessionManager session = SessionManager.getInstance(u.message().from().id());		
 		actionNext.remove(u.message().from().id());
 		
 		try {

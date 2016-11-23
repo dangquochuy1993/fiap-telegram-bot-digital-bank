@@ -5,8 +5,7 @@ package br.com.fiap.telegram.util;
  * @author Diego.Saouda
  *
  */
-public enum Keys {
-	ROUTER,
+public enum Keys {	
 	CLIENTE,
 	CONTA,
 	EMPRESTIMO_PRAZO;

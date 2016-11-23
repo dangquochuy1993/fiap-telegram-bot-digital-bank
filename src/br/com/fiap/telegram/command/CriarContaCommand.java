@@ -21,6 +21,8 @@ public class CriarContaCommand extends AbstractCommand {
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
 		AbstractAction action = new CriarContaAction();
-		return action.execute(bot, message) ? action : null;
+		action.execute(bot, message);
+		
+		return action.getRouterName() != null ? action : null;
 	}
 }
