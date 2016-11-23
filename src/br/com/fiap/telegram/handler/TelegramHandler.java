@@ -19,6 +19,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 import br.com.fiap.telegram.action.AbstractAction;
 import br.com.fiap.telegram.command.AbstractCommand;
+import br.com.fiap.telegram.command.AjudaCommand;
 import br.com.fiap.telegram.command.CriarContaCommand;
 import br.com.fiap.telegram.command.StartCommand;
 import br.com.fiap.telegram.exception.IsNotCommandException;
@@ -162,8 +163,9 @@ public class TelegramHandler implements Runnable {
 				
 				boolean isCriarConta = (command instanceof CriarContaCommand);
 				boolean isStart = (command instanceof StartCommand);
+				boolean isAjuda = (command instanceof AjudaCommand);
 				
-				if (!isCriarConta && !isStart) {
+				if (!isCriarConta && !isStart && !isAjuda) {
 					throw new IsNotCommandException("Crie uma conta para usar esses comandos");
 				}
 			}

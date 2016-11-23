@@ -37,7 +37,7 @@ public class RemoverDependenteAction extends AbstractAction {
 	 */
 	private String routerInit() {
 		Conta conta = session.get(CONTA, Conta.class);
-		SendMessage send = new SendMessage(chatId, "Remover Dependente\nInforme o nome do dependente, se preferir escolha uma opção abaixo.");
+		SendMessage send = new SendMessage(chatId, "Opção Remover Dependente.\n\nInforme o nome do dependente, se preferir escolha uma opção abaixo.");
 		Set<Cliente> dependentes = conta.getDependentes();
 		
 		KeyboardButton[][] grupo = new KeyboardButton[dependentes.size()][1];
@@ -68,7 +68,7 @@ public class RemoverDependenteAction extends AbstractAction {
 			bot.execute(new SendMessage(chatId, "Dependente " + nome + " excluído com sucesso."));
 			return null;
 		} else {
-			bot.execute(new SendMessage(chatId, "Não encontramos o dependente " + nome + ". Tente novamente informando um dependente corretamente."));
+			bot.execute(new SendMessage(chatId, "Não encontramos o dependente " + nome + ". Tente novamente."));
 			return ROUTER_REMOVER;
 		}
 	}

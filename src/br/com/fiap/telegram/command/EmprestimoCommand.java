@@ -24,7 +24,7 @@ public class EmprestimoCommand extends AbstractCommand {
 
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		SendMessage send = new SendMessage(chatId, "Empréstimo\n\nEm quanto tempo você pretende pagar esse empréstimo?\nCaso as opções não te atendam, você pode digitar os seguintes formatos aceitos. Ex: \n1 ano\n2 meses\n1 mes\n2 anos");
+		SendMessage send = new SendMessage(chatId, "Opção Empréstimo.\n\nEm quanto tempo você pretende pagar esse empréstimo?\nCaso as opções não te atendam, você pode digitar os seguintes formatos aceitos. Ex: \n1 ano\n2 meses\n1 mes\n2 anos");
 		
 		KeyboardButton op1 = new KeyboardButton("12 meses");
 		KeyboardButton op2 = new KeyboardButton("24 meses");
