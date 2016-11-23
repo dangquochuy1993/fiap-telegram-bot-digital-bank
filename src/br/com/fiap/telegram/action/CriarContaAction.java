@@ -49,12 +49,12 @@ public class CriarContaAction extends AbstractAction {
 			Cliente cliente = session.get(CLIENTE, Cliente.class);
 			Conta conta = session.get(CONTA, Conta.class);
 			
-			String message = cliente.getNome() + ", você já possui uma conta com nosso banco. Sua conta é de número " + conta.getNumero() + " aberta em " + Helpers.formatarDataHora(conta.getAbertura());
+			String message = cliente.getNome() + ", você já possui uma conta em nosso banco. O número de sua conta é " + conta.getNumero() + " aberta em " + Helpers.formatarDataHora(conta.getAbertura());
 			bot.execute(new SendMessage(chatId, message));
 			return null;
 		}
 		
-		bot.execute(new SendMessage(chatId, "Seja bem vindo ao Banco Digital. Para criar uma nova conta precisaremos de algumas informações.\nInforme seu nome completo"));
+		bot.execute(new SendMessage(chatId, "Opçao Criar Conta.\n\nPrecisaremos de algumas informações.\nInforme seu nome completo:"));
 		
 		return ROUTER_CLIENTE;
 	}
@@ -72,11 +72,11 @@ public class CriarContaAction extends AbstractAction {
 			Conta conta = new Conta(titular, saldoInicial);
 			
 			session.put(CONTA, conta);			
-			bot.execute(new SendMessage(chatId, "Sua conta foi criada com sucesso. " + new DadosBasicoPrinter().imprimir(conta)));
+			bot.execute(new SendMessage(chatId, "Sua conta foi criada com sucesso. " + new DadosBasicoPrinter().imprimir(conta) + "\n\nClique em /ajuda para visualizar as opções disponíveis."));
 			return null;
 			
 		} catch (NumberFormatException e) {
-			bot.execute(new SendMessage(chatId, "Ops... Não consegui reconhecer o valor '" + valor + "' tente novamente. Ex formato suportado --> 100.10 ou 100"));
+			bot.execute(new SendMessage(chatId, "Ops... Não consegui reconhecer o valor '" + valor + "' tente novamente. Use o formato suportado --> 100.10 ou 100"));
 			return ROUTER_CONTA;
 		}
 	}
@@ -89,7 +89,7 @@ public class CriarContaAction extends AbstractAction {
 		Cliente cliente = new Cliente(message.text());
 
 		session.put(CLIENTE, cliente);
-		bot.execute(new SendMessage(chatId, "Parabéns " + cliente.getNome() + ", você está quase lá. Agora informe o saldo inicial de sua conta. \nObs: Informe no seguinte formato 0.00"));
+		bot.execute(new SendMessage(chatId, "Parabéns " + cliente.getNome() + ", você está quase lá. Agora informe o saldo inicial de sua conta.\nInforme no formato suportado --> 0.00"));
 		
 		return ROUTER_CONTA;
 	}

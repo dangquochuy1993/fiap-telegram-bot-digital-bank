@@ -24,6 +24,7 @@ import br.com.fiap.telegram.util.Logger;
 public class Main {
 
 	public static void main(String[] args) {
+		
 		TelegramHandler handler = new TelegramHandler();
 		handler
 		.addCommand(new AdicionarDependenteCommand())

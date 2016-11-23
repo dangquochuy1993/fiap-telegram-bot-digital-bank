@@ -22,7 +22,7 @@ public class AdicionarDependenteCommand extends AbstractCommand {
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
 		
-		bot.execute(new SendMessage(chatId, "Adicionar Dependente\nInforme o nome do dependente."));		
+		bot.execute(new SendMessage(chatId, "Opção Adicionar Dependente\n\nInforme o nome do dependente."));		
 		return new AdicionarDependenteAction();
 	}
 

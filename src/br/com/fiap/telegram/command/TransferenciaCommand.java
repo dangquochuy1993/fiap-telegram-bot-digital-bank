@@ -23,7 +23,7 @@ public class TransferenciaCommand extends AbstractCommand {
 
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		SendMessage send = new SendMessage(chatId, "Transferência de conta\nEssa opção irá resetar o número de sua conta juntamente com o histórico. Seu saldo e dependentes serão mantidos.\nGostaria de continuar com o processo de migração?");
+		SendMessage send = new SendMessage(chatId, "Opção Transferência de conta.\n\nEssa opção irá resetar o número de sua conta juntamente com o histórico. Seu saldo e dependentes serão mantidos.\nGostaria de continuar com o processo de migração?");
 		
 		KeyboardButton sim = new KeyboardButton("Sim");
 		KeyboardButton nao = new KeyboardButton("Não");

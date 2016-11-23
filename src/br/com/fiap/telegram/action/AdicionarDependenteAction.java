@@ -23,7 +23,7 @@ public class AdicionarDependenteAction extends AbstractAction {
 		conta.adicionarDepentente(dependente);
 		
 		session.put(CONTA, conta);		
-		bot.execute(new SendMessage(chatId, "Novo depentente ("+ dependente.getNome() +") adicionado com Sucesso"));
+		bot.execute(new SendMessage(chatId, "Novo depentente ("+ dependente.getNome() +") adicionado com sucesso."));
 		
 		return null;
 	}

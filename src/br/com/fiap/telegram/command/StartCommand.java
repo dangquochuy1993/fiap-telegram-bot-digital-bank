@@ -20,7 +20,7 @@ public class StartCommand extends AbstractCommand {
 
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
-		bot.execute(new SendMessage(chatId, "Seja bem vindo ao banco digital. Você pode digitar / (barra) para ver as opções que possuo para ajudá-lo. Vamos começar? Clique no comando abaixo:\n\n/criarconta"));
+		bot.execute(new SendMessage(chatId, "Seja bem vindo ao Fiap Telegram Bot Digital Bank.\nDigite / (barra) para exibir as opções disponíveis.\nVamos começar?\nVocê pode iniciar criando uma conta, para isso digite /criarconta em seguida enter, ou se preferir clique em cima da opção.\n\nSempre que você tiver dúvidas você pode digitar /ajuda"));
 		return null;
 	}
 }

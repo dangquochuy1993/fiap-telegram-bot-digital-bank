@@ -24,7 +24,7 @@ public class SaqueCommand extends AbstractCommand {
 	@Override
 	protected AbstractAction execute(TelegramBot bot, Long chatId, User user, Message message, String[] argumentos) {
 		
-		SendMessage send = new SendMessage(chatId, "Saque (TAXA "+ Taxas.SAQUE.getValor() +")\nClique no valor desejado. Se preferir digite um valor no formato '0.00'.");
+		SendMessage send = new SendMessage(chatId, "Opção Saque (TAXA "+ Taxas.SAQUE.getValor() +")\n\nClique no valor desejado. Se preferir digite um valor no formato 0.00.");
 		send.replyMarkup(Helpers.getTelegramValoresButton());
 		bot.execute(send);
 		
