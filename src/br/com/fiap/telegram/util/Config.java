@@ -19,6 +19,7 @@ final public class Config {
 	 * Carregar o arquivo de configuração para memória
 	 */
 	static {
+		
 		InputStream resource = Config.class.getResourceAsStream("/config.properties");
 		props = new Properties();
 
