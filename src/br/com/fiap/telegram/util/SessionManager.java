@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.gson.internal.Primitives;
 
@@ -23,7 +22,7 @@ final public class SessionManager implements Serializable {
 	/**
 	 * HashMap contendo os valores que serão gravados em disco
 	 */
-	private Map<Object, Object> storage = new HashMap<>();
+	private Map<Object, Object> storage = new ConcurrentHashMap<>();
 	
 	/**
 	 * local aonde o arquivo será gravado
@@ -38,7 +37,7 @@ final public class SessionManager implements Serializable {
 	/**
 	 * Armazena uma instância desse sessionManager por usuário
 	 */
-	private transient static Map<Integer, SessionManager> instances = new WeakHashMap<>();
+	private transient static Map<Integer, SessionManager> instances = new ConcurrentHashMap<>();
 	
 	private SessionManager(Integer sessionId) {
 		this.sessionId = sessionId;

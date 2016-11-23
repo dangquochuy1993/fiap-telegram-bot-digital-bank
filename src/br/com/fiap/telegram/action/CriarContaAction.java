@@ -18,8 +18,6 @@ import br.com.fiap.telegram.util.Helpers;
  *
  */
 public class CriarContaAction extends AbstractAction {
-	private static final long serialVersionUID = 1L;
-	
 	private static final String ROUTER_CONTA = "routerConta";
 	private static final String ROUTER_CLIENTE = "routerCliente";
 	

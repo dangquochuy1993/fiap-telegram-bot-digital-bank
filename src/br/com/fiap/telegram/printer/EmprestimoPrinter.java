@@ -17,6 +17,11 @@ public class EmprestimoPrinter implements ContaPrinter {
 	public String imprimir(Conta conta) {
 		Emprestimo emprestimo = conta.getEmprestimo();
 		
+		if (emprestimo == null) {
+			return "Nenhum emprestimo realizado";
+		}
+		
+		
 		return "Extrato empréstimo" + 
 			"\nValor por mês: " + emprestimo.getValorMes().round(MathContext.DECIMAL32) +
 			"\nJuros ao mês: " + emprestimo.getJurosMes().round(MathContext.DECIMAL32) +			

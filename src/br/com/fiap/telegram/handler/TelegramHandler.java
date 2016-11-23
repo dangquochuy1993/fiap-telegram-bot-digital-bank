@@ -1,12 +1,12 @@
 package br.com.fiap.telegram.handler;
 
 import static br.com.fiap.telegram.util.Keys.CONTA;
-import static br.com.fiap.telegram.util.Keys.NEXT_ACTION;
 import static br.com.fiap.telegram.util.Keys.ROUTER;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
@@ -58,6 +58,11 @@ public class TelegramHandler implements Runnable {
 	 * Armazena os comandos que o handler aceita
 	 */
 	private Map<String, AbstractCommand> commands = new LinkedHashMap<>();
+	
+	/**
+	 * Controla o fluxo da próxima ação que o usuário irá executar
+	 */
+	private Map<Integer, AbstractAction> actionNext = new ConcurrentHashMap<>();
 
 	public TelegramHandler() {
 		bot = TelegramFactory.create();
@@ -154,7 +159,7 @@ public class TelegramHandler implements Runnable {
 		SessionManager session = SessionManager.getInstance(u.message().from().id());
 		
 		session.remove(ROUTER);
-		session.remove(NEXT_ACTION);
+		actionNext.remove(u.message().from().id());
 		
 		try {
 			command = getCommand(mensagem);
@@ -172,7 +177,9 @@ public class TelegramHandler implements Runnable {
 			
 			AbstractAction action = command.onUpdateReceived(bot, u);
 			if (action != null) {
-				session.put(NEXT_ACTION, action);
+				actionNext.put(u.message().from().id(), action);
+			} else {
+				actionNext.remove(u.message().from().id());
 			}
 			
 			
@@ -188,9 +195,8 @@ public class TelegramHandler implements Runnable {
 	 * Uma action é iniciada por um comando.
 	 * @param u
 	 */
-	private void executeWorkFlowAction(Update u) {
-		SessionManager session = SessionManager.getInstance(u.message().from().id());
-		AbstractAction action = session.get(NEXT_ACTION, AbstractAction.class);
+	private void executeWorkFlowAction(Update u) {		
+		AbstractAction action = actionNext.get(u.message().from().id());
 		action.execute(bot, u.message());
 	}
 	
@@ -213,8 +219,7 @@ public class TelegramHandler implements Runnable {
 	}
 
 	private boolean isWorkFlowAction(Update u) {
-		SessionManager session = SessionManager.getInstance(u.message().from().id());
-		return session.containsKey(NEXT_ACTION);
+		return actionNext.containsKey(u.message().from().id());
 	}
 
 	/**
