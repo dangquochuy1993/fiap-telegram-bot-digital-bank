@@ -1,2 +1,5 @@
+#token do telegram
 telegram.token=
+
+#diretório aonde os dados do usuário serão salvos
 session.path=data/session
