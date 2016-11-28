@@ -6,7 +6,7 @@ possível implementar os seguintes comportamentos: (abaixo é informado o objeti
  - [x] 01 - Tela de boas-vindas do banco (**/start**)    
  - [x] 02 - Criação de conta (**/criarconta**)
  - [x] 03 - Modificação de conta (**/transferirconta**)
- - [x] 04 - Inclusão de dependentes (conta-conjunta) (**/adicionardependente**)
+ - [x] 04 - Inclusão de dependentes (conta-conjunta) (**/adicionardependente** - **/removerdependente**)
  - [x] 05 - Exibição dos dados do titular e dependentes (**/dadosconta**)    
  - [X] 06 - Depósito (**/depositar**)    
  - [X] 07 - Saque (custo do serviço R$ 2,50) (**/saque**)                    
