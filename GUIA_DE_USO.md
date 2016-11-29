@@ -127,6 +127,7 @@ No último passo do processo de transferência é exibido o número da conta nov
 ##/emprestimo
 
 Ao solicitar a opção emprestimo será solicitado o tempo de pagamento.
+
 ![Empresitimo Botao](docs/prints/14-emprestimo-botao-sm.png)
 
 Caso os prazos personalizados não atendam a sua necessidade o sistema possui uma inteligência de linguagem natural com algumas opções:
