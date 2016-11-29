@@ -115,6 +115,7 @@ Após a digitação desse comando será perguntado se deseja continuar ou não c
 
 ![Transferencia de Conta](docs/prints/12-trasferencia-conta-trag-sm.png)
 
+
 ![Transferencia de Conta Botao](docs/prints/12-trasferencia-conta-trag-botao-sm.png)
 
 Se for informado que sim a transferência será executada.
