@@ -16,7 +16,8 @@ possível implementar os seguintes comportamentos: (abaixo é informado o objeti
  - [X] 11 - Exibição dos lançamentos detalhada, com somatória ao final (**/extratodetalhado**)    
  - [X] 12 - Exibição das retiradas, com somatória ao final (**/extratosaques**)            
  - [X] 13 - Exibição das tarifas de serviço, com somatória ao final dos serviços que foram utilizados na conta (**/extratotarifas**)
- - [X] 14. Tela de ajuda (**/ajuda**)
+ - [X] 14. Tela de ajuda (**/ajuda**)    
+ - [X] Todas as operações devem ser armazenadas para futuras consultas em arquivo texto. **(Todo processo está sendo serializado e gravado no caminho de session.path configurado no arquivo config.properties. Dessa forma o programa pode ser parado e iniciado e as informações não serão perdidas)**   
     
 ##Configuração config.properties
 
