@@ -46,4 +46,6 @@ No diretório **src** existe um arquivo chamado **Main.java** no pacote **br.com
  - [Fluxo telegram](docs/diagramas/sequencia-telegram.png)
  
 ##Java DOC
+
+[Acesse o Javadoc clicando aqui](docs/javadoc/index.html)
  

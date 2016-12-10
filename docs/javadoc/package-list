@@ -1,0 +1,9 @@
+br.com.fiap.telegram
+br.com.fiap.telegram.action
+br.com.fiap.telegram.command
+br.com.fiap.telegram.exception
+br.com.fiap.telegram.factory
+br.com.fiap.telegram.handler
+br.com.fiap.telegram.model
+br.com.fiap.telegram.printer
+br.com.fiap.telegram.util
