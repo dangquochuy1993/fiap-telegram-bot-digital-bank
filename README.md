@@ -31,3 +31,19 @@ No diretório **src** existe um arquivo chamado **Main.java** no pacote **br.com
 ##Guia de uso
 
 [Acesse o guia de uso](GUIA_DE_USO.md)
+
+##Diagramas de Classe
+
+ - [Modelo](docs/diagramas/classe-modelo.png)
+ - [Action](docs/diagramas/classe-action.png)
+ - [Command](docs/diagramas/classe-command.png)
+ - [Printer](docs/diagramas/classe-printer.png)
+ - [Handler](docs/diagramas/classe-handler.png)
+ 
+##Diagramas de Sequência
+ 
+ - [Fluxo programa](docs/diagramas/sequencia-programa.png)
+ - [Fluxo telegram](docs/diagramas/sequencia-telegram.png)
+ 
+##Java DOC
+ 

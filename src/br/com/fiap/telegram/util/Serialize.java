@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
  * Classe utilitária que utiliza io para gravar uma classe serializavel em arquivo e recuperar essa classe do arquivo
  * @author Diego.Saouda
  *
- * @param <T>
+ * @param <T> classe genérica de serialize
  */
 final public class Serialize<T> {
 
@@ -19,7 +19,7 @@ final public class Serialize<T> {
 
 	/**
 	 * Arquivo para armazenar ou recuperar uma classe
-	 * @param file
+	 * @param file arquivo com o caminho para recuperar ou serializar
 	 */
 	public Serialize(File file) {
 		this.file = file;
@@ -27,8 +27,10 @@ final public class Serialize<T> {
 
 	/**
 	 * Unserialize uma classe em um arquivo para um objeto em memória
+	 * @param <T> tipo genérico 
 	 * @return objeto em memória
 	 */
+	@SuppressWarnings({ "hiding", "unchecked" })
 	public <T> T unserialize() {
 		try {
 			FileInputStream fileIn = new FileInputStream(file);

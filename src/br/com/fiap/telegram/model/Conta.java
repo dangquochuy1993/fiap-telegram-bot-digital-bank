@@ -60,8 +60,8 @@ public class Conta implements Serializable {
 	 * Realiza um empréstimo. Somente um empréstimo por vez pode ser feito
 	 * @param valor do empréstimo
 	 * @param prazo para pagamento
-	 * @return
-	 * @throws SaldoInsuficienteException
+	 * @return interface fluente
+	 * @throws SaldoInsuficienteException se saldo insuficiente
 	 */
 	public Conta emprestimo(BigDecimal valor, String prazo) {		
 		exceptionSeJaExistirUmEmprestimoAtivo();
@@ -90,7 +90,7 @@ public class Conta implements Serializable {
 
 	/**
 	 * Lança exception se um emprestimo já existir para esse conta
-	 * @throws EmprestimoException
+	 * @throws EmprestimoException se já existir um empréstimo
 	 */
 	private void exceptionSeJaExistirUmEmprestimoAtivo() {
 		if (emprestimo != null) {
@@ -101,8 +101,8 @@ public class Conta implements Serializable {
 	
 	/**
 	 * Depositar um valor a conta
-	 * @param valor
-	 * @return
+	 * @param valor valor do depoósito
+	 * @return interface fluente
 	 */
 	public Conta depositar(BigDecimal valor) {
 		saldo = saldo.add(valor);
@@ -113,9 +113,9 @@ public class Conta implements Serializable {
 	
 	/**
 	 * Sacar um valor da conta
-	 * @param valor
-	 * @return
-	 * @throws SaldoInsuficienteException
+	 * @param valor valor que deseja sacar
+	 * @return valor do saque realizado
+	 * @throws SaldoInsuficienteException se saldo insuficiente
 	 */
 	public BigDecimal saque(BigDecimal valor) {
 		valor = valor.negate();		
@@ -132,8 +132,8 @@ public class Conta implements Serializable {
 
 	/**
 	 * Se conta não tiver saldo uma exception será lançada
-	 * @param valor
-	 * @throws SaldoInsuficienteException
+	 * @param valor que será testado
+	 * @throws SaldoInsuficienteException se saldo insuficiente
 	 */
 	private void throwIfSaldoInsuficiente(BigDecimal valor) {
 		if (saldo.add(valor).add(Taxas.SAQUE.getValor()).floatValue() < 0.0) {
@@ -144,8 +144,8 @@ public class Conta implements Serializable {
 	
 	/**
 	 * Retorna o histório de transações da conta
-	 * @return
-	 * @throws SaldoInsuficienteException
+	 * @return todas transações realizadas na conta
+	 * @throws SaldoInsuficienteException se saldo insuficiente
 	 */
 	public HistoricoTransacoes extrato() {		
 		if (saldo.add(Taxas.EXTRATO.getValor()).floatValue() < 0.0) {
@@ -160,8 +160,8 @@ public class Conta implements Serializable {
 	
 	/**
 	 * Adicionar dependente na conta
-	 * @param cliente
-	 * @return
+	 * @param cliente que será adicionado
+	 * @return permitir interface fluente
 	 */
 	public Conta adicionarDepentente(Cliente cliente) {
 		transacao(ADICIONADO_DEPENDENTE);		
@@ -171,8 +171,8 @@ public class Conta implements Serializable {
 
 	/**
 	 * Remover dependente da conta
-	 * @param cliente
-	 * @return
+	 * @param cliente que será removido
+	 * @return true para removido e false para não removido
 	 */
 	public boolean removerDependente(Cliente cliente) {
 		transacao(REMOVIDO_DEPENDENTE);		
@@ -182,7 +182,7 @@ public class Conta implements Serializable {
 	
 	/**
 	 * Simular um processo de trag de conta (item 3. modificar conta)
-	 * @return
+	 * @return Nova conta migrada
 	 */
 	public Conta migrar() {
 		Conta conta = new Conta(titular, saldo);		
@@ -206,8 +206,8 @@ public class Conta implements Serializable {
 	
 	/**
 	 * adicionar uma nova transação ocorrida na conta
-	 * @param tipo
-	 * @param valor
+	 * @param tipo do log
+	 * @param valor para o log
 	 */
 	private void logTransacao(TipoTransacao tipo, BigDecimal valor) {
 		transacoes.adicionar(tipo, valor, saldo);
@@ -215,7 +215,7 @@ public class Conta implements Serializable {
 	
 	/**
 	 * Visualizar conta antiga
-	 * @return
+	 * @return Retorna conta antiga
 	 */
 	public Conta antiga() {
 		return antiga;

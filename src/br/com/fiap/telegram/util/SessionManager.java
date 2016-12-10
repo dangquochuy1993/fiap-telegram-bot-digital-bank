@@ -45,8 +45,8 @@ final public class SessionManager implements Serializable {
 
 	/**
 	 * Retorna o session manager do usuário para que o mesmo recupere os valores gravados
-	 * @param sessionId
-	 * @return
+	 * @param sessionId identificador da sessão
+	 * @return instância única de session manager
 	 */
 	public static SessionManager getInstance(Integer sessionId) {
 		if (!instances.containsKey(sessionId)) {
@@ -78,7 +78,7 @@ final public class SessionManager implements Serializable {
 	 * Objeto que será gravado
 	 * @param key chave para armazenar o objeto
 	 * @param o objeto
-	 * @return
+	 * @return permitir interface fluente
 	 */
 	public SessionManager put(Object key, Object o) {
 		storage.put(key, o);
@@ -88,9 +88,10 @@ final public class SessionManager implements Serializable {
 	
 	/**
 	 * Retornando um objeto de uma chave
+	 * @param <T> tipo genérico 
 	 * @param key chave que o objeto está representado
 	 * @param classOfT cast de objet para o objeto especialista
-	 * @return
+	 * @return retorna um objeto genérico, para não precisar fazer cast
 	 */
 	public <T> T get(Object key, Class<T> classOfT) {
 		Object object = get(key);
@@ -99,8 +100,8 @@ final public class SessionManager implements Serializable {
 	
 	/**
 	 * Retornando um objeto de uma chave sem utilizar casting 
-	 * @param key
-	 * @return
+	 * @param key chave que guarda um objeto
+	 * @return Retorna um objeto na sessão
 	 */
 	public Object get(Object key) {
 		return storage.get(key);
@@ -108,8 +109,8 @@ final public class SessionManager implements Serializable {
 	
 	/**
 	 * Remover um objeto do session storage
-	 * @param key
-	 * @return
+	 * @param key Objeto a ser removido
+	 * @return permitir interface fluente
 	 */
 	public SessionManager remove(Object key) {
 		storage.remove(key);
@@ -119,8 +120,8 @@ final public class SessionManager implements Serializable {
 	
 	/**
 	 * Verifica se uma chave existe no storage
-	 * @param key
-	 * @return
+	 * @param key O objeto a ser verificado
+	 * @return true se existir a chave
 	 */
 	public boolean containsKey(Object key) {
 		return storage.containsKey(key);

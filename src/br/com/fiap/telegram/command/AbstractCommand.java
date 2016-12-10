@@ -37,7 +37,7 @@ public abstract class AbstractCommand {
 	/**
 	 * Verifica se uma determinada mensagem é um comando
 	 * @param texto Mensagem a ser verificada
-	 * @return
+	 * @return true se for um comando e false se não
 	 */
 	public static boolean isCommand(String texto) {
 		return texto.matches("/[a-z]{1,32}.*");
@@ -61,8 +61,8 @@ public abstract class AbstractCommand {
 	
 	/**
 	 * Extrair os argumentos de um comando
-	 * @param texto
-	 * @return
+	 * @param texto extrair argumentos de uma mensagem ou comando
+	 * @return argumentos extraidos
 	 */
 	private static String[] extractArguments(String texto) {
 		String[] argumentos = texto.split("\\s");
@@ -71,7 +71,7 @@ public abstract class AbstractCommand {
 	
 	/**
 	 * Informa o nome do comando
-	 * @param name
+	 * @param name nome do comando devendo iniciar com /
 	 */
 	private void setName(String name) {
 		
@@ -84,7 +84,7 @@ public abstract class AbstractCommand {
 	
 	/**
 	 * Retorna o comando
-	 * @return
+	 * @return nome do comando
 	 */
 	public String getName() {
 		return name;
@@ -92,7 +92,7 @@ public abstract class AbstractCommand {
 	
 	/**
 	 * Retorna a descrição do comando
-	 * @return
+	 * @return para que serve esse comando
 	 */
 	public String getDescription() {
 		return description;

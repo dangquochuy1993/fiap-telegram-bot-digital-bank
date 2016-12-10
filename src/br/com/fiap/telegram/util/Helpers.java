@@ -21,7 +21,7 @@ final public class Helpers {
 	
 	/**
 	 * Formata a data e hora atual no formato brasileiro
-	 * @return
+	 * @return Data e hora formatada
 	 */
 	public static String formatarDataHora() {
 		return LocalDateTime.now().format(formatterDateTime);		
@@ -29,8 +29,8 @@ final public class Helpers {
 	
 	/**
 	 * formata uma data e hora passada para o formato brasileiro
-	 * @param dateTime
-	 * @return
+	 * @param  dateTime LocalDateTime que será formatado
+	 * @return data e hora formatada
 	 */
 	public static String formatarDataHora(LocalDateTime dateTime) {
 		return dateTime.format(formatterDateTime);		
@@ -38,8 +38,8 @@ final public class Helpers {
 	
 	/**
 	 * Formata a visualização de um date time exibindo apenas a data no padrão brasileiro
-	 * @param dateTime
-	 * @return
+	 * @param dateTime LocalDateTime que será formatado
+	 * @return data formatada
 	 */
 	public static String formatarData(LocalDateTime dateTime) {
 		return dateTime.format(formatterDate);		
@@ -47,8 +47,8 @@ final public class Helpers {
 	
 	/**
 	 * Formata uma data para o padrão brasileiro
-	 * @param date
-	 * @return
+	 * @param date Date que será formatado
+	 * @return data formatada
 	 */
 	public static String formatarData(LocalDate date) {
 		return date.format(formatterDate);		
@@ -68,7 +68,7 @@ final public class Helpers {
 	/**
 	 * KeyboardMarkup do telegram configurado para usar com a opção de saque ou depósito. 
 	 * Os valores são uma representação do dinheiro disponível para saque 
-	 * @return
+	 * @return botão customizado do telegram
 	 */
 	public static ReplyKeyboardMarkup getTelegramValoresButton() {
 		KeyboardButton op1 = new KeyboardButton("5");

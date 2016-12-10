@@ -19,10 +19,10 @@ public class HistoricoTransacoes implements Serializable {
 	
 	/**
 	 * Adicionar uma nova transação
-	 * @param tipo
-	 * @param valor
-	 * @param saldo
-	 * @return
+	 * @param tipo tipo transação
+	 * @param valor que será registrado na transação
+	 * @param saldo que será registrado na transação
+	 * @return adicionar uma nova transação
 	 */
 	public HistoricoTransacoes adicionar(TipoTransacao tipo, BigDecimal valor, BigDecimal saldo) {
 		transacoes.add(new Transacao(LocalDateTime.now(), tipo, valor, saldo));
@@ -36,7 +36,7 @@ public class HistoricoTransacoes implements Serializable {
 	
 	/**
 	 * Retorna as transações, mas imutável para o usuário não manipular essa informação fora de uma conta
-	 * @return
+	 * @return retorna as transações imutáveis
 	 */
 	public List<Transacao> getTransacoes() {
 		return Collections.unmodifiableList(transacoes);

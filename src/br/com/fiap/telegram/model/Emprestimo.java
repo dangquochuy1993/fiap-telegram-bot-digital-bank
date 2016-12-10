@@ -70,8 +70,8 @@ public class Emprestimo implements Serializable {
 	 * @param conta a ser aplicado o empréstimo
 	 * @param valor solicitação do empréstimo
 	 * @param prazo para pagamento
-	 * @throws PrazoPagamentoException
-	 * @throws SaldoInsuficienteException
+	 * @throws PrazoPagamentoException se o prazo do pagamento for maior que o permitido
+	 * @throws SaldoInsuficienteException se saldo insuficiente
 	 */
 	public Emprestimo(Conta conta, BigDecimal valor, String prazo) {
 		this.valor = valor;

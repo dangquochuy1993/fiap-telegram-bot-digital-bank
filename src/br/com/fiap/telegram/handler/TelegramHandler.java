@@ -72,8 +72,8 @@ public class TelegramHandler implements Runnable {
 
 	/**
 	 * adicionando novos comandos
-	 * @param command
-	 * @return
+	 * @param command Comando aceito pelo handler
+	 * @return retorna própria classe para interface fluente
 	 */
 	public TelegramHandler addCommand(AbstractCommand command) {
 		commands.put(command.getName(), command);
@@ -84,7 +84,7 @@ public class TelegramHandler implements Runnable {
 	 * Retorna a lista de comandos em string.
 	 * O responsável pelo BOT pode copiar e colar do console os comandos aceitos pelo programa. 
 	 * O valor copiado pode ser informado no BOT Father 
-	 * @return
+	 * @return Comandos aceitos pelo sistema
 	 */
 	public String printCommands() {
 		StringBuilder sb = new StringBuilder();
