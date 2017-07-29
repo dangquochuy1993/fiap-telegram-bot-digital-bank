@@ -1,4 +1,4 @@
-#Fiap Telegram Bot Digital Bank
+# Fiap Telegram Bot Digital Bank
 
 O objetivo desta atividade é criar um bot Telegram que simule um banco virtual, e seja
 possível implementar os seguintes comportamentos: (abaixo é informado o objetivo junto ao comando que soluciona o desafio)
@@ -19,20 +19,20 @@ possível implementar os seguintes comportamentos: (abaixo é informado o objeti
  - [X] 14. Tela de ajuda (**/ajuda**)    
  - [X] Todas as operações devem ser armazenadas para futuras consultas em arquivo texto. **(Todo processo está sendo serializado e gravado no caminho de session.path configurado no arquivo config.properties. Dessa forma o programa pode ser parado e iniciado e as informações não serão perdidas)**   
     
-##Configuração config.properties
+## Configuração config.properties
 
 Acesse o diretório resources e copie o conteúdo do arquivo **config.properties.dist**. Cole o conteúdo em um arquivo chamado **config.properties** e configure o token do telegram.
 
-##Executando o projeto
+## Executando o projeto
 
 No diretório **src** existe um arquivo chamado **Main.java** no pacote **br.com.fiap.telegram**. Abra esse arquivo e execute **Run As**.
 
 
-##Guia de uso
+## Guia de uso
 
 [Acesse o guia de uso](GUIA_DE_USO.md)
 
-##Diagramas de Classe
+## Diagramas de Classe
 
  - [Modelo](docs/diagramas/classe-modelo.png)
  - [Action](docs/diagramas/classe-action.png)
@@ -40,12 +40,12 @@ No diretório **src** existe um arquivo chamado **Main.java** no pacote **br.com
  - [Printer](docs/diagramas/classe-printer.png)
  - [Handler](docs/diagramas/classe-handler.png)
  
-##Diagramas de Sequência
+## Diagramas de Sequência
  
  - [Fluxo programa](docs/diagramas/sequencia-programa.png)
  - [Fluxo telegram](docs/diagramas/sequencia-telegram.png)
  
-##Java DOC
+## Java DOC
 
 [Acesse o Javadoc clicando aqui](https://dsaouda.github.io/fiap-telegram-bot-digital-bank/)
  
